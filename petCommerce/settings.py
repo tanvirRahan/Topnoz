@@ -21,7 +21,7 @@ SECRET_KEY = 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.railway.app']
 
 
 INSTALLED_APPS = [

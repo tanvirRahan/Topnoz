@@ -18,3 +18,4 @@ sqlparse==0.5.3
 tomlkit==0.13.2
 tzdata==2025.2
 gunicorn
+whitenoise

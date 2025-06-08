@@ -12,9 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic'
 
-DEBUG = True  # Keep True for now; use False for production
+DEBUG = True  # Keep True for development
 
 ALLOWED_HOSTS = ['.railway.app']
+
+# ✅ CSRF Fix for Railway custom domain
+CSRF_TRUSTED_ORIGINS = ['https://topnoz.up.railway.app']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -28,7 +31,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ Added
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ WhiteNoise added
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,26 +84,25 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# ✅ Static files (CSS, JavaScript, Images)
+# ✅ Static files (CSS, JS, etc.)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# ✅ WhiteNoise setting
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ✅ Media files (uploaded images, etc.)
+# ✅ Media files (user uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/image')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ✅ Email configuration
+# ✅ Email settings (use if needed)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
+
 
 

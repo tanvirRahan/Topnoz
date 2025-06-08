@@ -1,0 +1,555 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout | Topnoz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-solid: #6C5CE7;
+            --primary-light: #A29BFE;
+            --secondary: #00B894;
+            --accent: #FD79A8;
+            --dark: #2D3436;
+            --light: #F5F6FA;
+            --gray: #DFE6E9;
+            --border-radius: 12px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFF;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        .checkout-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 1rem;
+        }
+        @media (min-width: 992px) {
+            .checkout-container {
+                grid-template-columns: 1fr 400px;
+            }
+        }
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            grid-column: 1 / -1;
+        }
+        .checkout-header img {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+        .checkout-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: var(--primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0 3rem;
+            position: relative;
+            grid-column: 1 / -1;
+        }
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gray);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            background: var(--primary-solid);
+            transform: translateY(-50%);
+            z-index: 2;
+            width: 50%;
+            transition: var(--transition);
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 3;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+        .step.active .step-number,
+        .step.completed .step-number {
+            border-color: var(--primary-solid);
+            background: var(--primary-solid);
+            color: white;
+        }
+        .step.completed .step-number::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+        .form-container, .summary-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+        }
+        .summary-container {
+            position: sticky;
+            top: 1rem;
+            height: fit-content;
+        }
+        .section-title, .summary-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-solid);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .payment-option:hover {
+            border-color: var(--primary-light);
+        }
+        .payment-option.active {
+            border-color: var(--primary-solid);
+            background: rgba(108, 92, 231, 0.05);
+        }
+        .payment-option i {
+            font-size: 1.5rem;
+            color: var(--primary-solid);
+            width: 40px;
+            text-align: center;
+        }
+        .payment-details {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: var(--border-radius);
+        }
+        .payment-details.active {
+            display: block;
+        }
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .delivery-option:hover {
+            border-color: var(--primary-light);
+        }
+        .delivery-option.active {
+            border-color: var(--primary-solid);
+            background: rgba(108, 92, 231, 0.05);
+        }
+        .delivery-option i {
+            font-size: 1.5rem;
+            color: var(--primary-solid);
+            width: 40px;
+            text-align: center;
+        }
+        .order-items {
+            margin-bottom: 2rem;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-item-name {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .order-item-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray);
+        }
+        .summary-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .terms-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .checkout-header h1 {
+                font-size: 1.8rem;
+            }
+            .form-container, .summary-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="checkout-container">
+    <div class="checkout-header">
+        <img src="{% static 'image\topnozlogo.jpg' %}" alt="Topnozlogo">
+        <h1>Complete Your Order</h1>
+        <p>Almost there! Just a few more details to complete your purchase</p>
+    </div>
+
+    <div class="progress-steps">
+        <div class="progress-bar"></div>
+        <div class="step completed">
+            <div class="step-number">1</div>
+            <div class="step-label">Cart</div>
+        </div>
+        <div class="step active">
+            <div class="step-number">2</div>
+            <div class="step-label">Details</div>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-label">Payment</div>
+        </div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-label">Complete</div>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <form method="post" action="{% url 'process_order' %}">
+            {% csrf_token %}
+
+            <h2 class="section-title">
+                <i class="fas fa-user-circle"></i> Personal Information
+            </h2>
+
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="Full Name" required
+                       value="{% if request.user.is_authenticated %}{{ request.user.get_full_name }}{% endif %}">
+            </div>
+
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Email Address" required
+                       value="{% if request.user.is_authenticated %}{{ request.user.email }}{% endif %}">
+            </div>
+
+            <div class="form-group">
+                <input type="tel" name="phone" class="form-control" placeholder="Phone Number" required
+                       value="{% if request.user.is_authenticated and request.user.profile.phone %}{{ request.user.profile.phone }}{% endif %}">
+            </div>
+
+            <h2 class="section-title">
+                <i class="fas fa-truck"></i> Delivery Information
+            </h2>
+
+            <div class="form-group">
+                <textarea name="address" class="form-control" rows="3" placeholder="Full Delivery Address" required>{% if request.user.is_authenticated and request.user.profile.address %}{{ request.user.profile.address }}{% endif %}</textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="city" class="form-control" placeholder="City" required
+                       value="{% if request.user.is_authenticated and request.user.profile.city %}{{ request.user.profile.city }}{% endif %}">
+            </div>
+
+            <div class="form-group">
+                <label class="delivery-option active" id="inside-dhaka-option">
+                    <input type="radio" name="delivery_area" value="inside_dhaka" checked hidden>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div style="margin-left: 1rem;">
+                        <div>Inside Dhaka</div>
+                        <small>Delivery Charge: ৳100</small>
+                    </div>
+                </label>
+
+                <label class="delivery-option" id="outside-dhaka-option">
+                    <input type="radio" name="delivery_area" value="outside_dhaka" hidden>
+                    <i class="fas fa-truck"></i>
+                    <div style="margin-left: 1rem;">
+                        <div>Outside Dhaka</div>
+                        <small>Delivery Charge: ৳160</small>
+                    </div>
+                </label>
+            </div>
+
+            <h2 class="section-title">
+                <i class="fas fa-credit-card"></i> Payment Method
+            </h2>
+
+            <div class="form-group">
+                <label class="payment-option active" id="cod-option">
+                    <input type="radio" name="payment_method" value="cod" checked hidden>
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div style="margin-left: 1rem;">
+                        <div>Cash on Delivery</div>
+                        <small>Pay when you receive your order</small>
+                    </div>
+                </label>
+
+                <label class="payment-option" id="bkash-option">
+                    <input type="radio" name="payment_method" value="bkash" hidden>
+                    <i class="fas fa-mobile-alt"></i>
+                    <div style="margin-left: 1rem;">
+                        <div>bKash</div>
+                        <small>Instant payment via bKash</small>
+                    </div>
+                </label>
+
+                <div id="bkash-details" class="payment-details">
+                    <div style="margin-bottom: 1rem; font-weight: 600;">
+                        Merchant bKash Number: 017XXXXXXXX
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="bkash_number" class="form-control" placeholder="Your bKash Number">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="bkash_transaction" class="form-control" placeholder="Transaction ID">
+                    </div>
+                </div>
+            </div>
+
+            <div class="terms-check">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the <a href="#" style="color: var(--primary-solid);">Terms & Conditions</a></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-lock"></i> Complete Order
+            </button>
+        </form>
+    </div>
+
+    <div class="summary-container">
+        <h2 class="summary-title">
+            <i class="fas fa-receipt"></i> Order Summary
+        </h2>
+
+        <div class="order-items">
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="order-item">
+                    <div class="order-item-name">
+                        <img src="{{ item.item.image.url }}" alt="{{ item.item.title }}" class="order-item-img">
+                        <div>
+                            <div>{{ item.item.title }}</div>
+                            <small style="color: #718096;">Qty: {{ item.quantity }}</small>
+                        </div>
+                    </div>
+                    <span>৳{{ item.get_total_item_price|floatformat:2 }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert" style="color: #718096; text-align: center; padding: 1rem;">
+                    Your cart is empty
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="summary-item">
+            <span>Subtotal ({{ cart_items|length }} items):</span>
+            <span>৳{{ subtotal|floatformat:2 }}</span>
+        </div>
+
+        <div class="summary-item">
+            <span>Delivery Fee:</span>
+            <span id="delivery-fee">৳100.00</span>
+        </div>
+
+        <div class="summary-item summary-total">
+            <span>Total:</span>
+            <span id="total-amount">৳{{ total|floatformat:2 }}</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Payment method selection
+        const paymentOptions = {
+            'cod-option': null,
+            'bkash-option': 'bkash-details'
+        };
+        
+        Object.keys(paymentOptions).forEach(optionId => {
+            document.getElementById(optionId).addEventListener('click', function() {
+                // Remove active class from all options
+                Object.keys(paymentOptions).forEach(id => {
+                    document.getElementById(id).classList.remove('active');
+                });
+                
+                // Add active class to clicked option
+                this.classList.add('active');
+                this.querySelector('input').checked = true;
+                
+                // Hide all payment details
+                Object.values(paymentOptions).forEach(detailId => {
+                    if (detailId) {
+                        document.getElementById(detailId).classList.remove('active');
+                    }
+                });
+                
+                // Show details for selected option
+                const detailsId = paymentOptions[optionId];
+                if (detailsId) {
+                    document.getElementById(detailsId).classList.add('active');
+                }
+            });
+        });
+
+        // Delivery area selection
+        const deliveryOptions = {
+            'inside-dhaka-option': 100,
+            'outside-dhaka-option': 160
+        };
+        
+        Object.keys(deliveryOptions).forEach(optionId => {
+            document.getElementById(optionId).addEventListener('click', function() {
+                // Remove active class from all options
+                Object.keys(deliveryOptions).forEach(id => {
+                    document.getElementById(id).classList.remove('active');
+                });
+                
+                // Add active class to clicked option
+                this.classList.add('active');
+                this.querySelector('input').checked = true;
+                
+                // Update delivery fee and total
+                const deliveryFee = deliveryOptions[optionId];
+                document.getElementById('delivery-fee').textContent = `৳${deliveryFee.toFixed(2)}`;
+                
+                // Calculate new total
+                const subtotal = parseFloat('{{ subtotal }}');
+                const newTotal = subtotal + deliveryFee;
+                document.getElementById('total-amount').textContent = `৳${newTotal.toFixed(2)}`;
+            });
+        });
+
+        // Form validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            
+            if (paymentMethod === 'bkash') {
+                const bkashNumber = document.querySelector('input[name="bkash_number"]').value;
+                const transactionId = document.querySelector('input[name="bkash_transaction"]').value;
+                
+                if (!bkashNumber || !transactionId) {
+                    alert('Please provide your bKash details');
+                    e.preventDefault();
+                    return;
+                }
+            }
+            
+            if (!document.getElementById('terms').checked) {
+                alert('Please agree to the terms and conditions');
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>

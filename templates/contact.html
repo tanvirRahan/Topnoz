@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Topnoz Clothing | Contact Us</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    <style type="text/css">
+        html,
+        body,
+        header,
+        .carousel {
+            height: 60vh;
+        }
+
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+        .topnoz-bg {
+            background-color: #6C5CE7;
+        }
+        .topnoz-text {
+            color: #6C5CE7;
+        }
+        .btn-topnoz {
+            background-color: #6C5CE7;
+            color: white;
+        }
+        .btn-topnoz:hover {
+            background-color: #5649c7;
+            color: white;
+        }
+        .contact-map {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .contact-card {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+    <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand waves-effect" href="{% url 'HomeView' %}">
+            <strong class="topnoz-text">Topnoz Clothing</strong>
+        </a>
+
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Left -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="{% url 'HomeView' %}">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link waves-effect" href="#">Contact
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+
+                 <!--Display menu upon conditions::authenticated-->
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="#">
+                            Hello, {{ request.user.username }}
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link waves-effect" href="{% url 'logout' %}">Logout
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="{% url 'register' %}">Register
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="{% url 'userLogin' %}">Login
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    
+                       <span class="badge topnoz-bg z-depth-1 mr-1">0</span>
+
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+<!-- Navbar -->
+
+<!--Contact Page-->
+<div style="margin-top: 7%"></div>
+<div class="container">
+    <div class="row">
+        <!--Divide page into two-->
+        <div class="col-md-6 mb-4">
+            <!--map generated here:: https://www.maps.ie/create-google-map/-->
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.9974481810477!2d90.26433101498167!3d23.881278489090732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755e9e322582c87%3A0x5b6f9f778d0b56ed!2sJahangirnagar%20University!5e0!3m2!1sen!2sbd!4v1681006795413!5m2!1sen!2sbd"
+    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+
+            </div>
+            
+            <div class="mt-4">
+                <h4 class="topnoz-text">Our Location</h4>
+                <p>
+                    <i class="fas fa-map-marker-alt topnoz-text mr-2"></i>
+                    House# 74, Road# 5/A, Dhanmondi, Dhaka-1209
+                </p>
+                <p>
+                    <i class="fas fa-phone topnoz-text mr-2"></i>
+                    +880 17xxxxxxxx
+                </p>
+                <p>
+                    <i class="fas fa-envelope topnoz-text mr-2"></i>
+                    contact@topnozclothing.com
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card contact-card">
+                <div class="card-header white-text topnoz-bg">
+                    <div class="card-title text-center">
+                        <h4>Contact Us</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'contact' %}" method="post">
+                        <!--Add a cross site request token forgery to the site-->
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Your Name:</label>
+                            <input type="text" class="form-control" name="message_name" placeholder="Enter Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address:</label>
+                            <input type="email" class="form-control" placeholder="Enter email" name="message_email" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="message">Message:</label>
+                            <textarea class="form-control" name="user_message" rows="6" placeholder="Your Message" required></textarea>
+                        </div>
+
+                        <button class="form-control btn btn-topnoz" type="submit">Send Message</button>
+                    </form>
+                </div>
+                {% if congratulations_message %}
+                <div class="card-footer text-center text-success">
+                    {{ congratulations_message }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Contact Page-->
+<br>
+<!--Footer-->
+<footer class="page-footer text-center font-small mt-4 wow fadeIn topnoz-bg white-text">
+
+    <!--Call to action-->
+    <div class="pt-4">
+        <h5>Topnoz Clothing - Fashion Redefined</h5>
+        <p>Premium quality clothing for the modern generation</p>
+    </div>
+    <!--/.Call to action-->
+
+    <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+        © 2025 Copyright: Topnoz Clothing
+    </div>
+    <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+<!-- Bootstrap

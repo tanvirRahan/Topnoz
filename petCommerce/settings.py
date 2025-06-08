@@ -70,13 +70,14 @@ WSGI_APPLICATION = 'petCommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'topnozdatabase',  # MySQL e database name
-        'USER': 'root',  # MySQL username
-        'PASSWORD': '1122',  # MySQL password
-        'HOST': 'localhost',  # Localhost e run korle
-        'PORT': '3306',  # MySQL default port
+        'NAME': 'railway',
+        'USER': 'root',
+        'PASSWORD': 'YVqokVfyhCXHegZFQvHQhodSCuTzOdKP',
+        'HOST': 'mysql.railway.internal',
+        'PORT': '3306',
     }
 }
+
 
 
 

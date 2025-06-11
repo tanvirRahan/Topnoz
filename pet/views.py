@@ -11,10 +11,10 @@ from .models import Item, OrderItem, Order, CustomerOrder
 class HomeView(ListView):
     model = Item
     template_name = "home.html"
-    paginate_by = 6
+    paginate_by = 8
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('id')
         query = self.request.GET.get('q')
         if query:
             queryset = queryset.filter(

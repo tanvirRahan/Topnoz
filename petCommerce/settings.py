@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic
 
 DEBUG = True  # Keep True for development
 
-ALLOWED_HOSTS = ['.railway.app']
+ALLOWED_HOSTS = ['topnoz.com', 'www.topnoz.com', 'topnoz.up.railway.app']
 
 # ✅ CSRF Fix for Railway custom domain
 CSRF_TRUSTED_ORIGINS = ['https://topnoz.up.railway.app']

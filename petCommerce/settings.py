@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic'
 
 # Production এ অবশ্যই False সেট করতে হবে
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'topnoz.com',

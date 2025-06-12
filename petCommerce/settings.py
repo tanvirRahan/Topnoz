@@ -7,21 +7,24 @@ from pathlib import Path
 # BASE SETUP
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic'
 
 # Turn off debug in production
 DEBUG = False
 
-# Hosts you’ll serve on
 ALLOWED_HOSTS = [
     'topnoz.com',
     'www.topnoz.com',
     'topnoz.up.railway.app',
-    'localhost',       # if you need to test locally with DEBUG=False
+    'localhost',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://topnoz.com',
+    'https://www.topnoz.com',
+    'https://topnoz.up.railway.app',
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -36,14 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # your apps
     'pet.apps.PetConfig',
-    # 'api.apps.ApiConfig',  # enable if you introduce an API later
+    # 'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # serve static files when DEBUG=False
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # serve static in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,7 +75,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'petCommerce.wsgi.application'
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DATABASE
+# DATABASE CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
 
 DATABASES = {
@@ -88,7 +90,7 @@ DATABASES = {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# AUTHENTICATION
+# AUTH VALIDATION
 # ─────────────────────────────────────────────────────────────────────────────
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -115,7 +117,9 @@ USE_TZ        = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Use simple compressed storage to avoid manifest errors
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # MEDIA FILES (USER UPLOADS)
@@ -125,8 +129,18 @@ MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # ─────────────────────────────────────────────────────────────────────────────
+# EMAIL (optional)
+# ─────────────────────────────────────────────────────────────────────────────
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST    = 'smtp.gmail.com'
+EMAIL_PORT    = 587
+EMAIL_HOST_USER     = ''  # আপনার Gmail
+EMAIL_HOST_PASSWORD = ''  # আপনার Gmail পাস
+EMAIL_USE_TLS       = True
+
+# ─────────────────────────────────────────────────────────────────────────────
 # DEFAULT PK FIELD TYPE
 # ─────────────────────────────────────────────────────────────────────────────
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-

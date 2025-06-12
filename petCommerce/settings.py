@@ -4,6 +4,12 @@ import os
 from pathlib import Path
 
 # ─────────────────────────────────────────────────────────────────────────────
+# PyMySQL কে MySQLdb হিসেবে ছদ্মবেশ
+# ─────────────────────────────────────────────────────────────────────────────
+import pymysql
+pymysql.install_as_MySQLdb()
+
+# ─────────────────────────────────────────────────────────────────────────────
 # BASE SETUP
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -11,7 +17,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic'
 
-# Turn off debug in production
 DEBUG = False
 
 ALLOWED_HOSTS = [
@@ -118,7 +123,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Use simple compressed storage to avoid manifest errors
+# সিম্পল কমপ্রেসড স্টোরেজ—এখন আর manifest error নেই
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -136,7 +141,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST    = 'smtp.gmail.com'
 EMAIL_PORT    = 587
 EMAIL_HOST_USER     = ''  # আপনার Gmail
-EMAIL_HOST_PASSWORD = ''  # আপনার Gmail পাস
+EMAIL_HOST_PASSWORD = ''  # আপনার Gmail পাসওয়ার্ড
 EMAIL_USE_TLS       = True
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -144,3 +149,4 @@ EMAIL_USE_TLS       = True
 # ─────────────────────────────────────────────────────────────────────────────
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

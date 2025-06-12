@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 # ─────────────────────────────────────────────────────────────────────────────
-# PyMySQL কে MySQLdb হিসেবে ছদ্মবেশ
+# PyMySQL → MySQLdb হিসেবে
 # ─────────────────────────────────────────────────────────────────────────────
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -45,12 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'pet.apps.PetConfig',
-    # 'api.apps.ApiConfig',
+    'imagekitio',  # ImageKit support
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # serve static in production
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -123,15 +123,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# সিম্পল কমপ্রেসড স্টোরেজ—এখন আর manifest error নেই
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MEDIA FILES (USER UPLOADS)
+# MEDIA FILES → ImageKit storage
 # ─────────────────────────────────────────────────────────────────────────────
 
-MEDIA_URL  = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+DEFAULT_FILE_STORAGE = 'imagekitio.storage.MediaStorage'
+
+IMAGEKIT_PUBLIC_KEY = 'public_MmjnFNwIA8d4vKasWqzv/KKG8ys='
+IMAGEKIT_PRIVATE_KEY = 'private_zuvJq3PNEqxtbXNrmzrMnMX1Gn8='
+IMAGEKIT_URL_ENDPOINT = 'https://ik.imagekit.io/rifat'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # EMAIL (optional)
@@ -140,8 +142,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST    = 'smtp.gmail.com'
 EMAIL_PORT    = 587
-EMAIL_HOST_USER     = ''  # আপনার Gmail
-EMAIL_HOST_PASSWORD = ''  # আপনার Gmail পাসওয়ার্ড
+EMAIL_HOST_USER     = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS       = True
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -149,4 +151,3 @@ EMAIL_USE_TLS       = True
 # ─────────────────────────────────────────────────────────────────────────────
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-

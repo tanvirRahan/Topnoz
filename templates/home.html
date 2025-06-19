@@ -12,90 +12,16 @@
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
   <style>
     /* Base Styles */
-    html, body, header { 
-      height: 100%; 
-      overflow-x: hidden;
-    }
+    html, body, header { height: 100%; }
     .carousel { height: 100vh; }
     
-    /* Search Bar Styles */
-    .top-search-container {
-      position: fixed;
-      top: 70px;
-      left: 0;
-      width: 100%;
-      z-index: 998;
-      background: rgba(0,0,0,0.8);
-      padding: 10px 15px;
-      transition: all 0.3s ease;
-    }
-    .top-search-container.scrolled {
-      top: 60px;
-    }
-    .top-search-form {
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .top-search-input {
-      width: 100%;
-      padding: 12px 20px;
-      border-radius: 30px;
-      border: none;
-      background: rgba(255,255,255,0.9);
-      font-size: 1rem;
-    }
-    .top-search-input:focus {
-      outline: none;
-      box-shadow: 0 0 10px rgba(255,255,255,0.5);
-      background: white;
-    }
-    
-    /* Mobile Responsive Adjustments */
+    /* Mobile Adjustments */
     @media (max-width: 768px) {
       .carousel { height: 60vh; }
-      .carousel-caption { 
-        bottom: 15%;
-        padding: 10px;
-      }
-      .carousel-caption h1 { 
-        font-size: 1.5rem; 
-        margin-bottom: 5px;
-      }
-      .carousel-caption p { 
-        font-size: 0.8rem; 
-        margin-bottom: 5px;
-      }
-      .carousel-caption .btn { 
-        font-size: 0.7rem; 
-        padding: 0.3rem 0.6rem; 
-      }
-      .custom-btn {
-        font-size: 0.9rem;
-        padding: 8px 15px;
-        gap: 8px;
-      }
-      .divider {
-        font-size: 1rem;
-      }
-      .navbar-collapse {
-        background-color: rgba(0, 0, 0, 0.9);
-        padding: 15px;
-        margin-top: 10px;
-        border-radius: 5px;
-      }
-      .top-search-container {
-        top: 60px;
-        padding: 8px 10px;
-      }
-      .top-search-container.scrolled {
-        top: 56px;
-      }
-      .top-search-input {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-      }
+      .carousel-caption { bottom: 20%; }
+      .carousel-caption h1 { font-size: 1.8rem; }
+      .carousel-caption p { font-size: 0.9rem; }
+      .carousel-caption .btn { font-size: 0.8rem; padding: 0.375rem 0.75rem; }
     }
 
     /* Navbar Styles */
@@ -105,45 +31,19 @@
       transition: background-color 0.3s;
       box-shadow: none !important;
     }
-    .navbar.scrolled { 
-      background-color: rgba(0, 0, 0, 0.8) !important; 
-    }
-    .navbar .nav-link, 
-    .navbar .navbar-brand { 
-      color: white !important; 
-      font-weight: 500; 
-    }
-    .navbar .nav-link:hover, 
-    .navbar .navbar-brand:hover { 
-      color: #ffdd57 !important; 
-    }
-    
+    .navbar.scrolled { background-color: rgba(0, 0, 0, 0.8) !important; }
+    .navbar .nav-link, .navbar .navbar-brand { color: white !important; font-weight: 500; }
+    .navbar .nav-link:hover, .navbar .navbar-brand:hover { color: #ffdd57 !important; }
+    .navbar .form-inline input { background-color: rgba(255, 255, 255, 0.8); border-radius: 20px; }
+
     /* Carousel Styles */
     .carousel .carousel-inner .carousel-item { height: 100%; }
-    .view { 
-      background-size: cover; 
-      background-position: center center; 
-    }
-    .carousel-caption { 
-      bottom: 30%; 
-      text-align: center;
-    }
-    .carousel-caption h1, 
-    .carousel-caption p, 
-    .carousel-caption a { 
-      color: white; 
-    }
-    .btn-outline-white { 
-      border-color: white !important; 
-      color: white !important; 
-    }
-    .btn-outline-white:hover { 
-      background-color: white !important; 
-      color: black !important; 
-    }
-    #products { 
-      scroll-margin-top: 100px; 
-    }
+    .view { background-size: cover; background-position: center center; }
+    .carousel-caption { bottom: 30%; }
+    .carousel-caption h1, .carousel-caption p, .carousel-caption a { color: white; }
+    .btn-outline-white { border-color: white !important; color: white !important; }
+    .btn-outline-white:hover { background-color: white !important; color: black !important; }
+    #products { scroll-margin-top: 100px; }
 
     /* Logo Styles */
     .logo-container {
@@ -158,11 +58,7 @@
       border-radius: 30px;
       transition: all 0.3s ease;
     }
-    .logo-img { 
-      height: 40px; 
-      width: auto; 
-      transition: all 0.3s ease; 
-    }
+    .logo-img { height: 40px; width: auto; transition: all 0.3s ease; }
     .logo-text {
       color: white;
       font-weight: bold;
@@ -175,7 +71,7 @@
     .scrolled-logo .logo-text { font-size: 1rem; }
 
     /* Animation Styles */
-    /* 1. Preloader */
+    /* Preloader */
     .preloader {
       position: fixed;
       top: 0;
@@ -202,7 +98,7 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* 2. Scroll Reveal for Cards */
+    /* Scroll Reveal for Cards */
     .card {
       opacity: 0;
       transform: translateY(30px);
@@ -213,7 +109,27 @@
       transform: translateY(0);
     }
 
-    /* 3. Ripple Effect for Buttons */
+    /* Floating Label for Search */
+    .search-label {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .form-inline input:focus + .search-label,
+    .form-inline input:not(:placeholder-shown) + .search-label {
+      top: -10px;
+      left: 10px;
+      font-size: 12px;
+      background: white;
+      padding: 0 5px;
+      color: #4e73df;
+    }
+
+    /* Ripple Effect for Buttons */
     .ripple {
       position: relative;
       overflow: hidden;
@@ -230,7 +146,7 @@
       to { transform: scale(2.5); opacity: 0; }
     }
 
-    /* 4. Mini Cart Notification */
+    /* Mini Cart Notification */
     @keyframes slideIn {
       from { transform: translateX(100%); }
       to { transform: translateX(0); }
@@ -244,7 +160,7 @@
       display: none;
     }
 
-    /* 5. Hover Animation for Cards */
+    /* Hover Animation for Cards */
     .card.hover-animate {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -281,17 +197,58 @@
       opacity: 0.7;
       user-select: none;
     }
-    
-    /* Mobile Menu Toggle Icon */
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+
+    /* Mobile Navbar Fixes */
+    @media (max-width: 768px) {
+      .navbar-collapse {
+        background-color: rgba(0, 0, 0, 0.95);
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        width: 100%;
+        text-align: center;
+      }
+
+      .navbar-nav .nav-item {
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .navbar-nav .nav-item:last-child {
+        border-bottom: none;
+      }
+
+      .form-inline {
+        width: 100%;
+        margin: 15px 0;
+        order: 3;
+      }
+
+      .form-inline input {
+        width: 100% !important;
+        background-color: rgba(255,255,255,0.9) !important;
+      }
+
+      .logo-text {
+        display: none;
+      }
     }
-    
-    /* Product Grid for Mobile */
+
+    /* Mobile Search Fix */
     @media (max-width: 576px) {
-      .col-lg-3.col-md-6.mb-4 {
-        flex: 0 0 100%;
-        max-width: 100%;
+      .search-label {
+        left: 10px;
+        font-size: 14px;
+      }
+      
+      .form-inline input:focus + .search-label,
+      .form-inline input:not(:placeholder-shown) + .search-label {
+        top: -8px;
+        left: 8px;
+        font-size: 11px;
       }
     }
   </style>
@@ -314,6 +271,8 @@
   <div class="container">
     <a class="navbar-brand" href="{% url 'HomeView' %}"><strong></strong></a>
     <span class="text-white ml-2 d-none d-md-inline">Style. Comfort. Confidence. Always.</span>
+    
+    <!-- Mobile Toggle Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarContent" aria-controls="navbarContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -321,6 +280,16 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Search Form -->
+      <form method="get" action="{% url 'HomeView' %}" class="form-inline my-2 my-lg-0 ml-auto mr-lg-3 mr-md-2" id="searchForm">
+        <div style="position: relative; width: 100%;">
+          <input class="form-control" type="search" name="q" placeholder=" " 
+                 aria-label="Search" value="{{ request.GET.q }}" id="searchInput">
+          <label for="searchInput" class="search-label">Search products...</label>
+        </div>
+      </form>
+
+      <!-- Nav Items -->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
@@ -335,22 +304,14 @@
           <a class="nav-link" href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}javascript:void(0);{% endif %}" 
              {% if not user.is_authenticated %}onclick="showLoginAlert()"{% endif %}>
             <span class="badge red z-depth-1 mr-1">{{ request.user.cart.items.count }}</span>
-            <i class="fas fa-shopping-cart"></i> Cart
+            <i class="fas fa-shopping-cart"></i> 
+            <span class="d-inline d-md-none">Cart</span>
           </a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-
-<!-- Top Search Bar -->
-<div class="top-search-container">
-  <form method="get" action="{% url 'HomeView' %}" class="top-search-form">
-    <input type="search" name="q" class="top-search-input" 
-           placeholder="Search products..." value="{{ request.GET.q }}"
-           aria-label="Search" id="topSearchInput">
-  </form>
-</div>
 
 <!-- Carousel -->
 <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
@@ -572,16 +533,13 @@
   window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     const logoContainer = document.querySelector('.logo-container');
-    const searchContainer = document.querySelector('.top-search-container');
 
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
       logoContainer.classList.add('scrolled-logo');
-      searchContainer.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
       logoContainer.classList.remove('scrolled-logo');
-      searchContainer.classList.remove('scrolled');
     }
   });
 
@@ -594,26 +552,23 @@
       }
     }
   }
-  
-  // Mobile menu close after click
-  $(document).on('click', '.navbar-collapse.show', function(e) {
-    if ($(e.target).is('a')) {
-      $(this).collapse('hide');
-    }
-  });
-  
-  // Focus search input when clicked anywhere in the search container
-  $(document).ready(function() {
-    $('.top-search-container').click(function() {
-      $('#topSearchInput').focus();
-    });
-    
-    // Submit form on Enter key
-    $('#topSearchInput').keypress(function(e) {
-      if (e.which == 13) {
-        $(this).closest('form').submit();
+
+  // Mobile menu improvements
+  document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+    link.addEventListener('click', function() {
+      if (window.innerWidth < 768) {
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarContent = document.querySelector('.navbar-collapse');
+        if (navbarContent.classList.contains('show')) {
+          navbarToggler.click(); // Programmatically close the menu
+        }
       }
     });
+  });
+
+  // Make search input take focus when label is clicked (mobile fix)
+  document.querySelector('.search-label').addEventListener('click', function() {
+    document.getElementById('searchInput').focus();
   });
 </script>
 </body>

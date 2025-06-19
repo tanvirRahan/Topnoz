@@ -53,6 +53,87 @@
     .disabled-btn i {
       color: #999;
     }
+
+    /* Animation Styles */
+    .product-img-animate {
+      opacity: 0;
+      transform: scale(0.9);
+      animation: fadeInZoom 0.6s forwards 0.3s;
+    }
+
+    @keyframes fadeInZoom {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .price-animate {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUpFade 0.5s forwards 0.5s;
+    }
+
+    @keyframes slideUpFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .desc-animate {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUpFade 0.5s forwards 0.7s;
+    }
+
+    .btn-animate {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUpFade 0.5s forwards 0.9s;
+    }
+
+    .btn-hover-animate {
+      transition: all 0.3s ease;
+    }
+
+    .btn-hover-animate:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .category-badge-animate {
+      opacity: 0;
+      animation: fadeIn 0.5s forwards 0.2s;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      transform: translateY(0);
+      transform: scale(1);
+      transform: rotate(0);
+      transform: skew(0);
+      transform: translateX(0);
+      transform: translateZ(0);
+      transform: translate3d(0,0,0);
+      transform: none;
+      transform: matrix(1,0,0,1,0,0);
+      transform: matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
+      transform: perspective(0);
+      transform: rotateX(0);
+      transform: rotateY(0);
+      transform: rotateZ(0);
+      transform: scaleX(1);
+      transform: scaleY(1);
+      transform: scaleZ(1);
+      transform: skewX(0);
+      transform: skewY(0);
+      transform: translateX(0);
+      transform: translateY(0);
+      transform: translateZ(0);
+      transform: translate3d(0,0,0);
+    }
   </style>
 </head>
 
@@ -111,21 +192,21 @@
     <div class="row wow fadeIn">
       <div class="col-md-6 mb-4">
         {% if object.image %}
-        <img src="{{ object.image.url }}" class="img-fluid" alt="{{ object.title }}">
+        <img src="{{ object.image.url }}" class="img-fluid product-img-animate" alt="{{ object.title }}">
         {% else %}
-        <img src="{% static 'img/default.png' %}" class="img-fluid" alt="No Image Available">
+        <img src="{% static 'img/default.png' %}" class="img-fluid product-img-animate" alt="No Image Available">
         {% endif %}
       </div>
 
       <div class="col-md-6 mb-4">
         <div class="p-4">
           <div class="mb-3">
-            <span class="badge purple mr-1">{{ object.get_categories_display }}</span>
+            <span class="badge purple mr-1 category-badge-animate">{{ object.get_categories_display }}</span>
           </div>
 
-          <h3 class="font-weight-bold">{{ object.title }}</h3>
+          <h3 class="font-weight-bold price-animate">{{ object.title }}</h3>
 
-          <p class="lead mt-3 mb-2">
+          <p class="lead mt-3 mb-2 price-animate">
             {% if object.discount_price %}
               <del class="text-muted">৳ {{ object.price }}</del>
               <span class="text-danger font-weight-bold ml-2">৳ {{ object.discount_price }}</span>
@@ -134,7 +215,7 @@
             {% endif %}
           </p>
 
-          <p class="text-muted mb-2">
+          <p class="text-muted mb-2 price-animate">
             {% if object.stock > 0 %}
               <span class="text-success">In Stock ({{ object.stock }} available)</span>
             {% else %}
@@ -142,25 +223,25 @@
             {% endif %}
           </p>
 
-          <hr>
+          <hr class="price-animate">
 
-          <p class="lead font-weight-bold mt-4">Description</p>
-          <p>{{ object.description|linebreaks }}</p>
+          <p class="lead font-weight-bold mt-4 desc-animate">Description</p>
+          <p class="desc-animate">{{ object.description|linebreaks }}</p>
 
           <!-- Smart Add/Remove Cart Section -->
-          <div class="mt-4">
+          <div class="mt-4 btn-animate">
             {% if user.is_authenticated %}
-              <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md">
+              <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md btn-hover-animate">
                 <i class="fas fa-cart-plus mr-1"></i> Add to Cart
               </a>
-              <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-warning btn-md">
+              <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-warning btn-md btn-hover-animate">
                 <i class="fas fa-cart-arrow-down mr-1"></i> Remove from Cart
               </a>
             {% else %}
-              <button class="btn btn-primary btn-md disabled-btn" disabled data-toggle="tooltip" title="Login to add items">
+              <button class="btn btn-primary btn-md disabled-btn btn-hover-animate" disabled data-toggle="tooltip" title="Login to add items">
                 <i class="fas fa-cart-plus mr-1"></i> Add to Cart
               </button>
-              <button class="btn btn-warning btn-md disabled-btn" disabled data-toggle="tooltip" title="Login to remove items">
+              <button class="btn btn-warning btn-md disabled-btn btn-hover-animate" disabled data-toggle="tooltip" title="Login to remove items">
                 <i class="fas fa-cart-arrow-down mr-1"></i> Remove from Cart
               </button>
               <p class="text-muted mt-2 mb-0">
@@ -197,6 +278,14 @@
   new WOW().init();
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    
+    // Add click animation to buttons
+    $('.btn-hover-animate').on('click', function() {
+      $(this).addClass('active');
+      setTimeout(() => {
+        $(this).removeClass('active');
+      }, 300);
+    });
   });
 </script>
 

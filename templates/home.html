@@ -18,6 +18,40 @@
     }
     .carousel { height: 100vh; }
     
+    /* Search Bar Styles */
+    .top-search-container {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      z-index: 998;
+      background: rgba(0,0,0,0.8);
+      padding: 10px 15px;
+      transition: all 0.3s ease;
+    }
+    .top-search-container.scrolled {
+      top: 60px;
+    }
+    .top-search-form {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .top-search-input {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 30px;
+      border: none;
+      background: rgba(255,255,255,0.9);
+      font-size: 1rem;
+    }
+    .top-search-input:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+      background: white;
+    }
+    
     /* Mobile Responsive Adjustments */
     @media (max-width: 768px) {
       .carousel { height: 60vh; }
@@ -51,17 +85,17 @@
         margin-top: 10px;
         border-radius: 5px;
       }
-      .form-inline {
-        width: 100%;
-        margin-bottom: 15px;
+      .top-search-container {
+        top: 60px;
+        padding: 8px 10px;
       }
-      .logo-container {
-        top: 10px;
-        left: 10px;
-        padding: 3px 10px;
+      .top-search-container.scrolled {
+        top: 56px;
       }
-      .logo-img { height: 30px; }
-      .logo-text { font-size: 1rem; }
+      .top-search-input {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
     }
 
     /* Navbar Styles */
@@ -82,10 +116,6 @@
     .navbar .nav-link:hover, 
     .navbar .navbar-brand:hover { 
       color: #ffdd57 !important; 
-    }
-    .navbar .form-inline input { 
-      background-color: rgba(255, 255, 255, 0.8); 
-      border-radius: 20px; 
     }
     
     /* Carousel Styles */
@@ -183,27 +213,7 @@
       transform: translateY(0);
     }
 
-    /* 3. Floating Label for Search */
-    .search-label {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #6c757d;
-      transition: all 0.3s ease;
-      pointer-events: none;
-    }
-    .form-inline input:focus + .search-label,
-    .form-inline input:not(:placeholder-shown) + .search-label {
-      top: -10px;
-      left: 10px;
-      font-size: 12px;
-      background: white;
-      padding: 0 5px;
-      color: #4e73df;
-    }
-
-    /* 4. Ripple Effect for Buttons */
+    /* 3. Ripple Effect for Buttons */
     .ripple {
       position: relative;
       overflow: hidden;
@@ -220,7 +230,7 @@
       to { transform: scale(2.5); opacity: 0; }
     }
 
-    /* 5. Mini Cart Notification */
+    /* 4. Mini Cart Notification */
     @keyframes slideIn {
       from { transform: translateX(100%); }
       to { transform: translateX(0); }
@@ -234,7 +244,7 @@
       display: none;
     }
 
-    /* 6. Hover Animation for Cards */
+    /* 5. Hover Animation for Cards */
     .card.hover-animate {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -311,14 +321,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarContent">
-      <form method="get" action="{% url 'HomeView' %}" class="form-inline my-2 my-lg-0 ml-auto mr-3" id="searchForm">
-        <div style="position: relative;">
-          <input class="form-control" type="search" name="q" placeholder=" " 
-                 aria-label="Search" value="{{ request.GET.q }}" id="searchInput">
-          <label for="searchInput" class="search-label">Search products...</label>
-        </div>
-      </form>
-      <ul class="navbar-nav">
+      <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
         {% if user.is_authenticated %}
@@ -339,6 +342,15 @@
     </div>
   </div>
 </nav>
+
+<!-- Top Search Bar -->
+<div class="top-search-container">
+  <form method="get" action="{% url 'HomeView' %}" class="top-search-form">
+    <input type="search" name="q" class="top-search-input" 
+           placeholder="Search products..." value="{{ request.GET.q }}"
+           aria-label="Search" id="topSearchInput">
+  </form>
+</div>
 
 <!-- Carousel -->
 <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
@@ -560,13 +572,16 @@
   window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     const logoContainer = document.querySelector('.logo-container');
+    const searchContainer = document.querySelector('.top-search-container');
 
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
       logoContainer.classList.add('scrolled-logo');
+      searchContainer.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
       logoContainer.classList.remove('scrolled-logo');
+      searchContainer.classList.remove('scrolled');
     }
   });
 
@@ -582,16 +597,21 @@
   
   // Mobile menu close after click
   $(document).on('click', '.navbar-collapse.show', function(e) {
-    if ($(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle') {
+    if ($(e.target).is('a')) {
       $(this).collapse('hide');
     }
   });
   
-  // Better mobile search experience
+  // Focus search input when clicked anywhere in the search container
   $(document).ready(function() {
-    $('#searchInput').on('focus', function() {
-      if ($(window).width() < 768) {
-        $('.navbar-collapse').collapse('hide');
+    $('.top-search-container').click(function() {
+      $('#topSearchInput').focus();
+    });
+    
+    // Submit form on Enter key
+    $('#topSearchInput').keypress(function(e) {
+      if (e.which == 13) {
+        $(this).closest('form').submit();
       }
     });
   });

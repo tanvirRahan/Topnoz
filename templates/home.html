@@ -11,37 +11,111 @@
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
   <style>
-    /* Existing styles... */
-    html, body, header { height: 100%; }
+    /* Base Styles */
+    html, body, header { 
+      height: 100%; 
+      overflow-x: hidden;
+    }
     .carousel { height: 100vh; }
     
+    /* Mobile Responsive Adjustments */
     @media (max-width: 768px) {
       .carousel { height: 60vh; }
-      .carousel-caption { bottom: 20%; }
-      .carousel-caption h1 { font-size: 1.8rem; }
-      .carousel-caption p { font-size: 0.9rem; }
-      .carousel-caption .btn { font-size: 0.8rem; padding: 0.375rem 0.75rem; }
+      .carousel-caption { 
+        bottom: 15%;
+        padding: 10px;
+      }
+      .carousel-caption h1 { 
+        font-size: 1.5rem; 
+        margin-bottom: 5px;
+      }
+      .carousel-caption p { 
+        font-size: 0.8rem; 
+        margin-bottom: 5px;
+      }
+      .carousel-caption .btn { 
+        font-size: 0.7rem; 
+        padding: 0.3rem 0.6rem; 
+      }
+      .custom-btn {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+        gap: 8px;
+      }
+      .divider {
+        font-size: 1rem;
+      }
+      .navbar-collapse {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 15px;
+        margin-top: 10px;
+        border-radius: 5px;
+      }
+      .form-inline {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .logo-container {
+        top: 10px;
+        left: 10px;
+        padding: 3px 10px;
+      }
+      .logo-img { height: 30px; }
+      .logo-text { font-size: 1rem; }
     }
 
+    /* Navbar Styles */
     .navbar {
       background: transparent !important;
       z-index: 999;
       transition: background-color 0.3s;
       box-shadow: none !important;
     }
-    .navbar.scrolled { background-color: rgba(0, 0, 0, 0.8) !important; }
-    .navbar .nav-link, .navbar .navbar-brand { color: white !important; font-weight: 500; }
-    .navbar .nav-link:hover, .navbar .navbar-brand:hover { color: #ffdd57 !important; }
-    .navbar .form-inline input { background-color: rgba(255, 255, 255, 0.8); border-radius: 20px; }
+    .navbar.scrolled { 
+      background-color: rgba(0, 0, 0, 0.8) !important; 
+    }
+    .navbar .nav-link, 
+    .navbar .navbar-brand { 
+      color: white !important; 
+      font-weight: 500; 
+    }
+    .navbar .nav-link:hover, 
+    .navbar .navbar-brand:hover { 
+      color: #ffdd57 !important; 
+    }
+    .navbar .form-inline input { 
+      background-color: rgba(255, 255, 255, 0.8); 
+      border-radius: 20px; 
+    }
+    
+    /* Carousel Styles */
     .carousel .carousel-inner .carousel-item { height: 100%; }
-    .view { background-size: cover; background-position: center center; }
-    .carousel-caption { bottom: 30%; }
-    .carousel-caption h1, .carousel-caption p, .carousel-caption a { color: white; }
-    .btn-outline-white { border-color: white !important; color: white !important; }
-    .btn-outline-white:hover { background-color: white !important; color: black !important; }
-    #products { scroll-margin-top: 100px; }
+    .view { 
+      background-size: cover; 
+      background-position: center center; 
+    }
+    .carousel-caption { 
+      bottom: 30%; 
+      text-align: center;
+    }
+    .carousel-caption h1, 
+    .carousel-caption p, 
+    .carousel-caption a { 
+      color: white; 
+    }
+    .btn-outline-white { 
+      border-color: white !important; 
+      color: white !important; 
+    }
+    .btn-outline-white:hover { 
+      background-color: white !important; 
+      color: black !important; 
+    }
+    #products { 
+      scroll-margin-top: 100px; 
+    }
 
-    /* Logo styles... */
+    /* Logo Styles */
     .logo-container {
       position: fixed;
       top: 20px;
@@ -54,7 +128,11 @@
       border-radius: 30px;
       transition: all 0.3s ease;
     }
-    .logo-img { height: 40px; width: auto; transition: all 0.3s ease; }
+    .logo-img { 
+      height: 40px; 
+      width: auto; 
+      transition: all 0.3s ease; 
+    }
     .logo-text {
       color: white;
       font-weight: bold;
@@ -192,6 +270,19 @@
       color: #fff;
       opacity: 0.7;
       user-select: none;
+    }
+    
+    /* Mobile Menu Toggle Icon */
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+    
+    /* Product Grid for Mobile */
+    @media (max-width: 576px) {
+      .col-lg-3.col-md-6.mb-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -488,6 +579,22 @@
       }
     }
   }
+  
+  // Mobile menu close after click
+  $(document).on('click', '.navbar-collapse.show', function(e) {
+    if ($(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle') {
+      $(this).collapse('hide');
+    }
+  });
+  
+  // Better mobile search experience
+  $(document).ready(function() {
+    $('#searchInput').on('focus', function() {
+      if ($(window).width() < 768) {
+        $('.navbar-collapse').collapse('hide');
+      }
+    });
+  });
 </script>
 </body>
 </html>

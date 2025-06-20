@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Item, OrderItem, Order, CustomerOrder
+from django.db import IntegrityError  # নতুন ইম্পোর্ট যোগ করা হয়েছে
 
 class HomeView(ListView):
     model = Item
@@ -30,25 +31,20 @@ class ProductDetailView(DetailView):
 
 def userLogin(request):
     if request.method == "POST":
-        email = request.POST.get('email')  # Changed from username to email
+        email = request.POST.get('email')
         password = request.POST.get('password')
         try:
-            # Get the user by email
             user_obj = User.objects.get(email=email)
-            # Authenticate using the username of the found user object
             user = auth.authenticate(request, username=user_obj.username, password=password)
             if user is not None:
                 auth.login(request, user)
                 return redirect('/')
             else:
-                # Password did not match or other authentication failure
                 messages.warning(request, "Invalid email or password.")
         except User.DoesNotExist:
-            # No user found with this email
             messages.warning(request, "Invalid email or password.")
         except Exception as e:
-            # Catch any other potential errors during the process
-            messages.error(request, f"An unexpected error occurred. Please try again.") # Generic error for unexpected issues
+            messages.error(request, f"An unexpected error occurred. Please try again.")
     return render(request, "login.html")
 
 def logout(request):
@@ -61,31 +57,48 @@ def checkout(request):
 
 def register(request):
     if request.method == "POST":
-        firstname = request.POST.get('firstname')
-        lastname = request.POST.get('lastname')
-        username = request.POST.get('username')
+        firstname = request.POST.get('firstname').strip()
+        lastname = request.POST.get('lastname').strip()
+        username = request.POST.get('username').strip()
         password = request.POST.get('password')
         confirmpassword = request.POST.get('confirmpassword')
-        email = request.POST.get('email')
+        email = request.POST.get('email').strip().lower()
 
+        # ভ্যালিডেশন চেক
+        errors = []
+        
+        if User.objects.filter(username__iexact=username).exists():
+            errors.append("এই ইউজারনেম ইতিমধ্যে ব্যবহৃত হয়েছে")
+        
         if password != confirmpassword:
-            messages.warning(request, "Passwords do not match")
+            errors.append("পাসওয়ার্ড মিলছে না")
+        
+        if User.objects.filter(email__iexact=email).exists():
+            errors.append("এই ইমেইল ইতিমধ্যে ব্যবহৃত হয়েছে")
+        
+        if errors:
+            for error in errors:
+                messages.error(request, error)
             return redirect('register')
 
-        if User.objects.filter(email=email).exists():
-            messages.warning(request, "Email already used")
+        try:
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=email,
+                first_name=firstname,
+                last_name=lastname
+            )
+            messages.success(request, "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!")
+            return redirect('userLogin')
+            
+        except IntegrityError:
+            messages.error(request, "এই ইউজারনেম বা ইমেইল ইতিমধ্যে ব্যবহৃত হয়েছে")
             return redirect('register')
-
-        user = User.objects.create_user(
-            username=username,
-            password=password,
-            email=email,
-            first_name=firstname,
-            last_name=lastname
-        )
-        user.save()
-        messages.success(request, "Account created successfully!")
-        return redirect('/')
+        except Exception as e:
+            messages.error(request, f"অ্যাকাউন্ট তৈরি করতে সমস্যা: {str(e)}")
+            return redirect('register')
+    
     return render(request, "register.html")
 
 def contact(request):
@@ -166,18 +179,14 @@ def order_page(request):
             return redirect('cart')
             
         subtotal = float(order.get_total())
-        delivery_fee = float(160)  # Standard delivery fee
-        #tax_rate = float(0.05)  # 5% tax rate
-        #tax = subtotal * tax_rate
-        total = subtotal + delivery_fee 
+        delivery_fee = float(160)
+        total = subtotal + delivery_fee
 
         return render(request, "order.html", {
             'cart_items': order.items.all(),
             'subtotal': subtotal,
             'delivery_fee': delivery_fee,
-           # 'tax': tax, # Already a float due to calculation
-            'total': total, # Already a float
-            #'tax_rate': tax_rate * 100, # For display as percentage
+            'total': total,
         })
     except Exception as e:
         messages.error(request, f"Error: {str(e)}")
@@ -212,7 +221,6 @@ def process_order(request):
                 order_total=order.get_total()
             )
             
-            # Link items to customer order
             for item in order.items.all():
                 item.customer_order = customer_order
                 item.save()

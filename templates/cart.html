@@ -384,7 +384,24 @@
             display: inline;
             margin: 0;
         }
+
+        .item-meta span b {
+  color: #fa0462;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
     </style>
+    
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RP643852NH');
+</script>
+
 </head>
 <body>
     <div class="container animated">
@@ -410,6 +427,9 @@
                             <div class="item-meta">
                                 <span>SKU: {{ item.item.sku }}</span>
                                 <span>Stock: {{ item.item.stock }}</span>
+                                {% if item.size %}
+    <span>Size: <b>{{ item.size }}</b></span>
+{% endif %}
                             </div>
                             <form action="{% url 'remove-from-cart' item.item.slug %}" method="post">
                                 {% csrf_token %}
@@ -435,16 +455,16 @@
                                 <span class="item-total">৳{{ item.total_price|floatformat:2 }}</span>
                             </div>
                             <div class="quantity-control">
-                                <form action="{% url 'remove-quantity' item.item.slug %}" method="post" class="quantity-form">
-                                    {% csrf_token %}
-                                    <button type="submit" class="quantity-btn">−</button>
-                                </form>
-                                <span class="quantity">{{ item.quantity }}</span>
-                                <form action="{% url 'add-quantity' item.item.slug %}" method="post" class="quantity-form">
-                                    {% csrf_token %}
-                                    <button type="submit" class="quantity-btn">+</button>
-                                </form>
-                            </div>
+    <form action="{% url 'remove-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="remove">
+        {% csrf_token %}
+        <button type="submit" class="quantity-btn">−</button>
+    </form>
+    <span class="quantity">{{ item.quantity }}</span>
+    <form action="{% url 'add-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="add">
+        {% csrf_token %}
+        <button type="submit" class="quantity-btn">+</button>
+    </form>
+</div>
                         </div>
                     </div>
                     {% endfor %}
@@ -500,5 +520,45 @@
             });
         });
     </script>
+
+     <script>
+document.querySelectorAll('.quantity-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const url = this.action;
+        const csrftoken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+        const cartItemDiv = this.closest('.cart-item');
+        const slug = cartItemDiv.getAttribute('data-item-slug');
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.quantity > 0) {
+                cartItemDiv.querySelector('.quantity').textContent = data.quantity;
+                cartItemDiv.querySelector('.item-total').textContent = `৳${parseFloat(data.item_total).toFixed(2)}`;
+            } else {
+                cartItemDiv.remove();
+            }
+            document.querySelector('.subtotal').textContent = `৳${parseFloat(data.subtotal).toFixed(2)}`;
+            document.querySelector('.tax').textContent = `৳${parseFloat(data.tax).toFixed(2)}`;
+            document.querySelector('.total-price').textContent = `৳${parseFloat(data.total).toFixed(2)}`;
+
+            // Cart empty hole empty state dekhabe
+            if (data.cart_empty) {
+                document.querySelector('.cart-items').style.display = 'none';
+                document.querySelector('.cart-summary').style.display = 'none';
+                document.querySelector('.empty-state').style.display = 'block';
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>

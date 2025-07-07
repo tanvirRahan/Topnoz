@@ -14,8 +14,10 @@ from .views import (
     order_complete,
     thanks,
     process_order,
-    add_quantity,       # ✚ Increase quantity
-    remove_quantity,    # ✖ Decrease quantity
+    add_quantity,
+    remove_quantity,
+    CategoryListView,
+    CategoryProductListView,  # <-- Now imported for Step 3
 )
 
 urlpatterns = [
@@ -28,11 +30,15 @@ urlpatterns = [
     path('add-to-cart/<slug>/', add_to_cart, name="add-to-cart"),
     path('remove-from-cart/<slug>/', remove_from_cart, name="remove-from-cart"),
     path('cart/', cart_view, name="cart"),
-    path('cart/add/<slug:slug>/', add_quantity, name="add-quantity"),         # ➕ Increase quantity
-    path('cart/remove/<slug:slug>/', remove_quantity, name="remove-quantity"), # ➖ Decrease quantity
+    path('cart/add/<slug:slug>/', add_quantity, name="add-quantity"),
+    path('cart/remove/<slug:slug>/', remove_quantity, name="remove-quantity"),
     path('checkout/', checkout, name="checkout"),
     path('order/', order_page, name="order"),
     path('order-complete/', order_complete, name="order_complete"),
     path('process_order/', process_order, name="process_order"),
     path('thanks/', thanks, name="thanks"),
+
+    # --------- Category Browsing ---------
+    path('categories/', CategoryListView.as_view(), name="CategoryListView"),
+    path('categories/<str:product_type>/', CategoryProductListView.as_view(), name="CategoryProductListView"),
 ]

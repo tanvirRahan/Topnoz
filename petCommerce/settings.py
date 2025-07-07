@@ -1,40 +1,30 @@
-# settings.py
-
 import os
 from pathlib import Path
-
-# ─────────────────────────────────────────────────────────────────────────────
-# PyMySQL → MySQLdb হিসেবে
-# ─────────────────────────────────────────────────────────────────────────────
 import pymysql
 pymysql.install_as_MySQLdb()
-
-# ─────────────────────────────────────────────────────────────────────────────
-# BASE SETUP
-# ─────────────────────────────────────────────────────────────────────────────
+from dotenv import load_dotenv
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic'
-
-DEBUG = True
+# ---- LOCAL TEST ----
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic')
+DEBUG = True  # Local test e True rakhte paro
 
 ALLOWED_HOSTS = [
-    'topnoz.com',
-    'www.topnoz.com',
-    'topnoz.up.railway.app',
     'localhost',
+    '127.0.0.1',
+    # Production e live domain add koro
+    # 'topnoz.com',
+    # 'www.topnoz.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://topnoz.com',
-    'https://www.topnoz.com',
-    'https://topnoz.up.railway.app',
+    # Local test e dorkar nai
+    # Production e add koro
+    # 'https://topnoz.com',
+    # 'https://www.topnoz.com',
 ]
-
-# ─────────────────────────────────────────────────────────────────────────────
-# APPLICATIONS + MIDDLEWARE
-# ─────────────────────────────────────────────────────────────────────────────
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,9 +33,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'pet.apps.PetConfig',
-    'imagekitio',  # ImageKit support
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'petCommerce.urls'
@@ -79,24 +75,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'petCommerce.wsgi.application'
 
-# ─────────────────────────────────────────────────────────────────────────────
-# DATABASE CONFIGURATION
-# ─────────────────────────────────────────────────────────────────────────────
-
 DATABASES = {
     'default': {
-        'ENGINE':   'django.db.backends.mysql',
-        'NAME':     'railway',
-        'USER':     'root',
-        'PASSWORD': 'YVqokVfyhCXHegZFQvHQhodSCuTzOdKP',
-        'HOST':     'mysql.railway.internal',
-        'PORT':     '3306',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'topnozdatabase',
+        'USER': os.environ.get('DB_USER', 'root'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '1122'),
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
-
-# ─────────────────────────────────────────────────────────────────────────────
-# AUTH VALIDATION
-# ─────────────────────────────────────────────────────────────────────────────
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -106,9 +97,22 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = '/userLogin/'
-# ─────────────────────────────────────────────────────────────────────────────
-# INTERNATIONALIZATION
-# ─────────────────────────────────────────────────────────────────────────────
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# ---- ALLAUTH EMAIL SETTINGS ----
+# ACCOUNT_EMAIL_REQUIRED = True  # Deprecated, remove
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_QUERY_EMAIL = True
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE     = 'UTC'
@@ -116,39 +120,45 @@ USE_I18N      = True
 USE_L10N      = True
 USE_TZ        = True
 
-# ─────────────────────────────────────────────────────────────────────────────
-# STATIC FILES (CSS, JS, FONTS)
-# ─────────────────────────────────────────────────────────────────────────────
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MEDIA FILES → ImageKit storage
-# ─────────────────────────────────────────────────────────────────────────────
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-DEFAULT_FILE_STORAGE = 'imagekitio.storage.MediaStorage'
-
-IMAGEKIT_PUBLIC_KEY = 'public_MmjnFNwIA8d4vKasWqzv/KKG8ys='
-IMAGEKIT_PRIVATE_KEY = 'private_zuvJq3PNEqxtbXNrmzrMnMX1Gn8='
-IMAGEKIT_URL_ENDPOINT = 'https://ik.imagekit.io/rifat'
-
-# ─────────────────────────────────────────────────────────────────────────────
-# EMAIL (optional)
-# ─────────────────────────────────────────────────────────────────────────────
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dbg733kgj'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '273862263889337'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '5GA9VvbS565gRbteSdAqijuVzPY')
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST    = 'smtp.gmail.com'
 EMAIL_PORT    = 587
-EMAIL_HOST_USER     = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS       = True
 
-# ─────────────────────────────────────────────────────────────────────────────
-# DEFAULT PK FIELD TYPE
-# ─────────────────────────────────────────────────────────────────────────────
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ---- PRODUCTION SECURITY SETTINGS (LIVE E JABAR AGE UNCOMMENT KORO) ----
+# DEBUG = False
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-very-long-random-secret-key-here')
+# ALLOWED_HOSTS = [
+#     'topnoz.com',
+#     'www.topnoz.com',
+#     'topnoz.up.railway.app',
+# ]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://topnoz.com',
+#     'https://www.topnoz.com',
+# ]
+# SECURE_HSTS_SECONDS = 31536000
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True

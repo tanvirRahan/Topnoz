@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+{% load youtube_filters %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,31 +112,390 @@
     @keyframes fadeIn {
       to {
         opacity: 1;
-      transform: translateY(0);
-      transform: scale(1);
-      transform: rotate(0);
-      transform: skew(0);
-      transform: translateX(0);
-      transform: translateZ(0);
-      transform: translate3d(0,0,0);
-      transform: none;
-      transform: matrix(1,0,0,1,0,0);
-      transform: matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
-      transform: perspective(0);
-      transform: rotateX(0);
-      transform: rotateY(0);
-      transform: rotateZ(0);
-      transform: scaleX(1);
-      transform: scaleY(1);
-      transform: scaleZ(1);
-      transform: skewX(0);
-      transform: skewY(0);
-      transform: translateX(0);
-      transform: translateY(0);
-      transform: translateZ(0);
-      transform: translate3d(0,0,0);
+      }
     }
+    
+    /* Smart Gallery Styles */
+    .main-media-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background-color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .main-media-container img,
+    .main-media-container video,
+    .main-media-container iframe {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .thumbnail-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .thumbnail-item {
+      width: 80px;
+      height: 80px;
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .thumbnail-item:hover {
+      border-color: #4285f4;
+      transform: scale(1.05);
+    }
+    
+    .thumbnail-item.active {
+      border-color: #4285f4;
+    }
+    
+    .thumbnail-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .thumbnail-item.video-thumbnail {
+      position: relative;
+    }
+    
+    .thumbnail-item.video-thumbnail::after {
+      content: '\f144';
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 20px;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    
+    .media-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255,255,255,0.8);
+      z-index: 10;
+    }
+    
+    .media-loading .spinner-border {
+      width: 3rem;
+      height: 3rem;
+    }
+
+     .premium-btn-gold {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 32px;
+  background: linear-gradient(120deg, #232526 0%, #414345 100%);
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px 0 rgba(35,37,38,0.10), 0 1.5px 4px 0 rgba(255,215,0,0.08);
+  transition: 
+    background 0.22s cubic-bezier(.4,0,.2,1),
+    color 0.15s cubic-bezier(.4,0,.2,1),
+    box-shadow 0.15s cubic-bezier(.4,0,.2,1),
+    transform 0.15s cubic-bezier(.4,0,.2,1),
+    border 0.15s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+  border: 2px solid transparent;
+  outline: none;
+  overflow: hidden;
+  text-shadow: 0 2px 8px rgba(255,215,0,0.10);
+}
+
+.premium-btn-gold:hover, .premium-btn-gold:focus {
+  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
+  color: #232526;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 18px 0 rgba(255,215,0,0.18), 0 2px 8px 0 rgba(35,37,38,0.12);
+  border: 2.5px solid #ffd700;
+}
+
+.premium-btn-gold:active {
+  filter: brightness(0.97);
+  transform: scale(0.98);
+}
+
+.premium-btn-gold.remove {
+  background: linear-gradient(120deg, #232526 0%, #ffd700 100%);
+  color: #ffd700;
+  border: 2px solid #ffd700;
+}
+
+.premium-btn-gold.remove:hover, .premium-btn-gold.remove:focus {
+  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
+  color: #232526;
+  border: 2.5px solid #ffd700;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .premium-btn-gold {
+    padding: 9px 12px;
+    font-size: 0.98rem;
+  }
+}
+
+  .smart-cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1.5rem 0.5rem 1.2rem;
+  border: none;
+  border-radius: 2rem;
+  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1.08rem;
+  box-shadow: 0 4px 24px 0 rgba(24,90,157,0.13), 0 1.5px 4px 0 rgba(67,206,162,0.10);
+  transition: all 0.18s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+  z-index: 1;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  outline: none;
+  gap: 0.7em;
+}
+.smart-cart-btn:before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+}
+.smart-cart-btn .cart-icon {
+  font-size: 1.3em;
+  z-index: 1;
+  filter: drop-shadow(0 2px 6px rgba(24,90,157,0.12));
+}
+.smart-cart-btn .cart-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 700;
+  border-radius: 50%;
+  padding: 0.32em 0.6em;
+  box-shadow: 0 2px 8px 0 rgba(221,36,118,0.18);
+  border: 2px solid #fff;
+  z-index: 2;
+  transition: transform 0.18s;
+}
+.smart-cart-btn:hover, .smart-cart-btn:focus {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 32px 0 rgba(24,90,157,0.18), 0 2px 8px 0 rgba(67,206,162,0.12);
+  background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+  color: #fff !important;
+  text-decoration: none;
+}
+.stylish-nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.2rem;
+  margin: 0.3rem 0.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  background: rgba(255,255,255,0.08);
+  color: #fff !important;
+  transition: all 0.3s ease;
+}
+
+.stylish-nav-link:hover {
+  background: linear-gradient(90deg, #ffcc00 0%, #ffdd57 100%);
+  color: #222 !important;
+  transform: translateY(-2px) scale(1.04);
+  text-decoration: none;
+}
+
+.stylish-nav-link span {
+  background: linear-gradient(90deg, #fc5c7d, #6a82fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* মোবাইলের জন্য responsive layout */
+@media (max-width: 768px) {
+  .stylish-nav-link {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .stylish-nav-link i {
+    font-size: 1.1rem;
+    margin-right: 6px;
+  }
+
+  .stylish-nav-link span {
+    font-size: 0.95rem;
+  }
+}  
+
+    .cart-login-hint {
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: #444;
+  background: rgba(255, 239, 184, 0.4);
+  padding: 8px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 10px;
+  letter-spacing: 0.4px;
+  line-height: 1.4;
+}
+
+.cart-login-hint a {
+  color: #2d69e0;
+  font-weight: 700;
+  text-decoration: underline dotted;
+}
+
+.cart-login-hint i {
+  color: #e69500;
+  margin-right: 5px;
+}
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(90deg, #4285F4 0%, #34A853 100%);
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1.08rem;
+  border: none;
+  border-radius: 50px;
+  padding: 13px 0;
+  box-shadow: 0 4px 18px rgba(66, 133, 244, 0.13), 0 1.5px 4px 0 rgba(52, 168, 83, 0.10);
+  transition: all 0.25s cubic-bezier(.4,0,.2,1);
+  margin-top: 10px;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.btn-google i {
+  font-size: 1.3em;
+  margin-right: 8px;
+}
+.btn-google:hover, .btn-google:focus {
+  background: linear-gradient(90deg, #34A853 0%, #4285F4 100%);
+  color: #fff !important;
+  box-shadow: 0 8px 32px 0 rgba(52, 168, 83, 0.18), 0 2px 8px 0 rgba(66, 133, 244, 0.12);
+  transform: translateY(-2px) scale(1.04);
+  text-decoration: none;
+}
+.btn-google:active {
+  transform: scale(0.98);
+}
+@media (max-width: 576px) {
+  .btn-google {
+    font-size: 1rem;
+    padding: 11px 0;
+    max-width: 100%;
+  }
+  .btn-google i {
+    font-size: 1.1em;
+    margin-right: 6px;
+  }
+}  
+  
+.size-btn-glass {
+  display: inline-block;
+  padding: 15px 32px;
+  border-radius: 50px;
+  background: linear-gradient(120deg, #232526 0%, #414345 100%);
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 1.18rem;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 24px 0 rgba(35,37,38,0.13), 0 1.5px 4px 0 rgba(255,215,0,0.10);
+  transition: 
+    background 0.25s cubic-bezier(.4,0,.2,1),
+    color 0.18s cubic-bezier(.4,0,.2,1),
+    box-shadow 0.18s cubic-bezier(.4,0,.2,1),
+    transform 0.18s cubic-bezier(.4,0,.2,1),
+    border 0.18s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+  border: 2px solid transparent;
+  outline: none;
+  overflow: hidden;
+  text-shadow: 0 2px 8px rgba(255,215,0,0.13);
+}
+
+.size-btn-glass:hover, .size-btn-glass:focus {
+  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
+  color: #232526;
+  transform: translateY(-4px) scale(1.10) rotate(-2deg);
+  box-shadow: 0 12px 36px 0 rgba(255,215,0,0.22), 0 2px 12px 0 rgba(35,37,38,0.18);
+  border: 2.5px solid #ffd700;
+}
+
+.btn-check:checked + .size-btn-glass {
+  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
+  color: #232526;
+  box-shadow: 0 12px 36px 0 rgba(255,215,0,0.22), 0 2px 12px 0 rgba(35,37,38,0.18), 0 0 0 6px rgba(255,215,0,0.10);
+  border: 3px solid #ffd700;
+  transform: scale(1.15) rotate(1deg);
+  text-shadow: 0 2px 12px rgba(255,215,0,0.22);
+  filter: brightness(1.15);
+}
   </style>
+
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RP643852NH');
+</script>
 </head>
 
 <body>
@@ -151,24 +512,51 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'HomeView' %}">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-        {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link">Hello, {{ user.username }}</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'userLogin' %}">Login</a></li>
-        {% endif %}
-      </ul>
+
+  <!-- Home -->
+  <li class="nav-item">
+    <a class="nav-link stylish-nav-link" href="{% url 'HomeView' %}">
+      <i class="fas fa-home me-1"></i> <span>Home</span>
+    </a>
+  </li>
+
+  <!-- Contact -->
+  <li class="nav-item">
+    <a class="nav-link stylish-nav-link" href="{% url 'contact' %}">
+      <i class="fas fa-envelope me-1"></i> <span>Contact</span>
+    </a>
+  </li>
+
+  <!-- Login/Logout -->
+  {% if user.is_authenticated %}
+    <li class="nav-item">
+      <a class="nav-link stylish-nav-link">
+        <i class="fas fa-user-circle me-1"></i> <span>Hi, {{ user.username }}</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link stylish-nav-link" href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt me-1"></i> <span>Logout</span>
+      </a>
+    </li>
+  {% else %}
+    <li class="nav-item">
+      <a class="nav-link stylish-nav-link" href="{% url 'userLogin' %}">
+        <i class="fas fa-sign-in-alt me-1"></i> <span>Login</span>
+      </a>
+    </li>
+  {% endif %}
+
+</ul>
       <ul class="navbar-nav nav-flex-icons">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'cart' %}">
-            <span class="badge red z-depth-1 mr-1">1</span>
-            <i class="fas fa-shopping-cart"></i>
-            <span class="clearfix d-none d-sm-inline-block">Cart</span>
-          </a>
-        </li>
-      </ul>
+  <li class="nav-item d-flex align-items-center">
+    <a href="{% url 'cart' %}" class="smart-cart-btn">
+      <i class="fas fa-shopping-cart cart-icon"></i>
+      <span class="d-none d-md-inline">Cart</span>
+
+    </a>
+  </li>
+</ul>
     </div>
   </div>
 </nav>
@@ -191,11 +579,53 @@
 
     <div class="row wow fadeIn">
       <div class="col-md-6 mb-4">
-        {% if object.image %}
-        <img src="{{ object.image.url }}" class="img-fluid product-img-animate" alt="{{ object.title }}">
-        {% else %}
-        <img src="{% static 'img/default.png' %}" class="img-fluid product-img-animate" alt="No Image Available">
-        {% endif %}
+        <!-- Main Media Display -->
+        <div class="main-media-container">
+          {% if object.image %}
+            <img src="{{ object.image.url }}" class="img-fluid product-img-animate main-media-display" alt="{{ object.title }}">
+          {% else %}
+            <img src="{% static 'img/default.png' %}" class="img-fluid product-img-animate main-media-display" alt="No Image Available">
+          {% endif %}
+        </div>
+
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery">
+          <!-- Main image thumbnail -->
+          <div class="thumbnail-item {% if object.image %}active{% endif %}" data-media-type="image" data-src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}">
+            <img src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}" alt="Main Image">
+          </div>
+          
+          <!-- Extra media thumbnails -->
+          {% for media in object.media.all %}
+            {% if media.is_video %}
+              {% if media.video_file %}
+                <div class="thumbnail-item video-thumbnail" data-media-type="video" data-src="{{ media.video_file.url }}">
+                  <video muted loop>
+                    <source src="{{ media.video_file.url }}" type="video/mp4">
+                  </video>
+                </div>
+              {% elif media.is_youtube %}
+                <div class="thumbnail-item video-thumbnail" data-media-type="youtube" data-src="https://www.youtube.com/embed/{{ media.video_url|youtube_id }}">
+                  <img src="https://img.youtube.com/vi/{{ media.video_url|youtube_id }}/default.jpg" alt="YouTube Video">
+                </div>
+              {% elif media.is_facebook %}
+                <div class="thumbnail-item video-thumbnail" data-media-type="facebook" data-src="{{ media.video_url }}">
+                  <img src="{% static 'img/video-thumbnail.jpg' %}" alt="Facebook Video">
+                </div>
+              {% elif media.video_url %}
+                <div class="thumbnail-item video-thumbnail" data-media-type="video" data-src="{{ media.video_url }}">
+                  <video muted loop>
+                    <source src="{{ media.video_url }}" type="video/mp4">
+                  </video>
+                </div>
+              {% endif %}
+            {% elif media.image %}
+              <div class="thumbnail-item" data-media-type="image" data-src="{{ media.image.url }}">
+                <img src="{{ media.image.url }}" alt="Extra Image">
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
 
       <div class="col-md-6 mb-4">
@@ -230,29 +660,49 @@
 
           <!-- Smart Add/Remove Cart Section -->
           <div class="mt-4 btn-animate">
-            {% if user.is_authenticated %}
-              <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md btn-hover-animate">
-                <i class="fas fa-cart-plus mr-1"></i> Add to Cart
-              </a>
-              <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-warning btn-md btn-hover-animate">
-                <i class="fas fa-cart-arrow-down mr-1"></i> Remove from Cart
-              </a>
-            {% else %}
-              <button class="btn btn-primary btn-md disabled-btn btn-hover-animate" disabled data-toggle="tooltip" title="Login to add items">
-                <i class="fas fa-cart-plus mr-1"></i> Add to Cart
-              </button>
-              <button class="btn btn-warning btn-md disabled-btn btn-hover-animate" disabled data-toggle="tooltip" title="Login to remove items">
-                <i class="fas fa-cart-arrow-down mr-1"></i> Remove from Cart
-              </button>
-              <p class="text-muted mt-2 mb-0">
-                <small>
-                  <i class="fas fa-lock mr-1"></i> Please 
-                  <a href="{% url 'userLogin' %}" class="font-weight-bold text-primary">login</a> 
-                  to manage your cart.
-                </small>
-              </p>
-            {% endif %}
-          </div>
+  {% if user.is_authenticated %}
+
+ <form method="post" action="{% url 'add-to-cart' object.slug %}">
+  {% csrf_token %}
+  {% for variation in object.variation_set.all %}
+    {% if variation.name|lower == "size" and variation.itemvariation_set.all %}
+      <label class="mb-2"><b>Select Size:</b></label>
+     <div class="size-btn-group mb-3">
+  {% for itemvar in variation.itemvariation_set.all %}
+    <input type="radio" class="btn-check" name="size" id="size-{{ itemvar.value }}" value="{{ itemvar.value }}" autocomplete="off">
+    <label class="size-btn-glass" for="size-{{ itemvar.value }}">{{ itemvar.value }}</label>
+  {% endfor %}
+</div>
+           <button type="submit" class="premium-btn-gold mr-2" id="addToCartBtn" disabled>
+        <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+      </button>
+    {% endif %}
+  {% empty %}
+    <button type="submit" class="premium-btn-gold mr-2">
+      <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+    </button>
+  {% endfor %}
+</form>
+
+    <a href="{{ object.get_remove_from_cart_url }}" class="premium-btn-gold remove mt-2 mt-md-0">
+      <i class="fas fa-cart-arrow-down btn-icon"></i> Remove from Cart
+    </a>
+{% else %}
+  <button class="premium-btn-gold mr-2 disabled-btn" disabled data-toggle="tooltip" title="Login to add items">
+    <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+  </button>
+  <button class="premium-btn-gold remove disabled-btn" disabled data-toggle="tooltip" title="Login to remove items">
+    <i class="fas fa-cart-arrow-down btn-icon"></i> Remove from Cart
+  </button>
+  <p class="cart-login-hint">
+    <i class="fas fa-lock"></i>
+    Please <a href="{% url 'userLogin' %}">login</a> to manage your cart.
+  </p>
+  <a href="{% provider_login_url 'google' %}?next={{ request.get_full_path }}" class="btn btn-google btn-block mt-3" style="max-width:320px; margin:0 auto; display:block;">
+    <i class="fab fa-google mr-2"></i> Continue with Google
+  </a>
+{% endif %}
+      </div>
         </div>
       </div>
     </div>
@@ -286,7 +736,102 @@
         $(this).removeClass('active');
       }, 300);
     });
+    
+    // Smart Gallery Functionality
+    $('.thumbnail-item').on('click', function() {
+      // Remove active class from all thumbnails
+      $('.thumbnail-item').removeClass('active');
+      // Add active class to clicked thumbnail
+      $(this).addClass('active');
+      
+      const mediaType = $(this).data('media-type');
+      const mediaSrc = $(this).data('src');
+      const mainContainer = $('.main-media-container');
+      
+      // Show loading spinner
+      mainContainer.html('<div class="media-loading"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>');
+      
+      // Clear the container after a short delay to allow spinner to show
+      setTimeout(() => {
+        mainContainer.empty();
+        
+        // Create appropriate media element based on type
+        let mediaElement;
+        if (mediaType === 'image') {
+          mediaElement = $('<img>', {
+            'class': 'img-fluid main-media-display',
+            'src': mediaSrc,
+            'alt': 'Product Media'
+          });
+        } 
+        else if (mediaType === 'video') {
+          mediaElement = $('<video>', {
+            'class': 'img-fluid main-media-display',
+            'controls': '',
+            'autoplay': ''
+          }).append(
+            $('<source>', {
+              'src': mediaSrc,
+              'type': 'video/mp4'
+            })
+          );
+        }
+        else if (mediaType === 'youtube') {
+          mediaElement = $('<iframe>', {
+            'class': 'main-media-display',
+            'src': mediaSrc + '?autoplay=1',
+            'frameborder': '0',
+            'allow': 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+            'allowfullscreen': ''
+          }).css({
+            'width': '100%',
+            'height': '100%'
+          });
+        }
+        else if (mediaType === 'facebook') {
+          mediaElement = $('<iframe>', {
+            'class': 'main-media-display',
+            'src': mediaSrc,
+            'frameborder': '0',
+            'allow': 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share',
+            'allowfullscreen': ''
+          }).css({
+            'width': '100%',
+            'height': '100%'
+          });
+        }
+        
+        // Add the new media element to the container
+        mainContainer.append(mediaElement);
+        
+        // Add fade-in animation
+        mediaElement.hide().fadeIn(300);
+      }, 50);
+    });
+    
+    // Auto-play video thumbnails on hover
+    $('.thumbnail-item video').each(function() {
+      $(this).on('mouseenter', function() {
+        this.play();
+      }).on('mouseleave', function() {
+        this.pause();
+        this.currentTime = 0;
+      });
+    });
   });
+</script>
+
+<script>
+  // Enable Add to Cart only if size selected (for radio button)
+  const sizeRadios = document.querySelectorAll('input[name="size"]');
+  const addToCartBtn = document.getElementById('addToCartBtn');
+  if (sizeRadios.length && addToCartBtn) {
+    sizeRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        addToCartBtn.disabled = !document.querySelector('input[name="size"]:checked');
+      });
+    });
+  }
 </script>
 
 </body>

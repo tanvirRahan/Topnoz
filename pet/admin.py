@@ -1,5 +1,54 @@
 from django.contrib import admin
-from .models import Item, OrderItem, Order, Variation, ItemVariation, CustomerOrder
+from django.utils.html import format_html
+from .models import Item, OrderItem, Order, Variation, ItemVariation, CustomerOrder, ItemMedia
+
+# =========================
+# Smart Inline for Extra Images & Video
+# =========================
+class ItemMediaInline(admin.TabularInline):
+    model = ItemMedia
+    extra = 1
+    readonly_fields = ['media_preview']
+
+    def media_preview(self, obj):
+        if obj.is_video:
+            if obj.video_file:
+                return format_html(
+                    '<video width="120" controls><source src="{}" type="video/mp4"></video>',
+                    obj.video_file.url
+                )
+            elif obj.video_url:
+                # YouTube embed
+                if obj.is_youtube():
+                    import re
+                    youtube_id = None
+                    match = re.search(r'(?:v=|be/)([A-Za-z0-9_-]{11})', obj.video_url)
+                    if match:
+                        youtube_id = match.group(1)
+                    if youtube_id:
+                        return format_html(
+                            '<iframe width="120" height="90" src="https://www.youtube.com/embed/{}" frameborder="0" allowfullscreen></iframe>',
+                            youtube_id
+                        )
+                # Facebook embed
+                elif obj.is_facebook():
+                    return format_html(
+                        '<iframe src="{}" width="120" height="90" frameborder="0" allowfullscreen></iframe>',
+                        obj.video_url
+                    )
+                # Other direct video link
+                else:
+                    return format_html(
+                        '<video width="120" controls><source src="{}" type="video/mp4"></video>',
+                        obj.video_url
+                    )
+        elif obj.image:
+            return format_html(
+                '<img src="{}" style="max-height: 100px; max-width: 100px;" />',
+                obj.image.url
+            )
+        return "No Preview"
+    media_preview.short_description = 'Preview'
 
 class ItemVariationInline(admin.TabularInline):
     model = ItemVariation
@@ -8,16 +57,19 @@ class ItemVariationInline(admin.TabularInline):
     
     def image_preview(self, obj):
         if obj.attachment:
-            return obj.attachment.url
+            return format_html(
+                '<img src="{}" style="max-height: 100px; max-width: 100px;" />',
+                obj.attachment.url
+            )
         return "No Image"
     image_preview.short_description = 'Image Preview'
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
-    readonly_fields = ['item', 'quantity', 'get_final_price', 'user']
+    readonly_fields = ['item', 'size', 'quantity', 'get_final_price', 'user']
     can_delete = False
-    fields = ['item', 'quantity', 'get_final_price', 'user']
+    fields = ['item', 'size', 'quantity', 'get_final_price', 'user']
     
     def get_final_price(self, obj):
         return f"৳{obj.get_final_price()}"
@@ -28,21 +80,26 @@ class OrderItemInline(admin.TabularInline):
 
 class ItemAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ['title', 'price', 'discount_price', 'stock', 'categories']
-    list_filter = ['categories', 'label']
+    list_display = ['title', 'order', 'price', 'discount_price', 'stock', 'product_type']
+    list_filter = ['label', 'product_type']
     search_fields = ['title', 'description']
     readonly_fields = ['image_preview']
-    
+    inlines = [ItemMediaInline]
+    ordering = ['order', '-created_at']
+
     def image_preview(self, obj):
         if obj.image:
-            return obj.image.url
+            return format_html(
+                '<img src="{}" style="max-height: 150px; max-width: 150px;" />',
+                obj.image.url
+            )
         return "No Image"
     image_preview.short_description = 'Image Preview'
 
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['user', 'item', 'quantity', 'ordered', 'customer_order_link']
-    list_filter = ['ordered', 'user']
-    search_fields = ['user__username', 'item__title']
+    list_display = ['user', 'item', 'size', 'quantity', 'ordered', 'customer_order_link']
+    list_filter = ['ordered', 'user', 'size']
+    search_fields = ['user__username', 'item__title', 'size']
     autocomplete_fields = ['user', 'item']
     
     def customer_order_link(self, obj):
@@ -84,7 +141,10 @@ class ItemVariationAdmin(admin.ModelAdmin):
     
     def image_preview(self, obj):
         if obj.attachment:
-            return obj.attachment.url
+            return format_html(
+                '<img src="{}" style="max-height: 150px; max-width: 150px;" />',
+                obj.attachment.url
+            )
         return "No Image"
     image_preview.short_description = 'Image Preview'
 
@@ -97,8 +157,9 @@ class CustomerOrderAdmin(admin.ModelAdmin):
         'get_order_total',
         'created_at',
         'order_status',
-        'get_products',  # নতুন যোগ
-        'get_quantities', # নতুন যোগ
+        'get_products',
+        'get_quantities',
+        'get_sizes',
         'get_item_count'
     ]
     list_filter = [
@@ -160,7 +221,7 @@ class CustomerOrderAdmin(admin.ModelAdmin):
         item_list = []
         for item in items:
             item_list.append(
-                f"{item.item.title} (Qty: {item.quantity}) - ৳{item.get_final_price()}"
+                f"{item.item.title} (Qty: {item.quantity}) - ৳{item.get_final_price()} (Size: {item.size or 'N/A'})"
             )
         return "\n".join(item_list)
     get_order_items.short_description = 'Order Items'
@@ -181,6 +242,10 @@ class CustomerOrderAdmin(admin.ModelAdmin):
         return ", ".join([str(item.quantity) for item in obj.order.items.all()])
     get_quantities.short_description = 'Quantities'
 
+    def get_sizes(self, obj):
+        return obj.sizes or "-"
+    get_sizes.short_description = 'Sizes'
+
 # Register all models
 admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
@@ -188,3 +253,23 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(Variation, VariationAdmin)
 admin.site.register(ItemVariation, ItemVariationAdmin)
 admin.site.register(CustomerOrder, CustomerOrderAdmin)
+admin.site.register(ItemMedia)
+
+# =========================
+# User Signup Method Show (Google/Manual)
+# =========================
+from django.contrib.auth.models import User
+from allauth.socialaccount.models import SocialAccount
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'signup_method')
+    search_fields = ['username', 'email', 'first_name', 'last_name']
+
+    def signup_method(self, obj):
+        if SocialAccount.objects.filter(user=obj).exists():
+            return "Google"
+        return "Manual"
+    signup_method.short_description = 'Signup Method'
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)

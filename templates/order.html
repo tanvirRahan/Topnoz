@@ -291,6 +291,16 @@
             }
         }
     </style>
+
+               <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RP643852NH');
+</script>
 </head>
 <body>
 <div class="checkout-container">
@@ -398,18 +408,38 @@
                         <small>Instant payment via bKash</small>
                     </div>
                 </label>
+<!-- Cash on Delivery Details -->
+<div id="cod-details" class="payment-details">
+    <div style="margin-bottom: 1rem; font-weight: 600; color:  #00B894">
+       Kindly pay the delivery fee in advance to the merchant bKash number above to process your order.
+    </div>
+    <div style="margin-bottom: 1rem; font-weight: 600;">
+        Merchant bKash Number: 01709219473
+    </div>
+    <div class="form-group">
+        <input type="text" name="cod_bkash_number" class="form-control" placeholder="Your bKash Number">
+    </div>
+    <div class="form-group">
+        <input type="text" name="cod_bkash_transaction" class="form-control" placeholder="Transaction ID">
+    </div>
+</div>
 
-                <div id="bkash-details" class="payment-details">
-                    <div style="margin-bottom: 1rem; font-weight: 600;">
-                        Merchant bKash Number: 01709219473
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="bkash_number" class="form-control" placeholder="Your bKash Number">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="bkash_transaction" class="form-control" placeholder="Transaction ID">
-                    </div>
-                </div>
+<!-- bKash Details -->
+<div id="bkash-details" class="payment-details">
+     <div style="margin-bottom: 1rem; font-weight: 600; color:  #E2136E">
+       Please send the total amount to the merchant bKash number below and enter your bKash number and transaction ID.
+    </div>
+    <div style="margin-bottom: 1rem; font-weight: 600;">
+        Merchant bKash Number: 01709219473
+    </div>
+    <div class="form-group">
+        <input type="text" name="bkash_number" class="form-control" placeholder="Your bKash Number">
+    </div>
+    <div class="form-group">
+        <input type="text" name="bkash_transaction" class="form-control" placeholder="Transaction ID">
+    </div>
+</div>
+                
             </div>
 
             <div class="terms-check">
@@ -456,7 +486,7 @@
 
         <div class="summary-item">
             <span>Delivery Fee:</span>
-            <span id="delivery-fee">৳100.00</span>
+            <span id="delivery-fee">৳160.00</span>
         </div>
 
         <div class="summary-item summary-total">
@@ -467,89 +497,103 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Payment method selection
-        const paymentOptions = {
-            'cod-option': null,
-            'bkash-option': 'bkash-details'
-        };
-        
-        Object.keys(paymentOptions).forEach(optionId => {
-            document.getElementById(optionId).addEventListener('click', function() {
-                // Remove active class from all options
-                Object.keys(paymentOptions).forEach(id => {
-                    document.getElementById(id).classList.remove('active');
-                });
-                
-                // Add active class to clicked option
-                this.classList.add('active');
-                this.querySelector('input').checked = true;
-                
-                // Hide all payment details
-                Object.values(paymentOptions).forEach(detailId => {
-                    if (detailId) {
-                        document.getElementById(detailId).classList.remove('active');
-                    }
-                });
-                
-                // Show details for selected option
-                const detailsId = paymentOptions[optionId];
-                if (detailsId) {
-                    document.getElementById(detailsId).classList.add('active');
+document.addEventListener('DOMContentLoaded', function() {
+    // Payment method selection
+    const paymentOptions = {
+        'cod-option': 'cod-details',
+        'bkash-option': 'bkash-details'
+    };
+
+    Object.keys(paymentOptions).forEach(optionId => {
+        document.getElementById(optionId).addEventListener('click', function() {
+            // Remove active class from all options
+            Object.keys(paymentOptions).forEach(id => {
+                document.getElementById(id).classList.remove('active');
+            });
+
+            // Add active class to clicked option
+            this.classList.add('active');
+            this.querySelector('input').checked = true;
+
+            // Hide all payment details
+            Object.values(paymentOptions).forEach(detailId => {
+                if (detailId) {
+                    document.getElementById(detailId).classList.remove('active');
                 }
             });
-        });
 
-        // Delivery area selection
-        const deliveryOptions = {
-            'inside-dhaka-option': 100,
-            'outside-dhaka-option': 160
-        };
-        
-        Object.keys(deliveryOptions).forEach(optionId => {
-            document.getElementById(optionId).addEventListener('click', function() {
-                // Remove active class from all options
-                Object.keys(deliveryOptions).forEach(id => {
-                    document.getElementById(id).classList.remove('active');
-                });
-                
-                // Add active class to clicked option
-                this.classList.add('active');
-                this.querySelector('input').checked = true;
-                
-                // Update delivery fee and total
-                const deliveryFee = deliveryOptions[optionId];
-                document.getElementById('delivery-fee').textContent = `৳${deliveryFee.toFixed(2)}`;
-                
-                // Calculate new total
-                const subtotal = parseFloat('{{ subtotal }}');
-                const newTotal = subtotal + deliveryFee;
-                document.getElementById('total-amount').textContent = `৳${newTotal.toFixed(2)}`;
-            });
-        });
-
-        // Form validation
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(e) {
-            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
-            
-            if (paymentMethod === 'bkash') {
-                const bkashNumber = document.querySelector('input[name="bkash_number"]').value;
-                const transactionId = document.querySelector('input[name="bkash_transaction"]').value;
-                
-                if (!bkashNumber || !transactionId) {
-                    alert('Please provide your bKash details');
-                    e.preventDefault();
-                    return;
-                }
-            }
-            
-            if (!document.getElementById('terms').checked) {
-                alert('Please agree to the terms and conditions');
-                e.preventDefault();
+            // Show details for selected option
+            const detailsId = paymentOptions[optionId];
+            if (detailsId) {
+                document.getElementById(detailsId).classList.add('active');
             }
         });
     });
+
+    // Delivery area selection
+    const deliveryOptions = {
+        'inside-dhaka-option': 100,
+        'outside-dhaka-option': 160
+    };
+
+    Object.keys(deliveryOptions).forEach(optionId => {
+        document.getElementById(optionId).addEventListener('click', function() {
+            // Remove active class from all options
+            Object.keys(deliveryOptions).forEach(id => {
+                document.getElementById(id).classList.remove('active');
+            });
+
+            // Add active class to clicked option
+            this.classList.add('active');
+            this.querySelector('input').checked = true;
+
+            // Update delivery fee and total
+            const deliveryFee = deliveryOptions[optionId];
+            document.getElementById('delivery-fee').textContent = `৳${deliveryFee.toFixed(2)}`;
+
+            // Calculate new total
+            const subtotal = parseFloat('{{ subtotal }}');
+            const newTotal = subtotal + deliveryFee;
+            document.getElementById('total-amount').textContent = `৳${newTotal.toFixed(2)}`;
+        });
+    });
+
+    // Show COD details by default
+    document.getElementById('cod-details').classList.add('active');
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+
+        if (paymentMethod === 'bkash') {
+            const bkashNumber = document.querySelector('input[name="bkash_number"]').value;
+            const transactionId = document.querySelector('input[name="bkash_transaction"]').value;
+
+            if (!bkashNumber || !transactionId) {
+                alert('Please provide your bKash details');
+                e.preventDefault();
+                return;
+            }
+        }
+
+        if (paymentMethod === 'cod') {
+            const codBkashNumber = document.querySelector('input[name="cod_bkash_number"]').value;
+            const codTransactionId = document.querySelector('input[name="cod_bkash_transaction"]').value;
+
+            if (!codBkashNumber || !codTransactionId) {
+                alert('Please provide your bKash details for delivery fee payment');
+                e.preventDefault();
+                return;
+            }
+        }
+
+        if (!document.getElementById('terms').checked) {
+            alert('Please agree to the terms and conditions');
+            e.preventDefault();
+        }
+    });
+});
 </script>
 </body>
 </html>

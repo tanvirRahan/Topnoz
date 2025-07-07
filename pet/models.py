@@ -7,6 +7,9 @@ class ItemVariation(models.Model):
     value = models.CharField(max_length=50)
     attachment = models.ImageField(upload_to='item_variation/', blank=True, null=True)
 
+    class Meta:
+        db_table = 'web_itemvariation'
+
     def __str__(self):
         return self.value
 
@@ -16,18 +19,25 @@ class Variation(models.Model):
 
     class Meta:
         unique_together = ('item', 'name')
+        db_table = 'web_variation'
 
     def __str__(self):
         return self.name
+
+PRODUCT_TYPE_CHOICES = [
+    ('shirt', 'Shirt'),
+    ('polo-tshirt', 'Polo Tshirt'),
+    ('tshirt', 'Tshirt'),
+    ('punjabi', 'Punjabi'),
+    ('pant', 'Pant'),
+    ('footware', 'Footware'),
+    ('lifestyle', 'Lifestyle'),
+]
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
-    categories = models.CharField(max_length=10, choices=[
-        ('ME', "Men's Wear"), ('WO', "Women's Wear"), ('KI', "Kids Wear"), 
-        ('AC', "Accessories"), ('OT', "Other")
-    ])
     label = models.CharField(max_length=1, choices=[
         ('P', 'primary'), ('S', 'secondary'), ('D', 'danger')
     ], blank=True, null=True)
@@ -37,6 +47,15 @@ class Item(models.Model):
     stock = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    product_type = models.CharField(
+        max_length=20,
+        choices=PRODUCT_TYPE_CHOICES,
+        default='shirt'
+    )
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'web_item'
 
     def __str__(self):
         return self.title
@@ -56,9 +75,13 @@ class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     customer_order = models.ForeignKey('CustomerOrder', on_delete=models.SET_NULL, null=True, blank=True)
+    size = models.CharField(max_length=20, blank=True, null=True)  # New field
+
+    class Meta:
+        db_table = 'web_orderitem'
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.title}"
+        return f"{self.quantity} x {self.item.title} ({self.size or 'No Size'}) for {self.user.username} (Order: {self.customer_order.id if self.customer_order else 'N/A'})"
 
     def get_total_item_price(self):
         return self.quantity * self.item.price
@@ -80,6 +103,9 @@ class Order(models.Model):
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
 
+    class Meta:
+        db_table = 'web_order'
+
     def __str__(self):
         return f"Order #{self.id} for {self.user.username}"
 
@@ -94,7 +120,6 @@ class CustomerOrder(models.Model):
         ('cod', 'Cash on Delivery'),
         ('bkash', 'bKash'),
     )
-    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -107,9 +132,34 @@ class CustomerOrder(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     order_total = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+    products = models.CharField(max_length=255, blank=True, null=True)
+    quantities = models.CharField(max_length=255, blank=True, null=True)
+    sizes = models.CharField(max_length=255, blank=True, null=True)  # New field
+
+    class Meta:
+        db_table = 'web_customerorder'
+
     def __str__(self):
-        return f"Order #{self.id} by {self.name}"
-    
+        return f"Order #{self.id} by {self.name} ({self.email})"
+
     def get_order_items(self):
         return self.orderitem_set.all()
+
+class ItemMedia(models.Model):
+    item = models.ForeignKey(Item, related_name='media', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='products/extra/', blank=True, null=True)
+    is_video = models.BooleanField(default=False)
+    video_file = models.FileField(upload_to='products/videos/', blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'web_itemmedia'
+
+    def __str__(self):
+        return f"{self.item.title} - {'Video' if self.is_video else 'Image'}"
+
+    def is_youtube(self):
+        return self.video_url and ('youtube.com' in self.video_url or 'youtu.be' in self.video_url)
+
+    def is_facebook(self):
+        return self.video_url and 'facebook.com' in self.video_url

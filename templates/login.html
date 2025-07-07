@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %} <!-- Google Login এর জন্য এই লাইনটি গুরুত্বূর্ণ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -180,6 +181,25 @@
             margin-top: 20px;
             animation: fadeIn 0.5s ease-out;
         }
+
+       /* Google Login button এর জন্য CSS */
+.btn-google {
+  background: linear-gradient(90deg, #4285F4 0%, #34A853 100%);
+  color: white !important;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 0;
+  box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+  box-shadow: 0 6px 20px rgba(52, 168, 83, 0.6);
+  transform: translateY(-2px);
+  color: white !important;
+  text-decoration: none;
+}
         
         /* Animations */
         @keyframes fadeInUp {
@@ -246,6 +266,16 @@
             }
         }
     </style>
+
+         <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RP643852NH');
+</script>
 </head>
 <body>
 <!-- Navbar -->
@@ -369,6 +399,18 @@
                             <p class="mb-0">Don't have an account? <a href="{% url 'register' %}" class="register-link">Register here</a></p>
                         </div>
                     </form>
+                    
+                    <!-- Social Login Section -->
+                    <div class="social-login-section text-center mt-4 mb-4">
+                        <div class="divider d-flex align-items-center justify-content-center mb-4">
+                            <p class="text-center mx-3 mb-0 text-muted">OR</p>
+                        </div>
+                        
+                        <!-- Google Login Button -->
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-google btn-block waves-effect">
+  <i class="fab fa-google mr-2"></i> Continue with Google
+</a>
+                    </div>
                     
                     <!-- Messages -->
                     {% if messages %}

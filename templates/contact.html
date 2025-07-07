@@ -9,39 +9,25 @@
     <title>Topnoz Clothing | Contact Us</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style type="text/css">
-        html,
-        body,
-        header,
-        .carousel {
-            height: 60vh;
-        }
-
-        @media (max-width: 740px) {
-            html,
-            body,
-            header,
-            .carousel {
-                height: 100vh;
-            }
-        }
-
-        @media (min-width: 800px) and (max-width: 850px) {
-            html,
-            body,
-            header,
-            .carousel {
-                height: 100vh;
-            }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #f5f5f5;
         }
         .topnoz-bg {
-            background-color: #1c1a28;
+            background-color: #0a0a0a;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .topnoz-text {
             color: #6C5CE7;
@@ -49,26 +35,206 @@
         .btn-topnoz {
             background-color: #6C5CE7;
             color: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(0);
+            border: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
         .btn-topnoz:hover {
             background-color: #5649c7;
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
         }
         .contact-map {
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .contact-map:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
         .contact-card {
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .form-control {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            background-color: #2a2a2a;
+            color: #f5f5f5;
+            padding: 12px 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-control:focus {
+            border-color: #6C5CE7;
+            box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+            background-color: #2a2a2a;
+            color: #f5f5f5;
+        }
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid #6C5CE7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .success-message {
+            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 0 0 12px 12px;
+            padding: 15px;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .contact-info-item {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .contact-info-item:hover {
+            background: rgba(108, 92, 231, 0.1);
+            transform: translateX(8px);
+            border-color: rgba(108, 92, 231, 0.3);
+        }
+        .navbar {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            background-color: #0a0a0a;
+            padding: 12px 0;
+        }
+        .navbar.scrolled {
+            background-color: #0a0a0a !important;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            padding: 8px 0;
+        }
+        .nav-link {
+            color: #f5f5f5 !important;
+            font-weight: 500;
+            padding: 8px 15px !important;
+            margin: 0 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-link:hover {
+            background: rgba(108, 92, 231, 0.2);
+        }
+        .nav-link.active {
+            background: rgba(108, 92, 231, 0.3);
+        }
+        .nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 15px;
+            width: calc(100% - 30px);
+            height: 2px;
+            background: #6C5CE7;
+            border-radius: 2px;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        label {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .footer {
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            margin: 0 8px;
+        }
+        .social-icons a:hover {
+            background: #6C5CE7;
+            transform: translateY(-3px);
+        }
+        @media (max-width: 767px) {
+            .navbar {
+                padding: 10px 0;
+            }
+            .nav-link {
+                margin: 5px 0;
+                padding: 10px 15px !important;
+            }
+            .contact-map, .contact-card {
+                margin-bottom: 25px;
+            }
+            .contact-info-item {
+                padding: 15px;
+            }
         }
     </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RP643852NH');
+    </script>
 </head>
 
 <body>
+<!-- Loading Overlay -->
+<div class="loading-overlay">
+    <div class="spinner"></div>
+    <div class="text-white mt-4" style="position: absolute; top: 60%;">Sending your message...</div>
+</div>
+
 <!-- Navbar -->
-<nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
     <div class="container">
 
         <!-- Brand -->
@@ -103,41 +269,32 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link waves-effect" href="#">
-                            Hello, {{ request.user.username }}
+                            <i class="fas fa-user-circle mr-1"></i> {{ request.user.username }}
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                      <li class="nav-item">
-                        <a class="nav-link waves-effect" href="{% url 'logout' %}">Logout
+                        <a class="nav-link waves-effect" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="{% url 'register' %}">Register
+                        <a class="nav-link waves-effect" href="{% url 'register' %}">
+                            <i class="fas fa-user-plus mr-1"></i> Register
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="{% url 'userLogin' %}">Login
+                        <a class="nav-link waves-effect" href="{% url 'userLogin' %}">
+                            <i class="fas fa-sign-in-alt mr-1"></i> Login
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                 {% endif %}
 
-            </ul>
-
-            <!-- Right -->
-            <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item">
-                    
-                       <span class="badge topnoz-bg z-depth-1 mr-1">0</span>
-
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                    </a>
-                </li>
             </ul>
 
         </div>
@@ -148,65 +305,82 @@
 
 <!--Contact Page-->
 <div style="margin-top: 7%"></div>
-<div class="container">
+<div class="container animate__animated animate__fadeIn">
     <div class="row">
         <!--Divide page into two-->
-        <div class="col-md-6 mb-4">
+        <div class="col-lg-6 mb-5">
             <!--map generated here:: https://www.maps.ie/create-google-map/-->
-            <div class="contact-map">
+            <div class="contact-map animate__animated animate__fadeInLeft">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.9974481810477!2d90.26433101498167!3d23.881278489090732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755e9e322582c87%3A0x5b6f9f778d0b56ed!2sJahangirnagar%20University!5e0!3m2!1sen!2sbd!4v1681006795413!5m2!1sen!2sbd"
-    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-</iframe>
-
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
             <div class="mt-4">
-                <h4 class="topnoz-text">Our Location</h4>
-                <p>
-                    <i class="fas fa-map-marker-alt topnoz-text mr-2"></i>
-                    Jahangirnagar University, Savar, Dhaka, Bangladesh
-                </p>
-                <p>
-                    <i class="fas fa-phone topnoz-text mr-2"></i>
-                    +880 1709219473
-                </p>
-                <p>
-                    <i class="fas fa-envelope topnoz-text mr-2"></i>
-                    shop.topnoz@gmail.com
-                </p>
+                <h4 class="topnoz-text animate__animated animate__fadeIn mb-4">Our Location</h4>
+                <div class="contact-info-item animate__animated animate__fadeInLeft">
+                    <p class="mb-0">
+                        <i class="fas fa-map-marker-alt topnoz-text mr-2"></i>
+                        <strong>Address:</strong> Jahangirnagar University, Savar, Dhaka, Bangladesh
+                    </p>
+                </div>
+                <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <p class="mb-0">
+                        <i class="fas fa-phone topnoz-text mr-2"></i>
+                        <strong>Phone:</strong> 01575306583
+                    </p>
+                </div>
+                <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <p class="mb-0">
+                        <i class="fas fa-envelope topnoz-text mr-2"></i>
+                        <strong>Email:</strong> topnozweb@gmail.com
+                    </p>
+                </div>
+                <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <p class="mb-0">
+                        <i class="fas fa-clock topnoz-text mr-2"></i>
+                        <strong>Hours:</strong> 9:00 AM - 8:00 PM, Mon-Sat
+                    </p>
+                </div>
             </div>
         </div>
 
-        <div class="col-md-6 mb-4">
-            <div class="card contact-card">
-                <div class="card-header white-text topnoz-bg">
+        <div class="col-lg-6 mb-5">
+            <div class="card contact-card animate__animated animate__fadeInRight">
+                <div class="card-header white-text topnoz-bg" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
                     <div class="card-title text-center">
-                        <h4>Contact Us</h4>
+                        <h4 class="mb-0">Get In Touch</h4>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{% url 'contact' %}" method="post">
+                    <form id="contactForm" action="{% url 'contact' %}" method="post">
                         <!--Add a cross site request token forgery to the site-->
                         {% csrf_token %}
-                        <div class="form-group">
+                        <div class="form-group animate__animated animate__fadeIn">
                             <label for="name">Your Name:</label>
                             <input type="text" class="form-control" name="message_name" placeholder="Enter Your Name" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group animate__animated animate__fadeIn animate__delay-1s">
                             <label for="email">Email address:</label>
                             <input type="email" class="form-control" placeholder="Enter email" name="message_email" required>
                         </div>
-                         <div class="form-group">
+                         <div class="form-group animate__animated animate__fadeIn animate__delay-2s">
                             <label for="message">Message:</label>
                             <textarea class="form-control" name="user_message" rows="6" placeholder="Your Message" required></textarea>
                         </div>
 
-                        <button class="form-control btn btn-topnoz" type="submit">Send Message</button>
+                        <button class="form-control btn btn-topnoz animate__animated animate__fadeIn animate__delay-3s mt-4 py-2" type="submit">
+                            <span id="submitText"><i class="fas fa-paper-plane mr-2"></i> Send Message</span>
+                            <span id="submitSpinner" class="d-none">
+                                <i class="fas fa-spinner fa-spin mr-2"></i> Sending...
+                            </span>
+                        </button>
                     </form>
                 </div>
                 {% if congratulations_message %}
-                <div class="card-footer text-center text-success">
-                    {{ congratulations_message }}
+                <div class="card-footer text-center text-success success-message">
+                    <i class="fas fa-check-circle fa-2x mb-2"></i>
+                    <h5 class="mb-2">{{ congratulations_message }}</h5>
+                    <p class="mb-0">We'll get back to you within 24 hours!</p>
                 </div>
                 {% endif %}
             </div>
@@ -216,18 +390,29 @@
 <!--End Contact Page-->
 <br>
 <!--Footer-->
-<footer class="page-footer text-center font-small mt-4 wow fadeIn topnoz-bg white-text">
+<footer class="page-footer text-center font-small mt-5 pt-4 pb-3 topnoz-bg white-text footer">
 
     <!--Call to action-->
-    <div class="pt-4">
-        <h5>Topnoz Clothing - Fashion Redefined</h5>
-        <p>Premium quality clothing for the modern generation</p>
+    <div class="pt-2">
+        <h5 class="mb-3">Topnoz Clothing - Fashion Redefined</h5>
+        <p class="mb-4">Premium quality clothing for the modern generation</p>
+        <div class="social-icons mb-4">
+            <a href="#" class="text-white mx-1"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-white mx-1"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-white mx-1"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-white mx-1"><i class="fab fa-linkedin-in"></i></a>
+        </div>
     </div>
     <!--/.Call to action-->
 
-    <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+    <hr class="my-3" style="border-color: rgba(255,255,255,0.1);">
 
-   
+    <!--Copyright-->
+    <div class="footer-copyright pb-2">
+        © 2023 Copyright:
+        <a href="{% url 'HomeView' %}" class="text-white"> Topnoz Clothing</a>
+    </div>
+    <!--/.Copyright-->
 
 </footer>
 <!--/.Footer-->
@@ -237,4 +422,49 @@
 <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
-<!-- Bootstrap
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+<!-- Initializations -->
+<script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+
+    // Form submission handling
+    $(document).ready(function() {
+        $('#contactForm').on('submit', function(e) {
+            // Show loading state
+            $('#submitText').addClass('d-none');
+            $('#submitSpinner').removeClass('d-none');
+            $('.loading-overlay').css('display', 'flex');
+            
+            // You can add AJAX submission here if needed
+            // Otherwise, the form will submit normally
+        });
+        
+        // Navbar scroll effect
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 50) {
+                $('.navbar').addClass('scrolled');
+            } else {
+                $('.navbar').removeClass('scrolled');
+            }
+        });
+        
+        // Add smooth scrolling to all links
+        $("a").on('click', function(event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function(){
+                    window.location.hash = hash;
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

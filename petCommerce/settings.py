@@ -7,23 +7,18 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ---- LOCAL TEST ----
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-2!(x(n4gdq7l=&ib+)(khyxt^mpl_q)=88k-l0b*_&=8jp2wic')
-DEBUG = True  # Local test e True rakhte paro
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-very-long-random-secret-key-here')
+DEBUG = False  # Production e False
 
 ALLOWED_HOSTS = [
-    'localhost',
+    'topnoz.com',
+    'www.topnoz.com',
     '127.0.0.1',
-    # Production e live domain add koro
-    # 'topnoz.com',
-    # 'www.topnoz.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    # Local test e dorkar nai
-    # Production e add koro
-    # 'https://topnoz.com',
-    # 'https://www.topnoz.com',
+    'https://topnoz.com',
+    'https://www.topnoz.com',
 ]
 
 INSTALLED_APPS = [
@@ -77,12 +72,12 @@ WSGI_APPLICATION = 'petCommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'topnozdatabase',
+        'ENGINE': 'django.db.backends.mysql',  # or 'django.db.backends.postgresql' if using Postgres
+        'NAME': os.environ.get('DB_NAME', 'topnozdatabase'),
         'USER': os.environ.get('DB_USER', 'root'),
         'PASSWORD': os.environ.get('DB_PASSWORD', '1122'),
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
@@ -109,7 +104,6 @@ SITE_ID = 1
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # ---- ALLAUTH EMAIL SETTINGS ----
-# ACCOUNT_EMAIL_REQUIRED = True  # Deprecated, remove
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_QUERY_EMAIL = True
@@ -129,9 +123,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dbg733kgj'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '273862263889337'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '5GA9VvbS565gRbteSdAqijuVzPY')
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '')
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -144,21 +138,10 @@ EMAIL_USE_TLS       = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ---- PRODUCTION SECURITY SETTINGS (LIVE E JABAR AGE UNCOMMENT KORO) ----
-# DEBUG = False
-# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-very-long-random-secret-key-here')
-# ALLOWED_HOSTS = [
-#     'topnoz.com',
-#     'www.topnoz.com',
-#     'topnoz.up.railway.app',
-# ]
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://topnoz.com',
-#     'https://www.topnoz.com',
-# ]
-# SECURE_HSTS_SECONDS = 31536000
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+# ---- PRODUCTION SECURITY SETTINGS ----
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

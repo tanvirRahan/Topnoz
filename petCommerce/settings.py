@@ -14,6 +14,7 @@ ALLOWED_HOSTS = [
     'topnoz.com',
     'www.topnoz.com',
     '127.0.0.1',
+    'topnoz.onrender.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [

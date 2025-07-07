@@ -1,25 +1,20 @@
 import os
 from pathlib import Path
-import pymysql
-pymysql.install_as_MySQLdb()
+import dj_database_url
 from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-very-long-random-secret-key-here')
-DEBUG = False  # Production e False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [
-    'topnoz.com',
-    'www.topnoz.com',
-    '127.0.0.1',
-    'topnoz.onrender.com',
-]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'topnoz.com,www.topnoz.com,topnoz.onrender.com,127.0.0.1').split(',')
 
 CSRF_TRUSTED_ORIGINS = [
     'https://topnoz.com',
     'https://www.topnoz.com',
+    'https://topnoz.onrender.com',
 ]
 
 INSTALLED_APPS = [
@@ -72,17 +67,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'petCommerce.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # or 'django.db.backends.postgresql' if using Postgres
-        'NAME': os.environ.get('DB_NAME', 'topnozdatabase'),
-        'USER': os.environ.get('DB_USER', 'root'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', '1122'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
-    }
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 AUTH_PASSWORD_VALIDATORS = [

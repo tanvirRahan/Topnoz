@@ -509,8 +509,8 @@
 }    
 .topnoz-main-title {
   font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-  font-size: 4rem;
-  font-weight: 900;
+ /* font-size: 4rem;*/
+ font-weight: 900;
   letter-spacing: 2px;
   background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);
   -webkit-background-clip: text;
@@ -694,24 +694,52 @@
   }
 }
 
-     @media (max-width: 576px) {
+    /* ✅ Responsive Font Sizes for Topnoz Hero Section */
+
+/* Desktop Default */
+.topnoz-main-title {
+  font-size: 3.5rem !important;
+}
+
+.topnoz-tagline {
+  font-size: 1.3rem !important;
+  letter-spacing: 2px;
+}
+
+.topnoz-subtext {
+  font-size: 0.95rem !important;
+  letter-spacing: 2.5px;
+}
+
+/* Tablet & Medium Devices */
+@media (max-width: 992px) {
   .topnoz-main-title {
-    font-size: 1.9rem !important;
+    font-size: 2.8rem !important;
   }
 
   .topnoz-tagline {
-    font-size: 0.92rem !important;
-    letter-spacing: 0.8px;
+    font-size: 1.1rem !important;
+  }
+
+  .topnoz-subtext {
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 576px) {
+  .topnoz-main-title {
+    font-size: 2.1rem !important;
+  }
+
+  .topnoz-tagline {
+    font-size: 1rem !important;
+    letter-spacing: 1.3px;
   }
 
   .topnoz-subtext {
     font-size: 0.75rem !important;
-    letter-spacing: 1px;
-  }
-
-  .carousel-caption {
-    bottom: 13% !important;
-    padding: 0 8px;
+    letter-spacing: 1.2px;
   }
 }
   </style>

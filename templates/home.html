@@ -10,25 +10,12 @@
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --black: #000000;
-      --white: #ffffff;
-      --gold: #FFD700;
-      --dark-gold: #D4AF37;
-      --light-gray: #f5f5f5;
-    }
-    
     html, body, header {
       height: 100%;
-      font-family: 'Montserrat', 'Poppins', sans-serif;
-      background-color: var(--white);
-      color: var(--black);
-      overflow-x: hidden;
     }
 
-    /* Carousel */
     .carousel {
       height: 100vh;
     }
@@ -56,7 +43,6 @@
       }
     }
 
-    /* Navbar */
     .navbar {
       background: transparent !important;
       z-index: 999;
@@ -65,19 +51,16 @@
     }
 
     .navbar.scrolled {
-      background-color: var(--black) !important;
+      background-color: rgba(0, 0, 0, 0.8) !important;
     }
 
-    .navbar .nav-link, 
-    .navbar .navbar-brand {
-      color: var(--white) !important;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+    .navbar .nav-link, .navbar .navbar-brand {
+      color: white !important;
+      font-weight: 500;
     }
 
-    .navbar .nav-link:hover, 
-    .navbar .navbar-brand:hover {
-      color: var(--gold) !important;
+    .navbar .nav-link:hover, .navbar .navbar-brand:hover {
+      color: #ffdd57 !important;
     }
 
     .navbar .form-inline input {
@@ -101,24 +84,23 @@
     .carousel-caption h1,
     .carousel-caption p,
     .carousel-caption a {
-      color: var(--white);
+      color: white;
     }
 
     .btn-outline-white {
-      border-color: var(--white) !important;
-      color: var(--white) !important;
+      border-color: white !important;
+      color: white !important;
     }
 
     .btn-outline-white:hover {
-      background-color: var(--white) !important;
-      color: var(--black) !important;
+      background-color: white !important;
+      color: black !important;
     }
 
     #products {
       scroll-margin-top: 100px;
     }
 
-    /* Logo */
     .logo-container {
       position: fixed;
       top: 20px;
@@ -140,7 +122,7 @@
     }
 
     .logo-text {
-      color: var(--white);
+      color: white;
       font-weight: bold;
       margin-left: 10px;
       font-size: 1.2rem;
@@ -161,7 +143,7 @@
         top: 15px;
         left: 15px;
         padding: 4px 12px;
-        animation: none;
+        animation: none; /* Disable float on mobile */
       }
 
       .logo-img {
@@ -198,6 +180,8 @@
       }
     }
 
+  
+
     @keyframes pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.03); }
@@ -210,55 +194,101 @@
       100% { transform: translateY(0px); }
     }
 
-    /* Details Button */
-    .details-btn {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.08rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      padding: 0.62rem 2.2rem 0.62rem 1.6rem;
-      border-radius: 40px;
-      background: rgba(0,0,0,0.8);
-      color: var(--white) !important;
-      border: 2px solid var(--gold);
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 13px;
-      text-transform: uppercase;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
+  .details-btn {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 0.62rem 2.2rem 0.62rem 1.6rem;
+  border-radius: 40px;
+  background: rgba(30,34,90,0.18);
+  color: #fff !important;
+  border: 2px solid transparent;
+  box-shadow: 0 8px 32px 0 rgba(30,34,90,0.18), 0 2px 12px 0 rgba(67, 233, 123, 0.13);
+  transition: 
+    background 0.3s cubic-bezier(.4,0,.2,1),
+    box-shadow 0.3s cubic-bezier(.4,0,.2,1),
+    border 0.3s cubic-bezier(.4,0,.2,1),
+    color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  z-index: 1;
+  backdrop-filter: blur(3px);
+  box-sizing: border-box;
+  cursor: pointer;
+}
 
-    .details-btn:hover, .details-btn:focus {
-      background: var(--gold);
-      color: var(--black) !important;
-      border-color: var(--gold);
-      transform: translateY(-2px);
-    }
+.details-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  padding: 2px;
+  background: linear-gradient(120deg, #ff512f, #dd2476, #43e97b, #4e54c8, #ff512f);
+  background-size: 300% 300%;
+  animation: borderMove 3s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 0;
+  pointer-events: none;
+}
 
-    .details-btn i {
-      font-size: 1.18em;
-      margin-right: 8px;
-      transition: transform 0.22s ease;
-    }
+@keyframes borderMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-    .details-btn:hover i {
-      transform: translateX(10px);
-    }
+.details-btn span {
+  position: relative;
+  z-index: 2;
+  letter-spacing: 2.5px;
+  font-weight: 700;
+}
 
-    /* Product Cards */
+.details-btn i {
+  font-size: 1.18em;
+  margin-right: 8px;
+  transition: transform 0.22s cubic-bezier(.4,0,.2,1), color 0.2s;
+  z-index: 2;
+  color: #ece4e4;
+}
+
+.details-btn:hover, .details-btn:focus {
+  background: rgba(30,34,90,0.32);
+  color: #fff !important;
+  box-shadow: 0 16px 48px 0 rgba(67, 233, 123, 0.18), 0 4px 18px 0 rgba(78, 84, 200, 0.18);
+  border-color: transparent;
+  transform: translateY(-2px) scale(1.045);
+}
+
+.details-btn:hover i {
+  transform: translateX(10px) scale(1.13) rotate(8deg);
+  color: #ff512f;
+}
+
+.details-btn:active {
+  transform: scale(0.98);
+}
+    /* Product card adjustments */
     .card {
       transition: all 0.3s ease;
+      animation: subtlePulse 8s infinite;
       overflow: hidden;
-      border: none;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
 
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    @keyframes subtlePulse {
+      0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+      50% { transform: scale(1.005); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+      100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     }
 
     @media (max-width: 768px) {
@@ -271,6 +301,10 @@
         padding: 0.75rem;
       }
 
+      .card {
+        animation: none; /* Disable pulse on mobile */
+      }
+
       .card-body h5 {
         font-size: 1rem;
       }
@@ -281,7 +315,7 @@
       }
     }
 
-    /* Footer */
+    /* Footer adjustments */
     @media (max-width: 576px) {
       footer .pb-4 {
         padding-bottom: 1rem !important;
@@ -293,7 +327,7 @@
       }
     }
 
-    /* Navbar Toggle */
+    /* Improved mobile menu toggle */
     .navbar-toggler {
       border-color: rgba(255,255,255,0.5);
       transition: all 0.3s ease;
@@ -308,13 +342,12 @@
       transition: all 0.3s ease;
     }
 
-    /* Custom Button */
     .custom-btn {
       font-weight: 600;
       font-size: 1.2rem;
       letter-spacing: 1.5px;
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: #fff;
+      border: 2px solid #fff;
       padding: 12px 30px;
       border-radius: 50px;
       transition: all 0.3s ease;
@@ -325,21 +358,21 @@
     }
 
     .custom-btn:hover {
-      background-color: var(--white);
-      color: var(--black);
-      border-color: var(--black);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      background-color: #fff;
+      color: #1f2021;
+      border-color: #1f2021;
+      box-shadow: 0 4px 15px rgba(31, 32, 33, 0.3);
       text-decoration: none;
     }
 
-    /* Scroll Indicator */
+    /* Scroll indicator */
     .scroll-indicator {
       position: absolute;
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
       animation: bounce 2s infinite;
-      color: var(--white);
+      color: white;
       font-size: 2rem;
       z-index: 10;
       cursor: pointer;
@@ -351,9 +384,10 @@
       60% { transform: translateY(-10px) translateX(-50%); }
     }
 
-    /* Page Load Animation */
+    /* Page load animation */
     body {
       animation: fadeIn 1s ease-out;
+      overflow-x: hidden;
     }
 
     @keyframes fadeIn {
@@ -361,7 +395,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Carousel Controls */
+    /* Carousel control animations */
     .carousel-control-prev, .carousel-control-next {
       transition: all 0.3s ease;
       opacity: 0.7;
@@ -373,7 +407,7 @@
       background-color: rgba(0,0,0,0.2);
     }
 
-    /* Navbar Items */
+    /* Navbar item animations */
     .nav-item {
       opacity: 0;
       transform: translateY(20px);
@@ -387,7 +421,7 @@
       }
     }
 
-    /* Sequential Animation */
+    /* Sequential animation for nav items */
     .nav-item:nth-child(1) { animation-delay: 0.2s; }
     .nav-item:nth-child(2) { animation-delay: 0.3s; }
     .nav-item:nth-child(3) { animation-delay: 0.4s; }
@@ -395,7 +429,7 @@
     .nav-item:nth-child(5) { animation-delay: 0.6s; }
     .nav-item:nth-child(6) { animation-delay: 0.7s; }
 
-    /* Product Hover */
+    /* Product hover effect */
     .view.overlay {
       transition: all 0.5s ease;
     }
@@ -404,7 +438,7 @@
       transform: scale(1.05);
     }
 
-    /* Responsive Adjustments */
+    /* Responsive adjustments for animations */
     @media (max-width: 768px) {
       .nav-item {
         animation: none;
@@ -417,248 +451,298 @@
         bottom: 15px;
       }
     }
-
-    /* Navbar Links */
-    .navbar .nav-link {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      padding: 0.5rem 1.2rem;
-      margin: 0 0.3rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 1.05rem;
-      letter-spacing: 0.5px;
-      background: rgba(255,255,255,0.08);
-      color: var(--white) !important;
-      transition: all 0.25s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .navbar .nav-link:hover, 
-    .navbar .nav-link:focus {
-      background: var(--gold);
-      color: var(--black) !important;
-      box-shadow: 0 4px 16px rgba(255, 215, 0, 0.18);
-      transform: translateY(-2px);
-    }
-
-    .navbar .nav-link .fas, 
-    .navbar .nav-link .fa {
-      margin-right: 0.5em;
-      font-size: 1.1em;
-    }
-
-    /* Responsive Nav Links */
-    @media (max-width: 768px) {
+    /* --- Trendy Navbar Button Styles --- */
       .navbar .nav-link {
-        width: 100%;
-        margin: 6px 0;
-        font-size: 1rem;
-        padding: 0.7rem 1.2rem;
-        border-radius: 25px;
-        justify-content: center;
-      }
-    }
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.2rem;
+  margin: 0 0.3rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  background: rgba(255,255,255,0.08);
+  color: #fff !important;
+  transition: 
+    background 0.25s, 
+    color 0.25s, 
+    box-shadow 0.25s, 
+    transform 0.15s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
 
-    /* Typography */
-    .topnoz-main-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      letter-spacing: 2px;
-      color: var(--white);
-      text-shadow: 0 4px 24px rgba(0,0,0,0.18);
-      margin-bottom: 0.5rem;
-    }
+.navbar .nav-link:hover, 
+.navbar .nav-link:focus {
+  background: linear-gradient(90deg, #ffcc00 0%, #ffdd57 100%);
+  color: #222 !important;
+  box-shadow: 0 4px 16px rgba(255, 204, 0, 0.18);
+  transform: translateY(-2px) scale(1.04);
+  text-decoration: none;
+}
 
-    .topnoz-tagline {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: var(--white);
-      text-transform: uppercase;
-      margin-bottom: 0.7rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    }
+.navbar .nav-link .fas, 
+.navbar .nav-link .fa {
+  margin-right: 0.5em;
+  font-size: 1.1em;
+  vertical-align: middle;
+}
 
-    .topnoz-subtext {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      margin-bottom: 1.2rem;
-      opacity: 0.9;
-    }
+/* Active nav item (optional, for current page) */
+.navbar .nav-item.active .nav-link {
+  background: linear-gradient(90deg, #ffcc00 0%, #ffdd57 100%);
+  color: #222 !important;
+  box-shadow: 0 4px 16px rgba(255, 204, 0, 0.18);
+}
 
-    .topnoz-slogan {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 500;
-      color: #e0e0e0;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      margin-left: 16px;
-      margin-right: 8px;
-      display: inline-flex;
-      align-items: center;
-      vertical-align: middle;
-      opacity: 0.92;
-    }
+/* Responsive: stack buttons on mobile, keep touch area big */
+@media (max-width: 768px) {
+  .navbar .nav-link {
+    width: 100%;
+    margin: 6px 0;
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 25px;
+    justify-content: center;
+  }
+}    
+.topnoz-main-title {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+ /* font-size: 4rem;*/
+ font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0 4px 24px rgba(78, 84, 200, 0.18), 0 2px 8px rgba(0,0,0,0.18);
+  margin-bottom: 0.5rem;
+  animation: topnozGlow 2.5s infinite alternate;
+}
+@keyframes topnozGlow {
+  0% { text-shadow: 0 4px 24px rgba(78, 84, 200, 0.18), 0 2px 8px rgba(0,0,0,0.18);}
+  100% { text-shadow: 0 8px 32px #4e54c8, 0 2px 8px rgba(0,0,0,0.22);}
+}
+.topnoz-tagline {
+  background: linear-gradient(90deg, #8f94fb 0%, #4e54c8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+  text-shadow: 0 2px 8px rgba(78, 84, 200, 0.18);
+  animation: fadeInDown 1.2s;
+}
+.topnoz-subtext {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #8f94fb 0%, #ff6a88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 1px 4px rgba(143, 148, 251, 0.10);
+  animation: fadeInUp 1.2s;
+}
 
-    .topnoz-slogan::before {
-      content: '';
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--gold);
-      margin-right: 10px;
-    }
+.topnoz-slogan {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #e0e0e0;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-left: 16px;
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  opacity: 0.92;
+  animation: fadeInDown 1.2s;
+}
+.topnoz-slogan::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #8f94fb 0%, #43e97b 100%);
+  margin-right: 10px;
+  opacity: 0.7;
+} 
 
-    /* Product Styles */
-    .product-type {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.08rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 0.3rem;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@600;800&display=swap');
 
-    .product-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      color: var(--black);
-      margin-bottom: 0.2rem;
-      text-transform: capitalize;
-      transition: color 0.2s;
-    }
+/* Product Type */
+.product-type {
+  font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #43e97b;
+  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 2px 8px rgba(67, 233, 123, 0.10);
+  transition: color 0.2s;
+}
 
-    .product-title:hover {
-      color: var(--gold);
-      text-decoration: underline;
-    }
+/* Product Title */
+.product-title {
+  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  background: linear-gradient(90deg, #4e54c8 0%, #ff6a88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0 4px 16px rgba(78, 84, 200, 0.10);
+  margin-bottom: 0.2rem;
+  transition: color 0.2s, text-shadow 0.2s;
+  text-transform: capitalize;
+}
+.product-title:hover {
+  filter: brightness(1.2) drop-shadow(0 2px 8px #ff6a88);
+  text-decoration: underline wavy #ff6a88;
+}
 
-    .product-price {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.18rem;
-      font-weight: 900;
-      color: var(--black);
-      letter-spacing: 2px;
-      margin-bottom: 0.2rem;
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 8px;
-    }
+/* Product Price */
+.product-price {
+  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
+  font-size: 1.18rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  letter-spacing: 2px;
+  margin-bottom: 0.2rem;
+  text-shadow: 0 2px 8px rgba(255, 81, 47, 0.10);
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.product-price::before {
+  content: "৳ ";
+  font-size: 1.1em;
+  font-weight: 800;
+  color: #ff512f;
+  -webkit-text-fill-color: #ff512f;
+  background: none;
+}
+.badge.badge-pill,
+.badge-primary,
+.badge-secondary,
+.badge-danger {
+  color: inherit !important;
+  background: inherit !important;
+}
 
-    .product-price::before {
-      content: "৳ ";
-      font-size: 1.1em;
-      font-weight: 800;
-      color: var(--black);
-    }
+.badge-primary {
+  border-color: #43e97b !important;
+  color: #43e97b !important;
+  background: #f6fff9 !important;
+}
+.badge-secondary {
+  border-color: #ff512f !important;
+  color: #ff512f !important;
+  background: #fff7f6 !important;
+}
+.badge-danger {
+  border-color: #dd2476 !important;
+  color: #dd2476 !important;
+  background: #fff6fa !important;
+}
 
-    /* Badges */
-    .badge.badge-pill,
-    .badge-primary,
-    .badge-secondary,
-    .badge-danger {
-      color: inherit !important;
-      background: inherit !important;
-    }
+@media (max-width: 768px) {
+  .topnoz-main-title {
+    font-size: 2.2rem !important;
+  }
 
-    .badge-primary {
-      border-color: var(--gold) !important;
-      color: var(--black) !important;
-      background: var(--gold) !important;
-    }
+  .topnoz-tagline {
+    font-size: 1.1rem !important;
+    letter-spacing: 1px;
+  }
 
-    .badge-secondary {
-      border-color: var(--black) !important;
-      color: var(--white) !important;
-      background: var(--black) !important;
-    }
+  .topnoz-subtext {
+    font-size: 0.8rem !important;
+    letter-spacing: 1.5px;
+  }
 
-    .badge-danger {
-      border-color: #dd2476 !important;
-      color: #dd2476 !important;
-      background: #fff6fa !important;
-    }
+  .carousel-caption {
+    bottom: 18% !important;
+    padding: 0 12px;
+  }
+}
 
-    /* Responsive Font Sizes */
-    @media (max-width: 768px) {
-      .topnoz-main-title {
-        font-size: 2.2rem !important;
-      }
+    /* ✅ Responsive Font Sizes for Topnoz Hero Section */
 
-      .topnoz-tagline {
-        font-size: 1.1rem !important;
-        letter-spacing: 1px;
-      }
+/* Desktop Default */
+.topnoz-main-title {
+  font-size: 3.5rem !important;
+}
 
-      .topnoz-subtext {
-        font-size: 0.8rem !important;
-        letter-spacing: 1.5px;
-      }
+.topnoz-tagline {
+  font-size: 1.3rem !important;
+  letter-spacing: 2px;
+}
 
-      .carousel-caption {
-        bottom: 18% !important;
-        padding: 0 12px;
-      }
-    }
+.topnoz-subtext {
+  font-size: 0.95rem !important;
+  letter-spacing: 2.5px;
+}
 
-    /* Desktop Font Sizes */
-    .topnoz-main-title {
-      font-size: 3.5rem !important;
-    }
+/* Tablet & Medium Devices */
+@media (max-width: 992px) {
+  .topnoz-main-title {
+    font-size: 2.8rem !important;
+  }
 
-    .topnoz-tagline {
-      font-size: 1.3rem !important;
-      letter-spacing: 2px;
-    }
+  .topnoz-tagline {
+    font-size: 1.1rem !important;
+  }
 
-    .topnoz-subtext {
-      font-size: 0.95rem !important;
-      letter-spacing: 2.5px;
-    }
+  .topnoz-subtext {
+    font-size: 0.85rem !important;
+  }
+}
 
-    /* Tablet Font Sizes */
-    @media (max-width: 992px) {
-      .topnoz-main-title {
-        font-size: 2.8rem !important;
-      }
+/* Mobile Devices */
+@media (max-width: 576px) {
+  .topnoz-main-title {
+    font-size: 2.1rem !important;
+  }
 
-      .topnoz-tagline {
-        font-size: 1.1rem !important;
-      }
+  .topnoz-tagline {
+    font-size: 1rem !important;
+    letter-spacing: 1.3px;
+  }
 
-      .topnoz-subtext {
-        font-size: 0.85rem !important;
-      }
-    }
+  .topnoz-subtext {
+    font-size: 0.75rem !important;
+    letter-spacing: 1.2px;
+  }
+}
 
-    /* Mobile Font Sizes */
-    @media (max-width: 576px) {
-      .topnoz-main-title {
-        font-size: 2.1rem !important;
-      }
-
-      .topnoz-tagline {
-        font-size: 1rem !important;
-        letter-spacing: 1.3px;
-      }
-
-      .topnoz-subtext {
-        font-size: 0.75rem !important;
-        letter-spacing: 1.2px;
-      }
-    }
 @media (max-width: 991.98px) {
   .navbar-collapse {
     position: fixed !important;
@@ -694,93 +778,48 @@
     z-index: 100;
   }
 }
-
-   .topnoz-tagline {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2.1rem;
-  font-weight: 900;
-  letter-spacing: 3px;
-  color: var(--gold);
-  text-transform: uppercase;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.18);
-  margin-bottom: 0.5rem;
-  position: relative;
-  animation: fadeInDown 1.2s, topnozGlow 2.5s infinite alternate;
-}
-.topnoz-tagline::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: var(--gold);
-  border-radius: 2px;
-  margin: 12px auto 0 auto;
-}
-.topnoz-subtext {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--white);
-  letter-spacing: 2px;
-  margin-bottom: 1.2rem;
-  opacity: 0.92;
-  text-shadow: 0 1px 6px rgba(255,215,0,0.10);
-  animation: fadeInUp 1.2s;
-}
-.topnoz-brand {
-  color: var(--gold);
-  font-weight: 900;
-  letter-spacing: 1.5px;
-}
-@media (max-width: 576px) {
-  .topnoz-tagline { font-size: 1.2rem; }
-  .topnoz-subtext { font-size: 0.9rem; }
-  .topnoz-tagline::after { width: 36px; height: 3px; }
-}
-@keyframes topnozGlow {
-  0% { text-shadow: 0 2px 12px rgba(0,0,0,0.18);}
-  100% { text-shadow: 0 4px 24px var(--gold);}
-}
   </style>
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-RP643852NH');
-  </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RP643852NH');
+</script>
 </head>
 <body>
 
-<!-- Logo (fixed, always top left) -->
+<!-- Logo -->
 <div class="logo-container">
   <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="logo-img">
   <span class="logo-text">Topnoz</span>
 </div>
 
-<!-- Navbar (logo-container-এর নিচে) -->
+<!-- Navbar -->
 <nav class="navbar fixed-top navbar-expand-lg scrolling-navbar">
   <div class="container">
-    <!-- Brand/logo (navbar-এর জন্য, চাইলে শুধু logo রাখো) -->
-    <a class="navbar-brand" href="{% url 'HomeView' %}">
-      <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" style="height:28px; margin-right:8px;">
-      Topnoz
-    </a>
-    <!-- Hamburger menu button (mobile) -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
-      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{% url 'HomeView' %}"><strong></strong></a>
+    <span class="topnoz-slogan d-none d-md-inline">Style. Comfort. Confidence. Always.</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarContent" aria-controls="navbarContent"
+            aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <!-- Menu items -->
+
     <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'CategoryListView' %}">
-            <i class="fas fa-th-large"></i> Collections
-          </a>
-        </li>
+      <form method="get" action="{% url 'HomeView' %}" class="form-inline my-2 my-lg-0 ml-auto mr-3" id="searchForm">
+        <input class="form-control" type="search" name="q" placeholder="Search products"
+               aria-label="Search" value="{{ request.GET.q }}">
+      </form>
+      <ul class="navbar-nav">
+       <li class="nav-item">
+  <a class="nav-link" href="{% url 'CategoryListView' %}">
+    <i class="fas fa-th-large"></i> Collections
+  </a>
+</li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
         {% if user.is_authenticated %}
         <li class="nav-item"><a class="nav-link">Hey, {{ request.user.username }}</a></li>
@@ -792,7 +831,7 @@
         <li class="nav-item">
           <a class="nav-link" href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}javascript:void(0);{% endif %}" 
              {% if not user.is_authenticated %}onclick="showLoginAlert()"{% endif %}>
-            <span class="badge badge-pill badge-primary mr-1">{{ request.user.cart.items.count }}</span>
+            <span class="badge red z-depth-1 mr-1">{{ request.user.cart.items.count }}</span>
             <i class="fas fa-shopping-cart"></i> Cart
           </a>
         </li>
@@ -801,8 +840,6 @@
   </div>
 </nav>
 
-<!-- এরপর তোমার carousel, products section, etc. থাকবে -->
-
 <!-- Carousel -->
 <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
   <ol class="carousel-indicators">
@@ -810,56 +847,49 @@
     <li data-target="#carousel-example" data-slide-to="1"></li>
     <li data-target="#carousel-example" data-slide-to="2"></li>
   </ol>
- <div class="carousel-item active">
-  <div class="view" style="background-image: url('{% static "image/wallpaper 1.png" %}');">
-    <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-      <div>
-        <h1 class="topnoz-main-title">Topnoz</h1>
-        <h2 class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</h2>
-        <p class="topnoz-subtext">
-          Top Thoughts. Top Looks. <span class="topnoz-brand">TopNoz</span>
-        </p>
-        <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-          EXPLORE PRODUCTS <span class="divider">|</span> Trendy Tops
-        </a>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="view" style="background-image: url('{% static "image\wallpaper 1.png" %}');">
+        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
+          <div>
+            <h1 class="topnoz-main-title">Topnoz</h1>
+<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
+<p class="topnoz-subtext">Top Thoughts. Top Looks. TopNoz</p>
+            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
+  EXPLORE PRODUCTS <span class="divider">|</span> Trendy Tops
+</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="carousel-item">
-  <div class="view" style="background-image: url('{% static "image/topnoz cover 2.jpg" %}');">
-    <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-      <div>
-        <h1 class="topnoz-main-title">Topnoz</h1>
-        <h2 class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</h2>
-        <p class="topnoz-subtext">
-          Top Thoughts. Top Looks. <span class="topnoz-brand">TopNoz</span>
-        </p>
-        <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-          EXPLORE PRODUCTS <span class="divider">|</span> Top Categories
-        </a>
+    <div class="carousel-item">
+      <div class="view" style="background-image: url('{% static "image/topnoz cover 2.jpg" %}');">
+        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
+          <div>
+            <h1 class="topnoz-main-title">Topnoz</h1>
+<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
+<p class="topnoz-subtext">Top Thoughts. Top Looks. TopNoz</p>
+            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
+  EXPLORE PRODUCTS <span class="divider">|</span> Top Categories
+</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="carousel-item">
-  <div class="view" style="background-image: url('{% static "image/cover.jpg" %}');">
-    <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-      <div>
-        <h1 class="topnoz-main-title">Topnoz</h1>
-        <h2 class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</h2>
-        <p class="topnoz-subtext">
-          Top Thoughts. Top Looks. <span class="topnoz-brand">TopNoz</span>
-        </p>
-        <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-          EXPLORE PRODUCTS <span class="divider">|</span> Find Your Fit
-        </a>
+    <div class="carousel-item">
+      <div class="view" style="background-image: url('{% static "image/cover.jpg" %}');">
+        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
+          <div>
+           <h1 class="topnoz-main-title">Topnoz</h1>
+<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
+<p class="topnoz-subtext">Top Thoughts. Top Looks. TopNoz</p>
+            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
+  EXPLORE PRODUCTS <span class="divider">|</span> Find Your Fit
+</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
   </div>
   <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -1061,6 +1091,7 @@
       this.style.transform = 'scale(1)';
     });
   });
+
   $('.navbar-toggler').on('click', function() {
   setTimeout(function() {
     if ($('#navbarContent').hasClass('show')) {

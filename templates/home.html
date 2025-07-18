@@ -659,6 +659,88 @@
         letter-spacing: 1.2px;
       }
     }
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10,10,10,0.97);
+    z-index: 2000;
+    padding-top: 80px;
+    transition: all 0.3s;
+    overflow-y: auto;
+    display: none;
+  }
+  .navbar-collapse.show {
+    display: block !important;
+  }
+  .navbar-nav {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .navbar-nav .nav-item {
+    margin: 18px 0;
+    width: 80%;
+    text-align: center;
+  }
+  .navbar .form-inline {
+    width: 90%;
+    margin: 0 auto 20px auto;
+  }
+  /* Logo-container menu overlay-এর নিচে যাবে */
+  .logo-container {
+    z-index: 100;
+  }
+}
+
+   .topnoz-tagline {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  margin-bottom: 0.5rem;
+  position: relative;
+  animation: fadeInDown 1.2s, topnozGlow 2.5s infinite alternate;
+}
+.topnoz-tagline::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 2px;
+  margin: 12px auto 0 auto;
+}
+.topnoz-subtext {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 1.2rem;
+  opacity: 0.92;
+  text-shadow: 0 1px 6px rgba(255,215,0,0.10);
+  animation: fadeInUp 1.2s;
+}
+.topnoz-brand {
+  color: var(--gold);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+@media (max-width: 576px) {
+  .topnoz-tagline { font-size: 1.2rem; }
+  .topnoz-subtext { font-size: 0.9rem; }
+  .topnoz-tagline::after { width: 36px; height: 3px; }
+}
+@keyframes topnozGlow {
+  0% { text-shadow: 0 2px 12px rgba(0,0,0,0.18);}
+  100% { text-shadow: 0 4px 24px var(--gold);}
+}
   </style>
 
   <!-- Google tag (gtag.js) -->
@@ -672,34 +754,33 @@
 </head>
 <body>
 
-<!-- Logo -->
+<!-- Logo (fixed, always top left) -->
 <div class="logo-container">
   <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="logo-img">
   <span class="logo-text">Topnoz</span>
 </div>
 
-<!-- Navbar -->
+<!-- Navbar (logo-container-এর নিচে) -->
 <nav class="navbar fixed-top navbar-expand-lg scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'HomeView' %}"><strong></strong></a>
-    <span class="topnoz-slogan d-none d-md-inline">Style. Comfort. Confidence. Always.</span>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarContent" aria-controls="navbarContent"
-            aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Brand/logo (navbar-এর জন্য, চাইলে শুধু logo রাখো) -->
+    <a class="navbar-brand" href="{% url 'HomeView' %}">
+      <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" style="height:28px; margin-right:8px;">
+      Topnoz
+    </a>
+    <!-- Hamburger menu button (mobile) -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+    <!-- Menu items -->
     <div class="collapse navbar-collapse" id="navbarContent">
-      <form method="get" action="{% url 'HomeView' %}" class="form-inline my-2 my-lg-0 ml-auto mr-3" id="searchForm">
-        <input class="form-control" type="search" name="q" placeholder="Search products"
-               aria-label="Search" value="{{ request.GET.q }}">
-      </form>
-      <ul class="navbar-nav">
-       <li class="nav-item">
-  <a class="nav-link" href="{% url 'CategoryListView' %}">
-    <i class="fas fa-th-large"></i> Collections
-  </a>
-</li>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'CategoryListView' %}">
+            <i class="fas fa-th-large"></i> Collections
+          </a>
+        </li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
         {% if user.is_authenticated %}
         <li class="nav-item"><a class="nav-link">Hey, {{ request.user.username }}</a></li>
@@ -720,6 +801,8 @@
   </div>
 </nav>
 
+<!-- এরপর তোমার carousel, products section, etc. থাকবে -->
+
 <!-- Carousel -->
 <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
   <ol class="carousel-indicators">
@@ -727,49 +810,56 @@
     <li data-target="#carousel-example" data-slide-to="1"></li>
     <li data-target="#carousel-example" data-slide-to="2"></li>
   </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="view" style="background-image: url('{% static "image/wallpaper 1.png" %}');">
-        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-          <div>
-            <h1 class="topnoz-main-title">Topnoz</h1>
-<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
-<p class="topnoz-subtext">Top Thoughts. Top Looks. TopNoz</p>
-            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-  EXPLORE PRODUCTS <span class="divider">|</span> Trendy Tops
-</a>
-          </div>
-        </div>
+ <div class="carousel-item active">
+  <div class="view" style="background-image: url('{% static "image/wallpaper 1.png" %}');">
+    <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
+      <div>
+        <h1 class="topnoz-main-title">Topnoz</h1>
+        <h2 class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</h2>
+        <p class="topnoz-subtext">
+          Top Thoughts. Top Looks. <span class="topnoz-brand">TopNoz</span>
+        </p>
+        <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
+          EXPLORE PRODUCTS <span class="divider">|</span> Trendy Tops
+        </a>
       </div>
     </div>
-    <div class="carousel-item">
-      <div class="view" style="background-image: url('{% static "image/topnoz cover 2.jpg" %}');">
-        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-          <div>
-            <h1 class="topnoz-main-title">Topnoz</h1>
-<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
-<p class="topnoz-subtext">Top Thoughts. Top Looks. TopNoz</p>
-            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-  EXPLORE PRODUCTS <span class="divider">|</span> Top Categories
-</a>
-          </div>
-        </div>
+  </div>
+</div>
+
+<div class="carousel-item">
+  <div class="view" style="background-image: url('{% static "image/topnoz cover 2.jpg" %}');">
+    <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
+      <div>
+        <h1 class="topnoz-main-title">Topnoz</h1>
+        <h2 class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</h2>
+        <p class="topnoz-subtext">
+          Top Thoughts. Top Looks. <span class="topnoz-brand">TopNoz</span>
+        </p>
+        <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
+          EXPLORE PRODUCTS <span class="divider">|</span> Top Categories
+        </a>
       </div>
     </div>
-    <div class="carousel-item">
-      <div class="view" style="background-image: url('{% static "image/cover.jpg" %}');">
-        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-          <div>
-           <h1 class="topnoz-main-title">Topnoz</h1>
-<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
-<p class="topnoz-subtext">Top Thoughts. Top Looks. TopNoz</p>
-            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-  EXPLORE PRODUCTS <span class="divider">|</span> Find Your Fit
-</a>
-          </div>
-        </div>
+  </div>
+</div>
+
+<div class="carousel-item">
+  <div class="view" style="background-image: url('{% static "image/cover.jpg" %}');">
+    <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
+      <div>
+        <h1 class="topnoz-main-title">Topnoz</h1>
+        <h2 class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</h2>
+        <p class="topnoz-subtext">
+          Top Thoughts. Top Looks. <span class="topnoz-brand">TopNoz</span>
+        </p>
+        <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
+          EXPLORE PRODUCTS <span class="divider">|</span> Find Your Fit
+        </a>
       </div>
     </div>
+  </div>
+</div>
   </div>
   <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -971,6 +1061,18 @@
       this.style.transform = 'scale(1)';
     });
   });
+  $('.navbar-toggler').on('click', function() {
+  setTimeout(function() {
+    if ($('#navbarContent').hasClass('show')) {
+      $('body').css('overflow', 'hidden');
+    } else {
+      $('body').css('overflow', 'auto');
+    }
+  }, 350);
+});
+$('.navbar-nav .nav-link').on('click', function() {
+  $('body').css('overflow', 'auto');
+});
 </script>
 </body>
 </html>

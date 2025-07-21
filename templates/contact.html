@@ -10,15 +10,13 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style type="text/css">
         :root {
             --black: #000000;
@@ -26,47 +24,43 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--white);
             color: var(--black);
-            letter-spacing: 0.5px;
+            letter-spacing: 0.2px;
+            font-weight: 500;
         }
         
         h1, h2, h3, h4, h5, h6 {
-            font-weight: 900 !important;
+            font-weight: 600 !important;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
+            font-size: 1.1rem;
         }
         
         /* NAVBAR */
         .navbar {
             background-color: var(--black) !important;
-            border-bottom: 1px solid var(--white);
-            padding: 15px 0;
+            padding: 12px 0;
             transition: all 0.3s ease;
         }
         
-        .navbar.scrolled {
-            padding: 10px 0;
-        }
-        
         .navbar-brand {
-            font-weight: 900;
-            font-size: 1.8rem;
-            letter-spacing: 3px;
+            font-weight: 600;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
             color: var(--white) !important;
         }
         
         .nav-link {
             color: var(--white) !important;
-            font-weight: 700;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 0.8rem;
-            padding: 8px 15px !important;
-            margin: 0 5px;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            padding: 8px 12px !important;
+            margin: 0 3px;
             position: relative;
-            transition: all 0.3s ease;
         }
         
         .nav-link:hover {
@@ -75,37 +69,34 @@
         }
         
         .nav-link.active {
-            font-weight: 900;
+            font-weight: 600;
         }
         
         .nav-link.active:after {
             content: '';
             position: absolute;
-            bottom: -3px;
-            left: 15px;
-            width: calc(100% - 30px);
-            height: 2px;
+            bottom: -2px;
+            left: 12px;
+            width: calc(100% - 24px);
+            height: 1px;
             background: var(--white);
         }
         
         .navbar-toggler {
-            border: 1px solid var(--white);
-            color: var(--white);
-        }
-        
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            border: none;
+            padding: 0.25rem 0.5rem;
         }
         
         /* BUTTONS */
         .btn-topnoz {
             background-color: var(--black);
             color: var(--white);
-            border: 1px solid var(--white);
-            font-weight: 700;
+            border: 1px solid var(--black);
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 12px 30px;
+            letter-spacing: 1px;
+            padding: 10px 24px;
+            font-size: 0.75rem;
             transition: all 0.3s ease;
         }
         
@@ -117,107 +108,105 @@
         
         /* CARDS & SECTIONS */
         .contact-card {
-            background: var(--black);
-            color: var(--white);
-            border: 1px solid var(--white);
-            border-radius: 0;
+            background: var(--white);
+            color: var(--black);
+            border: none;
         }
         
         .contact-card .card-header {
-            border-bottom: 1px solid var(--white);
-            padding: 20px;
-        }
-        
-        .contact-card .card-header h4 {
-            color: var(--white);
-            letter-spacing: 3px;
+            border-bottom: 1px solid var(--black);
+            padding: 16px;
+            background: var(--white);
         }
         
         .contact-info-item {
-            background: var(--black);
-            color: var(--white);
-            border: 1px solid var(--white);
-            padding: 20px;
-            margin-bottom: 15px;
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid var(--black);
+            padding: 16px;
+            margin-bottom: 12px;
             transition: all 0.3s ease;
         }
         
         .contact-info-item:hover {
-            background: var(--white);
-            color: var(--black);
+            background: var(--black);
+            color: var(--white);
         }
         
         .contact-info-item i {
-            margin-right: 10px;
+            margin-right: 8px;
+            font-size: 0.9rem;
         }
         
         /* FORMS */
         .form-control {
-            background: var(--black);
-            color: var(--white);
-            border: 1px solid var(--white);
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid var(--black);
+            padding: 10px 12px;
+            font-weight: 500;
+            font-size: 0.85rem;
             border-radius: 0;
-            padding: 12px 15px;
-            font-weight: 700;
-            transition: all 0.3s ease;
         }
         
         .form-control:focus {
-            background: var(--black);
-            color: var(--white);
-            border: 1px solid var(--white);
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid var(--black);
             box-shadow: none;
         }
         
         .form-control::placeholder {
-            color: var(--white);
-            opacity: 0.7;
-            font-weight: 700;
+            color: var(--black);
+            opacity: 0.6;
+            font-weight: 500;
+            font-size: 0.85rem;
         }
         
         label {
-            font-weight: 700;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            margin-bottom: 6px;
         }
         
         /* MAP */
         .contact-map {
+            margin-bottom: 24px;
             border: 1px solid var(--black);
-            margin-bottom: 30px;
         }
         
         /* FOOTER */
         .footer {
             background: var(--black);
             color: var(--white);
-            border-top: 1px solid var(--white);
-            padding: 30px 0 20px;
+            padding: 24px 0 16px;
         }
         
         .footer h5 {
-            letter-spacing: 3px;
-            margin-bottom: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
         }
         
         .footer p {
             font-weight: 400;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
         }
         
         .social-icons a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: var(--black);
             color: var(--white);
             border: 1px solid var(--white);
-            border-radius: 50%;
             transition: all 0.3s ease;
-            margin: 0 8px;
+            margin: 0 6px;
+            font-size: 0.9rem;
         }
         
         .social-icons a:hover {
@@ -226,14 +215,14 @@
         }
         
         .footer-copyright {
-            border-top: 1px solid var(--white);
-            padding-top: 20px;
-            margin-top: 20px;
+            padding-top: 16px;
+            margin-top: 16px;
+            font-size: 0.75rem;
         }
         
         .footer-copyright a {
             color: var(--white);
-            font-weight: 700;
+            font-weight: 500;
         }
         
         /* LOADING OVERLAY */
@@ -244,18 +233,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--black);
+            background: rgba(0,0,0,0.95);
             z-index: 9999;
             justify-content: center;
             align-items: center;
             color: var(--white);
+            font-size: 0.9rem;
         }
         
         .spinner {
-            width: 70px;
-            height: 70px;
-            border: 5px solid var(--white);
-            border-top: 5px solid var(--black);
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid var(--white);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -269,42 +259,42 @@
         .success-message {
             background: var(--black);
             color: var(--white);
-            border-top: 1px solid var(--white);
-            padding: 20px;
+            padding: 16px;
             text-align: center;
+            font-size: 0.85rem;
         }
         
         .success-message i {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
         }
         
-        /* RESPONSIVE ADJUSTMENTS */
+        /* RESPONSIVE */
         @media (max-width: 767px) {
             .navbar {
-                padding: 10px 0;
+                padding: 8px 0;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
             }
             
             .nav-link {
-                margin: 5px 0;
-                padding: 10px 15px !important;
-            }
-            
-            .contact-map, .contact-card {
-                margin-bottom: 25px;
+                padding: 6px 10px !important;
+                font-size: 0.7rem;
             }
             
             .contact-info-item {
-                padding: 15px;
-            }
-            
-            body {
-                font-size: 0.9rem;
+                padding: 12px;
             }
             
             h1, h2, h3, h4, h5, h6 {
-                font-size: 1.2rem;
-                letter-spacing: 1px;
+                font-size: 1rem;
+            }
+            
+            .btn-topnoz {
+                padding: 8px 20px;
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -323,11 +313,11 @@
 <!-- Loading Overlay -->
 <div class="loading-overlay">
     <div class="spinner"></div>
-    <div class="mt-4">SENDING YOUR MESSAGE...</div>
+    <div class="mt-3">SENDING MESSAGE...</div>
 </div>
 
 <!-- Navbar -->
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark">
     <div class="container">
 
         <!-- Brand -->
@@ -354,8 +344,7 @@
                     <a class="nav-link" href="#">CONTACT</a>
                 </li>
 
-                 <!--Display menu upon conditions::authenticated-->
-                {% if user.is_authenticated %}
+                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fas fa-user-circle mr-1"></i> {{ request.user.username|upper }}
@@ -389,48 +378,48 @@
 <!-- Navbar -->
 
 <!--Contact Page-->
-<div style="margin-top: 7%"></div>
-<div class="container animate__animated animate__fadeIn">
+<div style="margin-top: 6%"></div>
+<div class="container">
     <div class="row">
         <!--Divide page into two-->
-        <div class="col-lg-6 mb-5">
+        <div class="col-lg-6 mb-4">
             <!--map generated here:: https://www.maps.ie/create-google-map/-->
-            <div class="contact-map animate__animated animate__fadeInLeft">
+            <div class="contact-map">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.9974481810477!2d90.26433101498167!3d23.881278489090732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755e9e322582c87%3A0x5b6f9f778d0b56ed!2sJahangirnagar%20University!5e0!3m2!1sen!2sbd!4v1681006795413!5m2!1sen!2sbd"
-                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    width="100%" height="360" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
-            <div class="mt-4">
-                <h4 class="animate__animated animate__fadeIn mb-4">OUR LOCATION</h4>
-                <div class="contact-info-item animate__animated animate__fadeInLeft">
+            <div class="mt-3">
+                <h4 class="mb-3">OUR LOCATION</h4>
+                <div class="contact-info-item">
                     <p class="mb-0">
                         <i class="fas fa-map-marker-alt mr-2"></i>
-                        <strong>ADDRESS:</strong> JAHANGIRNAGAR UNIVERSITY, SAVAR, DHAKA, BANGLADESH
+                        <strong>ADDRESS:</strong> JAHANGIRNAGAR UNIVERSITY, SAVAR, DHAKA
                     </p>
                 </div>
-                <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-1s">
+                <div class="contact-info-item">
                     <p class="mb-0">
                         <i class="fas fa-phone mr-2"></i>
                         <strong>PHONE:</strong> 01575306583
                     </p>
                 </div>
-                <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-2s">
+                <div class="contact-info-item">
                     <p class="mb-0">
                         <i class="fas fa-envelope mr-2"></i>
                         <strong>EMAIL:</strong> TOPNOZWEB@GMAIL.COM
                     </p>
                 </div>
-                <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-3s">
+                <div class="contact-info-item">
                     <p class="mb-0">
                         <i class="fas fa-clock mr-2"></i>
-                        <strong>HOURS:</strong> 9:00 AM - 8:00 PM, MON-SAT
+                        <strong>HOURS:</strong> 9AM - 8PM, MON-SAT
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-6 mb-5">
-            <div class="card contact-card animate__animated animate__fadeInRight">
+        <div class="col-lg-6 mb-4">
+            <div class="card contact-card">
                 <div class="card-header">
                     <div class="card-title text-center">
                         <h4 class="mb-0">GET IN TOUCH</h4>
@@ -438,22 +427,21 @@
                 </div>
                 <div class="card-body">
                     <form id="contactForm" action="{% url 'contact' %}" method="post">
-                        <!--Add a cross site request token forgery to the site-->
                         {% csrf_token %}
-                        <div class="form-group animate__animated animate__fadeIn">
-                            <label for="name">YOUR NAME:</label>
-                            <input type="text" class="form-control" name="message_name" placeholder="ENTER YOUR NAME" required>
+                        <div class="form-group">
+                            <label for="name">YOUR NAME</label>
+                            <input type="text" class="form-control" name="message_name" placeholder="Enter your name" required>
                         </div>
-                        <div class="form-group animate__animated animate__fadeIn animate__delay-1s">
-                            <label for="email">EMAIL ADDRESS:</label>
-                            <input type="email" class="form-control" placeholder="ENTER EMAIL" name="message_email" required>
+                        <div class="form-group">
+                            <label for="email">EMAIL ADDRESS</label>
+                            <input type="email" class="form-control" placeholder="Enter email" name="message_email" required>
                         </div>
-                         <div class="form-group animate__animated animate__fadeIn animate__delay-2s">
-                            <label for="message">MESSAGE:</label>
-                            <textarea class="form-control" name="user_message" rows="6" placeholder="YOUR MESSAGE" required></textarea>
+                         <div class="form-group">
+                            <label for="message">MESSAGE</label>
+                            <textarea class="form-control" name="user_message" rows="5" placeholder="Your message" required></textarea>
                         </div>
 
-                        <button class="btn btn-topnoz animate__animated animate__fadeIn animate__delay-3s mt-4" type="submit">
+                        <button class="btn btn-topnoz mt-3" type="submit">
                             <span id="submitText"><i class="fas fa-paper-plane mr-2"></i> SEND MESSAGE</span>
                             <span id="submitSpinner" class="d-none">
                                 <i class="fas fa-spinner fa-spin mr-2"></i> SENDING...
@@ -465,7 +453,7 @@
                 <div class="success-message">
                     <i class="fas fa-check-circle"></i>
                     <h5 class="mb-2">{{ congratulations_message|upper }}</h5>
-                    <p class="mb-0">WE'LL GET BACK TO YOU WITHIN 24 HOURS!</p>
+                    <p class="mb-0">WE'LL RESPOND WITHIN 24 HOURS</p>
                 </div>
                 {% endif %}
             </div>
@@ -473,31 +461,26 @@
     </div>
 </div>
 <!--End Contact Page-->
-<br>
+
 <!--Footer-->
-<footer class="page-footer text-center font-small mt-5 pt-4 pb-3 footer">
+<footer class="page-footer text-center font-small mt-4 footer">
 
     <!--Call to action-->
     <div class="pt-2">
-        <h5 class="mb-3">TOPNØZ CLOTHING - FASHION REDEFINED</h5>
-        <p class="mb-4">PREMIUM QUALITY CLOTHING FOR THE MODERN GENERATION</p>
-        <div class="social-icons mb-4">
+        <h5 class="mb-2">TOPNØZ CLOTHING</h5>
+        <p class="mb-3">PREMIUM QUALITY CLOTHING</p>
+        <div class="social-icons mb-3">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
             <a href="#"><i class="fab fa-twitter"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
             <a href="#"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </div>
-    <!--/.Call to action-->
-
-    <hr style="border-color: var(--white);">
 
     <!--Copyright-->
     <div class="footer-copyright">
-        © 2023 COPYRIGHT:
-        <a href="{% url 'HomeView' %}"> TOPNØZ CLOTHING</a>
+        © 2023 <a href="{% url 'HomeView' %}">TOPNØZ CLOTHING</a>
     </div>
-    <!--/.Copyright-->
 
 </footer>
 <!--/.Footer-->
@@ -513,40 +496,18 @@
 <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
 <!-- Initializations -->
 <script type="text/javascript">
-    // Animations initialization
-    new WOW().init();
-
-    // Form submission handling
     $(document).ready(function() {
         $('#contactForm').on('submit', function(e) {
-            // Show loading state
             $('#submitText').addClass('d-none');
             $('#submitSpinner').removeClass('d-none');
             $('.loading-overlay').css('display', 'flex');
-            
-            // You can add AJAX submission here if needed
-            // Otherwise, the form will submit normally
         });
         
-        // Navbar scroll effect
         $(window).scroll(function() {
             if ($(this).scrollTop() > 50) {
                 $('.navbar').addClass('scrolled');
             } else {
                 $('.navbar').removeClass('scrolled');
-            }
-        });
-        
-        // Add smooth scrolling to all links
-        $("a").on('click', function(event) {
-            if (this.hash !== "") {
-                event.preventDefault();
-                var hash = this.hash;
-                $('html, body').animate({
-                    scrollTop: $(hash).offset().top
-                }, 800, function(){
-                    window.location.hash = hash;
-                });
             }
         });
     });

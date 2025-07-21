@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Topnoz Clothing | Contact Us</title>
+    <title>TOPNØZ | CONTACT</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -20,69 +20,223 @@
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style type="text/css">
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #0a0a0a;
-            color: #f5f5f5;
-        }
-        .topnoz-bg {
-            background-color: #0a0a0a;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .topnoz-text {
-            color: #6C5CE7;
-        }
-        .btn-topnoz {
-            background-color: #6C5CE7;
-            color: white;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translateY(0);
-            border: none;
-            font-weight: 500;
+            background-color: var(--white);
+            color: var(--black);
             letter-spacing: 0.5px;
         }
-        .btn-topnoz:hover {
-            background-color: #5649c7;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 900 !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .contact-map {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .contact-map:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-        .contact-card {
-            border-radius: 12px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: #1a1a1a;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-        .form-control {
+        
+        /* NAVBAR */
+        .navbar {
+            background-color: var(--black) !important;
+            border-bottom: 1px solid var(--white);
+            padding: 15px 0;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-            background-color: #2a2a2a;
-            color: #f5f5f5;
+        }
+        
+        .navbar.scrolled {
+            padding: 10px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            color: var(--white) !important;
+        }
+        
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            padding: 8px 15px !important;
+            margin: 0 5px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--black) !important;
+            background: var(--white);
+        }
+        
+        .nav-link.active {
+            font-weight: 900;
+        }
+        
+        .nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 15px;
+            width: calc(100% - 30px);
+            height: 2px;
+            background: var(--white);
+        }
+        
+        .navbar-toggler {
+            border: 1px solid var(--white);
+            color: var(--white);
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        /* BUTTONS */
+        .btn-topnoz {
+            background-color: var(--black);
+            color: var(--white);
+            border: 1px solid var(--white);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-topnoz:hover {
+            background-color: var(--white);
+            color: var(--black);
+            border: 1px solid var(--black);
+        }
+        
+        /* CARDS & SECTIONS */
+        .contact-card {
+            background: var(--black);
+            color: var(--white);
+            border: 1px solid var(--white);
+            border-radius: 0;
+        }
+        
+        .contact-card .card-header {
+            border-bottom: 1px solid var(--white);
+            padding: 20px;
+        }
+        
+        .contact-card .card-header h4 {
+            color: var(--white);
+            letter-spacing: 3px;
+        }
+        
+        .contact-info-item {
+            background: var(--black);
+            color: var(--white);
+            border: 1px solid var(--white);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-item:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+        
+        .contact-info-item i {
+            margin-right: 10px;
+        }
+        
+        /* FORMS */
+        .form-control {
+            background: var(--black);
+            color: var(--white);
+            border: 1px solid var(--white);
+            border-radius: 0;
             padding: 12px 15px;
-            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s ease;
         }
+        
         .form-control:focus {
-            border-color: #6C5CE7;
-            box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
-            background-color: #2a2a2a;
-            color: #f5f5f5;
+            background: var(--black);
+            color: var(--white);
+            border: 1px solid var(--white);
+            box-shadow: none;
         }
+        
+        .form-control::placeholder {
+            color: var(--white);
+            opacity: 0.7;
+            font-weight: 700;
+        }
+        
+        label {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+        
+        /* MAP */
+        .contact-map {
+            border: 1px solid var(--black);
+            margin-bottom: 30px;
+        }
+        
+        /* FOOTER */
+        .footer {
+            background: var(--black);
+            color: var(--white);
+            border-top: 1px solid var(--white);
+            padding: 30px 0 20px;
+        }
+        
+        .footer h5 {
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--black);
+            color: var(--white);
+            border: 1px solid var(--white);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            margin: 0 8px;
+        }
+        
+        .social-icons a:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+        
+        .footer-copyright {
+            border-top: 1px solid var(--white);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .footer-copyright a {
+            color: var(--white);
+            font-weight: 700;
+        }
+        
+        /* LOADING OVERLAY */
         .loading-overlay {
             display: none;
             position: fixed;
@@ -90,128 +244,67 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: var(--black);
             z-index: 9999;
             justify-content: center;
             align-items: center;
+            color: var(--white);
         }
+        
         .spinner {
             width: 70px;
             height: 70px;
-            border: 5px solid rgba(255,255,255,0.1);
-            border-top: 5px solid #6C5CE7;
+            border: 5px solid var(--white);
+            border-top: 5px solid var(--black);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* SUCCESS MESSAGE */
         .success-message {
-            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: rgba(40, 167, 69, 0.1);
-            border-radius: 0 0 12px 12px;
-            padding: 15px;
+            background: var(--black);
+            color: var(--white);
+            border-top: 1px solid var(--white);
+            padding: 20px;
+            text-align: center;
         }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        
+        .success-message i {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
-        .contact-info-item {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            background: #1a1a1a;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .contact-info-item:hover {
-            background: rgba(108, 92, 231, 0.1);
-            transform: translateX(8px);
-            border-color: rgba(108, 92, 231, 0.3);
-        }
-        .navbar {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            background-color: #0a0a0a;
-            padding: 12px 0;
-        }
-        .navbar.scrolled {
-            background-color: #0a0a0a !important;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-            padding: 8px 0;
-        }
-        .nav-link {
-            color: #f5f5f5 !important;
-            font-weight: 500;
-            padding: 8px 15px !important;
-            margin: 0 5px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        .nav-link:hover {
-            background: rgba(108, 92, 231, 0.2);
-        }
-        .nav-link.active {
-            background: rgba(108, 92, 231, 0.3);
-        }
-        .nav-link.active:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 15px;
-            width: calc(100% - 30px);
-            height: 2px;
-            background: #6C5CE7;
-            border-radius: 2px;
-        }
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: 0.5px;
-        }
-        label {
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        .footer {
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            margin: 0 8px;
-        }
-        .social-icons a:hover {
-            background: #6C5CE7;
-            transform: translateY(-3px);
-        }
+        
+        /* RESPONSIVE ADJUSTMENTS */
         @media (max-width: 767px) {
             .navbar {
                 padding: 10px 0;
             }
+            
             .nav-link {
                 margin: 5px 0;
                 padding: 10px 15px !important;
             }
+            
             .contact-map, .contact-card {
                 margin-bottom: 25px;
             }
+            
             .contact-info-item {
                 padding: 15px;
+            }
+            
+            body {
+                font-size: 0.9rem;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
             }
         }
     </style>
@@ -230,7 +323,7 @@
 <!-- Loading Overlay -->
 <div class="loading-overlay">
     <div class="spinner"></div>
-    <div class="text-white mt-4" style="position: absolute; top: 60%;">Sending your message...</div>
+    <div class="mt-4">SENDING YOUR MESSAGE...</div>
 </div>
 
 <!-- Navbar -->
@@ -238,8 +331,8 @@
     <div class="container">
 
         <!-- Brand -->
-        <a class="navbar-brand waves-effect" href="{% url 'HomeView' %}">
-            <strong class="topnoz-text">Topnoz Clothing</strong>
+        <a class="navbar-brand" href="{% url 'HomeView' %}">
+            TOPNØZ
         </a>
 
         <!-- Collapse -->
@@ -254,43 +347,35 @@
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="{% url 'HomeView' %}">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
+                    <a class="nav-link" href="{% url 'HomeView' %}">HOME</a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link waves-effect" href="#">Contact
-                        <span class="sr-only">(current)</span>
-                    </a>
+                    <a class="nav-link" href="#">CONTACT</a>
                 </li>
 
                  <!--Display menu upon conditions::authenticated-->
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="#">
-                            <i class="fas fa-user-circle mr-1"></i> {{ request.user.username }}
-                            <span class="sr-only">(current)</span>
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user-circle mr-1"></i> {{ request.user.username|upper }}
                         </a>
                     </li>
                      <li class="nav-item">
-                        <a class="nav-link waves-effect" href="{% url 'logout' %}">
-                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
-                            <span class="sr-only">(current)</span>
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt mr-1"></i> LOGOUT
                         </a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="{% url 'register' %}">
-                            <i class="fas fa-user-plus mr-1"></i> Register
-                            <span class="sr-only">(current)</span>
+                        <a class="nav-link" href="{% url 'register' %}">
+                            <i class="fas fa-user-plus mr-1"></i> REGISTER
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="{% url 'userLogin' %}">
-                            <i class="fas fa-sign-in-alt mr-1"></i> Login
-                            <span class="sr-only">(current)</span>
+                        <a class="nav-link" href="{% url 'userLogin' %}">
+                            <i class="fas fa-sign-in-alt mr-1"></i> LOGIN
                         </a>
                     </li>
                 {% endif %}
@@ -316,29 +401,29 @@
             </div>
             
             <div class="mt-4">
-                <h4 class="topnoz-text animate__animated animate__fadeIn mb-4">Our Location</h4>
+                <h4 class="animate__animated animate__fadeIn mb-4">OUR LOCATION</h4>
                 <div class="contact-info-item animate__animated animate__fadeInLeft">
                     <p class="mb-0">
-                        <i class="fas fa-map-marker-alt topnoz-text mr-2"></i>
-                        <strong>Address:</strong> Jahangirnagar University, Savar, Dhaka, Bangladesh
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        <strong>ADDRESS:</strong> JAHANGIRNAGAR UNIVERSITY, SAVAR, DHAKA, BANGLADESH
                     </p>
                 </div>
                 <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-1s">
                     <p class="mb-0">
-                        <i class="fas fa-phone topnoz-text mr-2"></i>
-                        <strong>Phone:</strong> 01575306583
+                        <i class="fas fa-phone mr-2"></i>
+                        <strong>PHONE:</strong> 01575306583
                     </p>
                 </div>
                 <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-2s">
                     <p class="mb-0">
-                        <i class="fas fa-envelope topnoz-text mr-2"></i>
-                        <strong>Email:</strong> topnozweb@gmail.com
+                        <i class="fas fa-envelope mr-2"></i>
+                        <strong>EMAIL:</strong> TOPNOZWEB@GMAIL.COM
                     </p>
                 </div>
                 <div class="contact-info-item animate__animated animate__fadeInLeft animate__delay-3s">
                     <p class="mb-0">
-                        <i class="fas fa-clock topnoz-text mr-2"></i>
-                        <strong>Hours:</strong> 9:00 AM - 8:00 PM, Mon-Sat
+                        <i class="fas fa-clock mr-2"></i>
+                        <strong>HOURS:</strong> 9:00 AM - 8:00 PM, MON-SAT
                     </p>
                 </div>
             </div>
@@ -346,9 +431,9 @@
 
         <div class="col-lg-6 mb-5">
             <div class="card contact-card animate__animated animate__fadeInRight">
-                <div class="card-header white-text topnoz-bg" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div class="card-header">
                     <div class="card-title text-center">
-                        <h4 class="mb-0">Get In Touch</h4>
+                        <h4 class="mb-0">GET IN TOUCH</h4>
                     </div>
                 </div>
                 <div class="card-body">
@@ -356,31 +441,31 @@
                         <!--Add a cross site request token forgery to the site-->
                         {% csrf_token %}
                         <div class="form-group animate__animated animate__fadeIn">
-                            <label for="name">Your Name:</label>
-                            <input type="text" class="form-control" name="message_name" placeholder="Enter Your Name" required>
+                            <label for="name">YOUR NAME:</label>
+                            <input type="text" class="form-control" name="message_name" placeholder="ENTER YOUR NAME" required>
                         </div>
                         <div class="form-group animate__animated animate__fadeIn animate__delay-1s">
-                            <label for="email">Email address:</label>
-                            <input type="email" class="form-control" placeholder="Enter email" name="message_email" required>
+                            <label for="email">EMAIL ADDRESS:</label>
+                            <input type="email" class="form-control" placeholder="ENTER EMAIL" name="message_email" required>
                         </div>
                          <div class="form-group animate__animated animate__fadeIn animate__delay-2s">
-                            <label for="message">Message:</label>
-                            <textarea class="form-control" name="user_message" rows="6" placeholder="Your Message" required></textarea>
+                            <label for="message">MESSAGE:</label>
+                            <textarea class="form-control" name="user_message" rows="6" placeholder="YOUR MESSAGE" required></textarea>
                         </div>
 
-                        <button class="form-control btn btn-topnoz animate__animated animate__fadeIn animate__delay-3s mt-4 py-2" type="submit">
-                            <span id="submitText"><i class="fas fa-paper-plane mr-2"></i> Send Message</span>
+                        <button class="btn btn-topnoz animate__animated animate__fadeIn animate__delay-3s mt-4" type="submit">
+                            <span id="submitText"><i class="fas fa-paper-plane mr-2"></i> SEND MESSAGE</span>
                             <span id="submitSpinner" class="d-none">
-                                <i class="fas fa-spinner fa-spin mr-2"></i> Sending...
+                                <i class="fas fa-spinner fa-spin mr-2"></i> SENDING...
                             </span>
                         </button>
                     </form>
                 </div>
                 {% if congratulations_message %}
-                <div class="card-footer text-center text-success success-message">
-                    <i class="fas fa-check-circle fa-2x mb-2"></i>
-                    <h5 class="mb-2">{{ congratulations_message }}</h5>
-                    <p class="mb-0">We'll get back to you within 24 hours!</p>
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <h5 class="mb-2">{{ congratulations_message|upper }}</h5>
+                    <p class="mb-0">WE'LL GET BACK TO YOU WITHIN 24 HOURS!</p>
                 </div>
                 {% endif %}
             </div>
@@ -390,27 +475,27 @@
 <!--End Contact Page-->
 <br>
 <!--Footer-->
-<footer class="page-footer text-center font-small mt-5 pt-4 pb-3 topnoz-bg white-text footer">
+<footer class="page-footer text-center font-small mt-5 pt-4 pb-3 footer">
 
     <!--Call to action-->
     <div class="pt-2">
-        <h5 class="mb-3">Topnoz Clothing - Fashion Redefined</h5>
-        <p class="mb-4">Premium quality clothing for the modern generation</p>
+        <h5 class="mb-3">TOPNØZ CLOTHING - FASHION REDEFINED</h5>
+        <p class="mb-4">PREMIUM QUALITY CLOTHING FOR THE MODERN GENERATION</p>
         <div class="social-icons mb-4">
-            <a href="#" class="text-white mx-1"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-white mx-1"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-white mx-1"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-white mx-1"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </div>
     <!--/.Call to action-->
 
-    <hr class="my-3" style="border-color: rgba(255,255,255,0.1);">
+    <hr style="border-color: var(--white);">
 
     <!--Copyright-->
-    <div class="footer-copyright pb-2">
-        © 2023 Copyright:
-        <a href="{% url 'HomeView' %}" class="text-white"> Topnoz Clothing</a>
+    <div class="footer-copyright">
+        © 2023 COPYRIGHT:
+        <a href="{% url 'HomeView' %}"> TOPNØZ CLOTHING</a>
     </div>
     <!--/.Copyright-->
 

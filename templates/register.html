@@ -10,7 +10,7 @@
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --black: #000000;
@@ -18,10 +18,11 @@
       --gold: #FFD700;
       --dark-gold: #D4AF37;
       --light-gray: #f5f5f5;
+      --transition: all 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
     }
     
     body {
-      font-family: 'Montserrat', 'Poppins', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: var(--white);
       color: var(--black);
       overflow-x: hidden;
@@ -30,41 +31,89 @@
       flex-direction: column;
     }
 
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+
     /* Navbar */
     .navbar {
       background: var(--black) !important;
-      z-index: 999;
-      box-shadow: none !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 12px 0;
+      transition: var(--transition);
     }
 
-    .navbar .nav-link, 
-    .navbar .navbar-brand {
+    .navbar.scrolled {
+      padding: 8px 0;
+    }
+
+    .navbar .nav-link {
       color: var(--white) !important;
-      font-weight: 600;
+      font-weight: 500;
+      font-size: 0.95rem;
       letter-spacing: 0.5px;
+      padding: 0.5rem 1.2rem;
+      margin: 0 0.25rem;
+      border-radius: 30px;
+      transition: var(--transition);
     }
 
-    .navbar .nav-link:hover, 
-    .navbar .navbar-brand:hover {
+    .navbar .nav-link:hover {
       color: var(--gold) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar .nav-link.active {
+      background: rgba(255,215,0,0.15);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .navbar-toggler:focus {
+      outline: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+      width: 1.5em;
+      height: 1.5em;
     }
 
     /* Logo */
     .logo-container {
       display: flex;
       align-items: center;
+      transition: var(--transition);
     }
 
     .logo-img {
-      height: 40px;
+      height: 36px;
       width: auto;
+      transition: var(--transition);
     }
 
     .logo-text {
       color: var(--white);
-      font-weight: bold;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
       margin-left: 10px;
-      font-size: 1.2rem;
+      letter-spacing: 1px;
+      transition: var(--transition);
+    }
+
+    .scrolled .logo-img {
+      height: 30px;
+    }
+
+    .scrolled .logo-text {
+      font-size: 1.1rem;
     }
 
     /* Registration Container */
@@ -72,23 +121,28 @@
       flex: 1;
       display: flex;
       align-items: center;
-      padding: 80px 0 40px;
+      padding: 100px 0 60px;
+      position: relative;
+      overflow: hidden;
     }
 
     .register-card {
       border: none;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+      transition: var(--transition);
       width: 100%;
       max-width: 800px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      background: var(--white);
     }
 
     .register-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
     }
 
     .card-header {
@@ -98,6 +152,7 @@
       text-align: center;
       border-bottom: none;
       position: relative;
+      overflow: hidden;
     }
 
     .card-header::before {
@@ -118,6 +173,7 @@
       margin: 0;
       position: relative;
       text-transform: uppercase;
+      color: var(--white);
     }
 
     .card-body {
@@ -131,7 +187,8 @@
       padding-left: 20px;
       border: 1px solid #e0e0e0;
       font-size: 15px;
-      transition: all 0.3s;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
     }
 
     .form-control:focus {
@@ -145,6 +202,7 @@
       top: 50%;
       transform: translateY(-50%);
       color: #aaa;
+      transition: var(--transition);
     }
 
     .btn-register {
@@ -156,10 +214,12 @@
       font-weight: 700;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      transition: all 0.3s;
+      transition: var(--transition);
       position: relative;
       overflow: hidden;
       width: 100%;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
     }
 
     .btn-register:hover {
@@ -176,8 +236,10 @@
     .login-link {
       color: var(--black);
       font-weight: 600;
-      transition: all 0.3s;
+      transition: var(--transition);
       position: relative;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
     }
 
     .login-link:hover {
@@ -203,6 +265,25 @@
     .alert {
       border-radius: 8px;
       margin-top: 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Background Elements */
+    .bg-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .bg-element {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,215,0,0.05);
+      animation: float 15s infinite linear;
     }
 
     /* Animations */
@@ -211,14 +292,89 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
     /* Responsive Styles */
+    @media (max-width: 991.98px) {
+      .register-container {
+        padding: 90px 0 50px;
+      }
+      
+      .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0,0,0,0.95);
+        padding: 80px 20px 30px;
+        z-index: 1000;
+        overflow-y: auto;
+        backdrop-filter: blur(5px);
+        transition: all 0.4s ease;
+        transform: translateX(-100%);
+      }
+      
+      .navbar-collapse.show {
+        transform: translateX(0);
+      }
+      
+      .navbar-nav {
+        margin-top: 30px;
+      }
+      
+      .nav-item {
+        margin: 10px 0;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 0.5s forwards;
+      }
+      
+      .nav-item:nth-child(1) { animation-delay: 0.1s; }
+      .nav-item:nth-child(2) { animation-delay: 0.2s; }
+      .nav-item:nth-child(3) { animation-delay: 0.3s; }
+      .nav-item:nth-child(4) { animation-delay: 0.4s; }
+      .nav-item:nth-child(5) { animation-delay: 0.5s; }
+      
+      .navbar-toggler {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1100;
+        background: rgba(0,0,0,0.7);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .logo-container {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1100;
+      }
+    }
+
     @media (max-width: 768px) {
       .register-container {
-        padding: 60px 15px 30px;
+        padding: 80px 0 40px;
       }
       
       .card-header {
-        padding: 25px;
+        padding: 25px 20px;
       }
       
       .card-title {
@@ -228,23 +384,50 @@
       .card-body {
         padding: 30px 20px;
       }
+      
+      .form-control {
+        height: 48px;
+      }
+      
+      .btn-register {
+        height: 48px;
+      }
     }
 
     @media (max-width: 576px) {
+      .register-container {
+        padding: 70px 15px 30px;
+      }
+      
       .card-header {
-        padding: 20px;
+        padding: 20px 15px;
       }
       
       .card-title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+      }
+      
+      .card-body {
+        padding: 25px 15px;
       }
       
       .form-control {
         height: 45px;
+        font-size: 14px;
       }
       
       .btn-register {
         height: 45px;
+        font-size: 0.9rem;
+      }
+      
+      .logo-img {
+        height: 32px;
+      }
+      
+      .logo-text {
+        font-size: 1.1rem;
       }
     }
 
@@ -252,29 +435,41 @@
     footer {
       background: var(--black);
       color: var(--white);
-      padding: 20px 0;
+      padding: 30px 0 0;
       margin-top: auto;
+      font-family: 'Poppins', sans-serif;
     }
 
     .footer-links a {
       color: var(--white);
-      transition: color 0.3s;
+      transition: var(--transition);
+      font-size: 0.95rem;
     }
 
     .footer-links a:hover {
       color: var(--gold);
       text-decoration: none;
+      transform: translateX(5px);
     }
 
     .social-icons a {
       color: var(--white);
-      font-size: 1.5rem;
-      margin: 0 10px;
-      transition: color 0.3s;
+      font-size: 1.3rem;
+      margin: 0 12px;
+      transition: var(--transition);
+      display: inline-block;
     }
 
     .social-icons a:hover {
       color: var(--gold);
+      transform: translateY(-5px);
+    }
+
+    .copyright {
+      background: rgba(0,0,0,0.2);
+      padding: 15px 0;
+      margin-top: 30px;
+      font-size: 0.85rem;
     }
   </style>
 
@@ -290,17 +485,16 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar fixed-top navbar-expand-lg scrolling-navbar">
+<nav class="navbar navbar-expand-lg fixed-top">
   <div class="container">
     <a class="navbar-brand" href="{% url 'HomeView' %}">
       <div class="logo-container">
         <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="logo-img">
-        <span class="logo-text">Topnoz</span>
+        <span class="logo-text">TOPNOZ</span>
       </div>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarContent" aria-controls="navbarContent"
-            aria-expanded="false" aria-label="Toggle navigation">
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -342,14 +536,21 @@
   </div>
 </nav>
 
+<!-- Background Elements -->
+<div class="bg-elements">
+  <div class="bg-element" style="width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s;"></div>
+  <div class="bg-element" style="width: 200px; height: 200px; bottom: -50px; right: -50px; animation-delay: 2s;"></div>
+  <div class="bg-element" style="width: 150px; height: 150px; top: 30%; right: -50px; animation-delay: 4s;"></div>
+</div>
+
 <!-- Registration Form -->
 <div class="register-container">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="register-card wow fadeIn" data-wow-delay="0.1s">
+      <div class="col-lg-8 col-md-10">
+        <div class="register-card wow fadeIn" data-wow-delay="0.2s">
           <div class="card-header">
-            <h3 class="card-title">CREATE YOUR ACCOUNT</h3>
+            <h3 class="card-title">JOIN TOPNOZ</h3>
           </div>
           <div class="card-body">
             <form action="{% url 'register' %}" method="post">
@@ -358,10 +559,10 @@
               <div class="form-row">
                 <div class="col-md-6 mb-4">
                   <div class="form-group">
-                    <label for="firstname" class="small mb-2">First Name</label>
+                    <label for="firstname" class="small mb-2">FIRST NAME</label>
                     <div class="position-relative">
                       <input class="form-control" id="firstname" type="text" name="firstname"
-                             placeholder="Enter your first name" required>
+                             placeholder="Your first name" required>
                       <i class="fas fa-user input-icon"></i>
                     </div>
                   </div>
@@ -369,10 +570,10 @@
 
                 <div class="col-md-6 mb-4">
                   <div class="form-group">
-                    <label for="lastname" class="small mb-2">Last Name</label>
+                    <label for="lastname" class="small mb-2">LAST NAME</label>
                     <div class="position-relative">
                       <input class="form-control" id="lastname" type="text" name="lastname"
-                             placeholder="Enter your last name" required>
+                             placeholder="Your last name" required>
                       <i class="fas fa-user input-icon"></i>
                     </div>
                   </div>
@@ -380,10 +581,10 @@
               </div>
 
               <div class="form-group mb-4">
-                <label for="username" class="small mb-2">Username</label>
+                <label for="username" class="small mb-2">USERNAME</label>
                 <div class="position-relative">
                   <input class="form-control" id="username" type="text" name="username"
-                         placeholder="Choose a username" required>
+                         placeholder="Choose username" required>
                   <i class="fas fa-at input-icon"></i>
                 </div>
               </div>
@@ -391,7 +592,7 @@
               <div class="form-row">
                 <div class="col-md-6 mb-4">
                   <div class="form-group">
-                    <label for="password" class="small mb-2">Password</label>
+                    <label for="password" class="small mb-2">PASSWORD</label>
                     <div class="position-relative">
                       <input class="form-control" id="password" type="password" name="password"
                              placeholder="Create password" required>
@@ -402,7 +603,7 @@
 
                 <div class="col-md-6 mb-4">
                   <div class="form-group">
-                    <label for="confirmpassword" class="small mb-2">Confirm Password</label>
+                    <label for="confirmpassword" class="small mb-2">CONFIRM PASSWORD</label>
                     <div class="position-relative">
                       <input class="form-control" id="confirmpassword" type="password"
                              name="confirmpassword" placeholder="Confirm password" required>
@@ -413,20 +614,20 @@
               </div>
 
               <div class="form-group mb-4">
-                <label for="email" class="small mb-2">Email Address</label>
+                <label for="email" class="small mb-2">EMAIL ADDRESS</label>
                 <div class="position-relative">
                   <input class="form-control" id="email" type="email" name="email"
-                         placeholder="Enter your email" required>
+                         placeholder="Your email" required>
                   <i class="fas fa-envelope input-icon"></i>
                 </div>
               </div>
 
               <button class="btn btn-register btn-block mb-4" type="submit">
-                <i class="fas fa-user-plus mr-2"></i> REGISTER NOW
+                <i class="fas fa-user-plus mr-2"></i> CREATE ACCOUNT
               </button>
               
               <div class="text-center pt-2">
-                <p class="mb-0">Already have an account? <a href="{% url 'userLogin' %}" class="login-link">LOGIN HERE</a></p>
+                <p class="mb-0">ALREADY HAVE AN ACCOUNT? <a href="{% url 'userLogin' %}" class="login-link">LOGIN HERE</a></p>
               </div>
             </form>
             
@@ -456,12 +657,12 @@
   <div class="container py-4">
     <div class="row">
       <div class="col-md-4 mb-4 mb-md-0">
-        <h5 class="text-uppercase mb-4">TOPNOZ</h5>
-        <p>EXPRESS YOUR TOP THOUGHTS.</p>
+        <h5 class="text-uppercase mb-4" style="font-family: 'Montserrat', sans-serif;">TOPNOZ</h5>
+        <p style="font-size: 0.95rem;">Express your top thoughts.</p>
       </div>
       
       <div class="col-md-4 mb-4 mb-md-0">
-        <h5 class="text-uppercase mb-4">Quick Links</h5>
+        <h5 class="text-uppercase mb-4" style="font-family: 'Montserrat', sans-serif;">QUICK LINKS</h5>
         <div class="footer-links">
           <p><a href="{% url 'HomeView' %}">Home</a></p>
           <p><a href="{% url 'CategoryListView' %}">Collections</a></p>
@@ -470,7 +671,7 @@
       </div>
       
       <div class="col-md-4">
-        <h5 class="text-uppercase mb-4">Connect With Us</h5>
+        <h5 class="text-uppercase mb-4" style="font-family: 'Montserrat', sans-serif;">CONNECT</h5>
         <div class="social-icons">
           <a href="#"><i class="fab fa-facebook-f"></i></a>
           <a href="#"><i class="fab fa-instagram"></i></a>
@@ -481,9 +682,7 @@
     </div>
   </div>
   
-  <div class="text-center py-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2023 Topnoz. All rights reserved.
-  </div>
+
 </footer>
 
 <!-- SCRIPTS -->
@@ -492,7 +691,20 @@
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/mdb.min.js' %}"></script>
 <script>
-  new WOW().init();
+  // Initialize animations
+  new WOW({
+    mobile: true,
+    offset: 100
+  }).init();
+
+  // Navbar scroll effect
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 50) {
+      $('.navbar').addClass('scrolled');
+    } else {
+      $('.navbar').removeClass('scrolled');
+    }
+  });
 
   // Show login alert when clicking cart without being logged in
   function showLoginAlert() {
@@ -513,13 +725,36 @@
       $(this).css('border-color', '#e0e0e0');
       $(this).parent().find('.input-icon').css('color', '#aaa');
     });
-  });
 
-  // Mobile menu close when clicking outside
-  $(document).click(function(event) {
-    if (!$(event.target).closest('.navbar-collapse, .navbar-toggler').length) {
-      $('.navbar-collapse').collapse('hide');
-    }
+    // Mobile menu animation
+    $('.navbar-toggler').click(function() {
+      $(this).toggleClass('active');
+      $('.navbar-collapse').toggleClass('show');
+      
+      if ($('.navbar-collapse').hasClass('show')) {
+        $('body').css('overflow', 'hidden');
+        // Animate in nav items
+        $('.nav-item').each(function(index) {
+          $(this).css('animation-delay', (index * 0.1) + 's');
+        });
+      } else {
+        $('body').css('overflow', 'auto');
+      }
+    });
+
+    // Close mobile menu when clicking outside
+    $(document).click(function(event) {
+      if (!$(event.target).closest('.navbar-collapse, .navbar-toggler').length) {
+        $('.navbar-collapse').removeClass('show');
+        $('.navbar-toggler').removeClass('active');
+        $('body').css('overflow', 'auto');
+      }
+    });
+
+    // Add floating animation to card
+    setInterval(function() {
+      $('.register-card').css('animation', 'pulse 6s infinite');
+    }, 100);
   });
 </script>
 </body>

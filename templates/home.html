@@ -997,16 +997,6 @@
     });
   });
 
-  // Show login alert when clicking cart without being logged in
-  function showLoginAlert() {
-    const isAuthenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
-    if (!isAuthenticated) {
-      if (confirm("You need to login to access your cart. Would you like to login now?")) {
-        window.location.href = "{% url 'userLogin' %}";
-      }
-    }
-  }
-
   // Animate navbar items on page load
   document.addEventListener('DOMContentLoaded', function() {
     const navItems = document.querySelectorAll('.nav-item');

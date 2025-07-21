@@ -398,13 +398,6 @@
           <a class="nav-link" href="{% url 'userLogin' %}">Login</a>
         </li>
         {% endif %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}javascript:void(0);{% endif %}" 
-             {% if not user.is_authenticated %}onclick="showLoginAlert()"{% endif %}>
-            <span class="badge badge-pill badge-primary mr-1">{{ request.user.cart.items.count }}</span>
-            <i class="fas fa-shopping-cart"></i> Cart
-          </a>
-        </li>
       </ul>
     </div>
   </div>
@@ -558,16 +551,6 @@
 <script src="{% static 'js/mdb.min.js' %}"></script>
 <script>
   new WOW().init();
-
-  // Show login alert when clicking cart without being logged in
-  function showLoginAlert() {
-    const isAuthenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
-    if (!isAuthenticated) {
-      if (confirm("You need to login to access your cart. Would you like to login now?")) {
-        window.location.href = "{% url 'userLogin' %}";
-      }
-    }
-  }
 
   // Input focus effects
   $(document).ready(function() {

@@ -1031,6 +1031,15 @@ $('.navbar-nav .nav-link').on('click', function() {
   $('.navbar-collapse').collapse('hide');
   $('body').css('overflow', 'auto');
 });
+function showLoginAlert() {
+  const isAuthenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
+  if (!isAuthenticated) {
+    if (confirm("You need to login to access your cart. Would you like to login now?")) {
+      window.location.href = "{% url 'userLogin' %}";
+    }
+  }
+}
+ 
 </script>
 </body>
 </html>

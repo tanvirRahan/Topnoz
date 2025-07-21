@@ -129,15 +129,18 @@
       opacity: 0.5;
     }
 
-    .card-title {
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      margin: 0;
-      position: relative;
-      text-transform: uppercase;
-      font-family: 'Montserrat', sans-serif;
-    }
+ .card-title {
+  font-size: 1.35rem;           /* Chhoto, but still bold */
+  font-weight: 800;              /* Slightly less than 900, more modern */
+  letter-spacing: 0.5px;         /* Less spacing, more compact */
+  margin: 0;
+  position: relative;
+  text-transform: uppercase;
+  font-family: 'Montserrat', 'Arial Black', 'Futura', 'Arial', sans-serif; /* Nike vibe */
+  line-height: 1.1;
+  color: #222;                   /* Slightly off-black for modern look */
+  text-shadow: none;             /* Remove shadow for clean look */
+}
 
     .card-body {
       padding: 40px;
@@ -410,7 +413,7 @@
       <div class="col-lg-8">
         <div class="register-card wow fadeIn" data-wow-delay="0.1s">
           <div class="card-header">
-            <h3 class="card-title">CREATE YOUR ACCOUNT</h3>
+            <h3 class="card-title">🌟 Join the Club</h3>
           </div>
           <div class="card-body">
             <form action="{% url 'register' %}" method="post">

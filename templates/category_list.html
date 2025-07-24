@@ -540,6 +540,30 @@
         margin-bottom: 0.5rem;
       }
     }
+
+    /* Category Card Fade-in Animation */
+.category-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.7s ease forwards;
+}
+
+.row.g-4 > div:nth-child(1) .category-card { animation-delay: 0.1s; }
+.row.g-4 > div:nth-child(2) .category-card { animation-delay: 0.2s; }
+.row.g-4 > div:nth-child(3) .category-card { animation-delay: 0.3s; }
+.row.g-4 > div:nth-child(4) .category-card { animation-delay: 0.4s; }
+.row.g-4 > div:nth-child(5) .category-card { animation-delay: 0.5s; }
+.row.g-4 > div:nth-child(6) .category-card { animation-delay: 0.6s; }
+.row.g-4 > div:nth-child(7) .category-card { animation-delay: 0.7s; }
+.row.g-4 > div:nth-child(8) .category-card { animation-delay: 0.8s; }
+/* If you have more than 8 cards, add more nth-child selectors accordingly */
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
   </style>
 
   <!-- Google Analytics -->
@@ -637,61 +661,60 @@
   </div>
 
   <!-- Category Section -->
-  <section id="categories" class="category-section">
-    <div class="container">
-      <h2 class="section-title" data-aos="fade-up">Topnoz Picks</h2>
-      <div class="row g-4">
-        {% for value, label in product_types %}
-        <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:1 }}00">
-          <a href="{% url 'CategoryProductListView' value %}" class="text-decoration-none" aria-label="Browse {{ label }}">
-            <article class="category-card h-100">
-              <div class="card-body text-center">
-                {% if value == "shirt" %}
-                  <span class="category-badge">Trending</span>
-                  <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Premium quality shirts for all occasions</p>
-                {% elif value == "polo-tshirt" %}
-                  <span class="category-badge">Classic</span>
-                  <i class="fas fa-shirt category-icon" aria-hidden="true"></i>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Premium polo shirts collection</p>
-                {% elif value == "tshirt" %}
-                  <span class="category-badge">Popular</span>
-                  <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Casual and trendy t-shirts</p>
-                {% elif value == "punjabi" %}
-                  <span class="category-badge">Traditional</span>
-                  <i class="fas fa-vest category-icon" aria-hidden="true"></i>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Elegant traditional punjabis</p>
-                {% elif value == "pant" %}
-                  <div class="pants-icon category-icon" aria-hidden="true"></div>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Comfortable and stylish pants</p>
-                {% elif value == "footware" %}
-                  <i class="fas fa-shoe-prints category-icon" aria-hidden="true"></i>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Quality footwear collection</p>
-                {% elif value == "lifestyle" %}
-                  <i class="fas fa-spa category-icon" aria-hidden="true"></i>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Lifestyle accessories</p>
-                {% else %}
-                  <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
-                  <h3 class="category-title mb-2">{{ label }}</h3>
-                  <p class="category-description">Explore our collection</p>
-                {% endif %}
-              </div>
-            </article>
-          </a>
-        </div>
-        {% endfor %}
+<section id="categories" class="category-section">
+  <div class="container">
+    <h2 class="section-title">Topnoz Picks</h2>
+    <div class="row g-4">
+      {% for value, label in product_types %}
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        <a href="{% url 'CategoryProductListView' value %}" class="text-decoration-none" aria-label="Browse {{ label }}">
+          <article class="category-card h-100">
+            <div class="card-body text-center">
+              {% if value == "shirt" %}
+                <span class="category-badge">Trending</span>
+                <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Premium quality shirts for all occasions</p>
+              {% elif value == "polo-tshirt" %}
+                <span class="category-badge">Classic</span>
+                <i class="fas fa-shirt category-icon" aria-hidden="true"></i>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Premium polo shirts collection</p>
+              {% elif value == "tshirt" %}
+                <span class="category-badge">Popular</span>
+                <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Casual and trendy t-shirts</p>
+              {% elif value == "punjabi" %}
+                <span class="category-badge">Traditional</span>
+                <i class="fas fa-vest category-icon" aria-hidden="true"></i>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Elegant traditional punjabis</p>
+              {% elif value == "pant" %}
+                <div class="pants-icon category-icon" aria-hidden="true"></div>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Comfortable and stylish pants</p>
+              {% elif value == "footware" %}
+                <i class="fas fa-shoe-prints category-icon" aria-hidden="true"></i>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Quality footwear collection</p>
+              {% elif value == "lifestyle" %}
+                <i class="fas fa-spa category-icon" aria-hidden="true"></i>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Lifestyle accessories</p>
+              {% else %}
+                <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
+                <h3 class="category-title mb-2">{{ label }}</h3>
+                <p class="category-description">Explore our collection</p>
+              {% endif %}
+            </div>
+          </article>
+        </a>
       </div>
+      {% endfor %}
     </div>
-  </section>
-
+  </div>
+</section>
   <!-- FAB Button -->
   <a href="#" class="fab-btn" aria-label="Shopping bag">
     <i class="fas fa-shopping-bag" aria-hidden="true"></i>

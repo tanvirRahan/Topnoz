@@ -4,11 +4,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TopNoz Fashion Categories</title>
+  <meta name="description" content="Discover TopNoz premium fashion collections - minimalist black & white style for the modern trendsetter">
+  <title>TopNoz | Premium Fashion Collections</title>
+  <link rel="icon" href="{% static 'image/topnozlogo.jpg' %}" type="image/jpeg">
+  
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- CSS -->
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     :root {
       --black: #000000;
@@ -22,29 +31,34 @@
     
     body {
       background-color: var(--white);
-      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
       color: var(--black);
       overflow-x: hidden;
       line-height: 1.6;
     }
     
+    /* Navigation */
     .navbar {
       border-bottom: 1px solid var(--gray-200);
+      padding: 1rem 0;
     }
     
     .navbar-brand {
       font-weight: 700;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: var(--black);
       letter-spacing: -0.5px;
       display: flex;
       align-items: center;
+      text-decoration: none;
     }
     
     .navbar-brand img {
-      height: 40px;
-      margin-right: 10px;
+      height: 36px;
+      width: 36px;
+      margin-right: 0.75rem;
       filter: grayscale(100%) contrast(200%);
+      object-fit: contain;
     }
     
     .nav-link {
@@ -52,59 +66,70 @@
       color: var(--black);
       padding: 0.5rem 1rem;
       position: relative;
+      text-decoration: none;
+      transition: color 0.2s ease;
     }
     
-    .nav-link:hover,
+    .nav-link:hover {
+      color: var(--gray-700);
+    }
+    
     .nav-link.active {
-      color: var(--black);
+      font-weight: 600;
     }
     
     .nav-link.active::after {
       content: '';
       position: absolute;
-      bottom: -1px;
+      bottom: 0;
       left: 1rem;
       right: 1rem;
       height: 2px;
       background-color: var(--black);
     }
     
+    /* Hero Section */
     .hero-section {
       background-color: var(--gray-100);
-      border-radius: 0;
       padding: 4rem 2rem;
       margin-bottom: 3rem;
+      text-align: center;
     }
     
     .hero-title {
       font-weight: 700;
-      font-size: 2.5rem;
+      font-size: 2.25rem;
       color: var(--black);
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 1rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 1.25rem;
+      line-height: 1.2;
     }
     
     .hero-subtitle {
       color: var(--gray-700);
       max-width: 600px;
-      margin: 0 auto 2rem;
+      margin: 0 auto 2.5rem;
       font-weight: 400;
+      font-size: 1.1rem;
     }
     
+    /* Buttons */
     .btn {
       border-radius: 0;
-      font-weight: 500;
-      letter-spacing: 0.5px;
+      font-weight: 600;
+      letter-spacing: 0.75px;
       text-transform: uppercase;
       font-size: 0.8rem;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem 1.75rem;
       transition: all 0.2s ease;
+      border-width: 2px;
     }
     
     .btn-dark {
       background-color: var(--black);
       border-color: var(--black);
+      color: var(--white);
     }
     
     .btn-dark:hover {
@@ -122,17 +147,22 @@
       color: var(--white);
     }
     
+    /* Category Cards */
     .category-card {
       border: 1px solid var(--gray-200);
-      border-radius: 0;
       overflow: hidden;
       transition: all 0.2s ease;
       background: var(--white);
       position: relative;
-      z-index: 1;
       height: 100%;
       display: flex;
       flex-direction: column;
+      text-decoration: none;
+    }
+    
+    .category-card:hover {
+      border-color: var(--black);
+      background-color: var(--black);
     }
     
     .category-card .card-body {
@@ -150,14 +180,8 @@
       transition: all 0.2s ease;
     }
     
-    .category-card:hover {
-      background-color: var(--black);
-    }
-    
-    .category-card:hover .category-title,
-    .category-card:hover .category-icon,
-    .category-card:hover .category-description {
-      color: var(--white) !important;
+    .category-card:hover .category-icon {
+      color: var(--white);
     }
     
     .category-title {
@@ -167,7 +191,11 @@
       margin-bottom: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: 1.1rem;
+      font-size: 1rem;
+    }
+    
+    .category-card:hover .category-title {
+      color: var(--white);
     }
     
     .category-description {
@@ -176,13 +204,16 @@
       transition: color 0.2s ease;
     }
     
+    .category-card:hover .category-description {
+      color: var(--gray-300);
+    }
+    
     .category-badge {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 1rem;
+      right: 1rem;
       background-color: var(--black);
       color: var(--white);
-      border-radius: 0;
       padding: 0.25rem 0.75rem;
       font-size: 0.65rem;
       font-weight: 600;
@@ -190,37 +221,57 @@
       text-transform: uppercase;
     }
     
+    /* Pants Icon */
+    .pants-icon {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V4h16v16z'/%3E%3Cpath d='M7 7h10v3H7z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      transition: filter 0.2s ease;
+    }
+    
+    .category-card:hover .pants-icon {
+      filter: brightness(0) invert(1);
+    }
+    
+    /* FAB Button */
     .fab-btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 0;
+      width: 56px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
       position: fixed;
-      bottom: 30px;
-      right: 30px;
+      bottom: 2rem;
+      right: 2rem;
       z-index: 1000;
       background-color: var(--black);
       color: var(--white);
-      border: none;
-      font-size: 1.25rem;
+      border: 2px solid var(--black);
+      text-decoration: none;
     }
     
     .fab-btn:hover {
       background-color: var(--white);
       color: var(--black);
-      border: 1px solid var(--black);
     }
     
+    /* Footer */
     footer {
-      background-color: var(--black) !important;
+      background-color: var(--black);
       padding: 4rem 0 2rem;
+      margin-top: 4rem;
     }
     
     .footer-logo {
       filter: grayscale(100%) brightness(200%);
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
     }
     
     .footer-heading {
@@ -237,12 +288,19 @@
       text-decoration: none;
       transition: color 0.2s ease;
       font-size: 0.9rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       display: inline-block;
     }
     
     .footer-link:hover {
       color: var(--white);
+      text-decoration: underline;
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
     }
     
     .social-icons a {
@@ -253,10 +311,9 @@
       justify-content: center;
       background-color: transparent;
       border: 1px solid var(--white);
-      border-radius: 0;
-      transition: all 0.2s ease;
       color: var(--white);
-      margin-right: 0.75rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
     }
     
     .social-icons a:hover {
@@ -266,7 +323,8 @@
     
     .footer-divider {
       border-color: var(--gray-700);
-      margin: 2rem 0;
+      margin: 2.5rem 0;
+      opacity: 0.5;
     }
     
     .copyright {
@@ -274,21 +332,29 @@
       color: var(--gray-300);
     }
     
-    .pants-icon {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V4h16v16z'/%3E%3Cpath d='M7 7h10v3H7z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      transition: filter 0.2s ease;
+    /* Newsletter Form */
+    .newsletter-form {
+      display: flex;
+      flex-wrap: nowrap;
     }
     
-    .category-card:hover .pants-icon {
-      filter: brightness(0) invert(1);
+    .newsletter-form .form-control {
+      border-radius: 0;
+      border-right: none;
     }
     
+    .newsletter-form .btn {
+      border-radius: 0;
+      white-space: nowrap;
+    }
+    
+    .form-message {
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    
+    /* Responsive Adjustments */
     @media (max-width: 991.98px) {
       .hero-title {
         font-size: 2rem;
@@ -297,6 +363,10 @@
       .hero-section {
         padding: 3rem 1.5rem;
       }
+      
+      .category-card .card-body {
+        padding: 1.75rem 1.25rem;
+      }
     }
     
     @media (max-width: 767.98px) {
@@ -304,13 +374,13 @@
         font-size: 1.75rem;
       }
       
-      .category-card .card-body {
-        padding: 1.5rem 1rem;
+      .hero-subtitle {
+        font-size: 1rem;
       }
       
       .category-icon {
         font-size: 1.75rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
       }
       
       .pants-icon {
@@ -321,9 +391,22 @@
       footer {
         padding: 3rem 0 1.5rem;
       }
+      
+      .footer-col {
+        margin-bottom: 2rem;
+      }
     }
     
     @media (max-width: 575.98px) {
+      .navbar-brand {
+        font-size: 1.25rem;
+      }
+      
+      .navbar-brand img {
+        height: 30px;
+        width: 30px;
+      }
+      
       .hero-title {
         font-size: 1.5rem;
       }
@@ -332,28 +415,29 @@
         font-size: 0.95rem;
       }
       
-      .navbar-brand {
-        font-size: 1.5rem;
-      }
-      
-      .navbar-brand img {
-        height: 32px;
-      }
-      
       .btn {
-        padding: 0.6rem 1.2rem;
+        padding: 0.6rem 1.25rem;
         font-size: 0.75rem;
       }
       
       .fab-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.1rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .newsletter-form .form-control {
+        border-right: 1px solid var(--gray-300);
+        margin-bottom: 0.5rem;
       }
     }
   </style>
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -363,25 +447,26 @@
   </script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{% url 'HomeView' %}" aria-label="TopNoz Home">
         <img src="{% static 'image/topnozlogo.jpg' %}" alt="TopNoz Logo">
         TopNoz
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="{% url 'HomeView' %}">
-              <i class="fas fa-home me-1"></i> Home
+            <a class="nav-link active" href="{% url 'HomeView' %}" aria-current="page">
+              <i class="fas fa-home me-1" aria-hidden="true"></i> Home
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'contact' %}">
-              <i class="fas fa-phone me-1"></i> Contact
+              <i class="fas fa-phone me-1" aria-hidden="true"></i> Contact
             </a>
           </li>
         </ul>
@@ -389,96 +474,102 @@
     </div>
   </nav>
 
-  <div class="container py-5">
-    <div class="hero-section text-center mb-5" data-aos="fade-down" data-aos-duration="800">
-      <h1 class="hero-title mb-3">TopNoz Collections</h1>
-      <p class="hero-subtitle mb-4">
+  <!-- Main Content -->
+  <main class="container py-5">
+    <section class="hero-section mb-5" data-aos="fade-down" data-aos-duration="800">
+      <h1 class="hero-title">TopNoz Collections</h1>
+      <p class="hero-subtitle">
         Discover premium fashion categories curated for the modern trendsetter. 
         Explore our latest collections designed to elevate your style.
       </p>
-      <div class="d-flex justify-content-center gap-3">
-        <a href="#" class="btn btn-dark rounded-0">
-          New Arrivals <i class="fas fa-bolt ms-2"></i>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="#" class="btn btn-dark" aria-label="View new arrivals">
+          New Arrivals <i class="fas fa-bolt ms-2" aria-hidden="true"></i>
         </a>
-        <a href="#" class="btn btn-outline-dark rounded-0">
-          Sale Items <i class="fas fa-tag ms-2"></i>
+        <a href="#" class="btn btn-outline-dark" aria-label="View sale items">
+          Sale Items <i class="fas fa-tag ms-2" aria-hidden="true"></i>
         </a>
       </div>
-    </div>
+    </section>
     
-    <div class="row g-4">
-      {% for value, label in product_types %}
-      <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:1 }}00">
-        <a href="{% url 'CategoryProductListView' value %}" class="text-decoration-none">
-          <div class="category-card h-100">
-            <div class="card-body text-center">
-              {% if value == "shirt" %}
-                <span class="category-badge">Trending</span>
-                <i class="fas fa-tshirt category-icon"></i>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Premium quality shirts for all occasions</p>
-              {% elif value == "polo-tshirt" %}
-                <span class="category-badge">Classic</span>
-                <i class="fas fa-shirt category-icon"></i>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Premium polo shirts collection</p>
-              {% elif value == "tshirt" %}
-                <span class="category-badge">Popular</span>
-                <i class="fas fa-tshirt category-icon"></i>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Casual and trendy t-shirts</p>
-              {% elif value == "punjabi" %}
-                <span class="category-badge">Traditional</span>
-                <i class="fas fa-vest category-icon"></i>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Elegant traditional punjabis</p>
-              {% elif value == "pant" %}
-                <div class="pants-icon category-icon"></div>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Comfortable and stylish pants</p>
-              {% elif value == "footware" %}
-                <i class="fas fa-shoe-prints category-icon"></i>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Quality footwear collection</p>
-              {% elif value == "lifestyle" %}
-                <i class="fas fa-spa category-icon"></i>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Lifestyle accessories</p>
-              {% else %}
-                <i class="fas fa-tshirt category-icon"></i>
-                <h3 class="category-title mb-2">{{ label }}</h3>
-                <p class="category-description">Explore our collection</p>
-              {% endif %}
-            </div>
-          </div>
-        </a>
+    <section class="category-grid">
+      <div class="row g-4">
+        {% for value, label in product_types %}
+        <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:1 }}00">
+          <a href="{% url 'CategoryProductListView' value %}" class="text-decoration-none" aria-label="Browse {{ label }}">
+            <article class="category-card h-100">
+              <div class="card-body text-center">
+                {% if value == "shirt" %}
+                  <span class="category-badge">Trending</span>
+                  <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Premium quality shirts for all occasions</p>
+                {% elif value == "polo-tshirt" %}
+                  <span class="category-badge">Classic</span>
+                  <i class="fas fa-shirt category-icon" aria-hidden="true"></i>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Premium polo shirts collection</p>
+                {% elif value == "tshirt" %}
+                  <span class="category-badge">Popular</span>
+                  <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Casual and trendy t-shirts</p>
+                {% elif value == "punjabi" %}
+                  <span class="category-badge">Traditional</span>
+                  <i class="fas fa-vest category-icon" aria-hidden="true"></i>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Elegant traditional punjabis</p>
+                {% elif value == "pant" %}
+                  <div class="pants-icon category-icon" aria-hidden="true"></div>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Comfortable and stylish pants</p>
+                {% elif value == "footware" %}
+                  <i class="fas fa-shoe-prints category-icon" aria-hidden="true"></i>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Quality footwear collection</p>
+                {% elif value == "lifestyle" %}
+                  <i class="fas fa-spa category-icon" aria-hidden="true"></i>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Lifestyle accessories</p>
+                {% else %}
+                  <i class="fas fa-tshirt category-icon" aria-hidden="true"></i>
+                  <h3 class="category-title mb-2">{{ label }}</h3>
+                  <p class="category-description">Explore our collection</p>
+                {% endif %}
+              </div>
+            </article>
+          </a>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <a href="#" class="fab-btn">
-    <i class="fas fa-shopping-bag"></i>
+  <!-- FAB Button -->
+  <a href="#" class="fab-btn" aria-label="Shopping bag">
+    <i class="fas fa-shopping-bag" aria-hidden="true"></i>
   </a>
 
-  <footer class="bg-black text-white py-5">
+  <!-- Footer -->
+  <footer class="bg-black text-white">
     <div class="container">
       <div class="row">
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-4 mb-4 footer-col">
           <div class="d-flex align-items-center mb-3">
-            <img src="{% static 'image/topnozlogo.jpg' %}" alt="TopNoz Logo" height="40" class="me-2 footer-logo">
+            <img src="{% static 'image/topnozlogo.jpg' %}" alt="TopNoz Logo" class="me-2 footer-logo">
             <h3 class="m-0 text-white">TopNoz</h3>
           </div>
           <p class="text-gray-300 mb-4">Premium fashion for the modern lifestyle. Quality, style, and comfort in every stitch.</p>
           <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-pinterest"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
           </div>
         </div>
-        <div class="col-lg-2 col-md-6 mb-4">
-          <h5 class="footer-heading">Shop</h5>
+        
+        <div class="col-lg-2 col-md-6 mb-4 footer-col">
+          <h2 class="footer-heading">Shop</h2>
           <ul class="list-unstyled">
             <li class="mb-2"><a href="#" class="footer-link">Men</a></li>
             <li class="mb-2"><a href="#" class="footer-link">Women</a></li>
@@ -486,12 +577,13 @@
             <li class="mb-2"><a href="#" class="footer-link">Accessories</a></li>
           </ul>
         </div>
-        <div class="col-lg-2 col-md-6 mb-4">
-          <h5 class="footer-heading">Help</h5>
+        
+        <div class="col-lg-2 col-md-6 mb-4 footer-col">
+          <h2 class="footer-heading">Help</h2>
           <ul class="list-unstyled">
             <li class="mb-2">
               <a href="{% url 'contact' %}" class="footer-link">
-                <i class="fas fa-envelope-open-text me-1"></i> Contact Us
+                <i class="fas fa-envelope-open-text me-1" aria-hidden="true"></i> Contact Us
               </a>
             </li>
             <li class="mb-2"><a href="#" class="footer-link">Track Order</a></li>
@@ -499,16 +591,21 @@
             <li class="mb-2"><a href="#" class="footer-link">FAQs</a></li>
           </ul>
         </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-          <h5 class="footer-heading">Newsletter</h5>
+        
+        <div class="col-lg-4 col-md-6 mb-4 footer-col">
+          <h2 class="footer-heading">Newsletter</h2>
           <p class="text-gray-300 mb-3">Subscribe for updates and special offers</p>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control rounded-0" placeholder="Your email">
-            <button class="btn btn-dark rounded-0" type="button">Subscribe</button>
-          </div>
+          <form class="newsletter-form">
+            <label for="newsletter-email" class="visually-hidden">Email address</label>
+            <input type="email" id="newsletter-email" class="form-control" placeholder="Your email" required>
+            <button class="btn btn-dark" type="submit">Subscribe</button>
+          </form>
+          <div class="form-message"></div>
         </div>
       </div>
+      
       <hr class="footer-divider">
+      
       <div class="row">
         <div class="col-md-6 text-center text-md-start">
           <p class="small copyright mb-0">&copy; 2025 TopNoz. All rights reserved.</p>
@@ -524,12 +621,35 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
+    // Initialize AOS animations
     AOS.init({
       duration: 800,
-      once: true
+      once: true,
+      offset: 120
+    });
+    
+    // Newsletter form handling
+    document.querySelector('.newsletter-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = e.target.querySelector('input').value;
+      const messageEl = e.target.querySelector('.form-message');
+      
+      // Simulate form submission
+      messageEl.textContent = 'Thank you for subscribing!';
+      messageEl.style.display = 'block';
+      messageEl.style.color = 'var(--white)';
+      
+      // Reset form
+      e.target.reset();
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        messageEl.style.display = 'none';
+      }, 5000);
     });
   </script>
 </body>

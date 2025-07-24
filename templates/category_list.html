@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Discover TopNoz premium fashion collections - minimalist black & white style with elegant color accents for the modern trendsetter">
-  <title>TopNoz | Premium Fashion Collections</title>
+  <title>Topnoz | EXPRESS YOUR TOP THOUGHTS</title>
   <link rel="icon" href="{% static 'image/topnozlogo.jpg' %}" type="image/jpeg">
   
   <!-- Preconnect to external resources -->
@@ -545,9 +545,9 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'HomeView' %}" aria-label="TopNoz Home">
-        <img src="{% static 'image/topnozlogo.jpg' %}" alt="TopNoz Logo">
-        TopNoz
+      <a class="navbar-brand" href="{% url 'HomeView' %}" aria-label="Topnoz Home">
+        <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo">
+        Topnoz
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -572,29 +572,29 @@
   <!-- Hero Slider -->
   <div class="hero-slider">
     <!-- Slide 1 -->
-    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
-      <div class="hero-content">
-        <h1 class="hero-title" data-aos="fade-down">Premium Fashion Collections</h1>
-        <p class="hero-subtitle" data-aos="fade-down" data-aos-delay="100">
-          Discover our minimalist black & white style with elegant accents for the modern trendsetter
-        </p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap" data-aos="fade-up" data-aos-delay="200">
-          <a href="#categories" class="btn btn-dark scroll-to" aria-label="View new arrivals">
-            New Arrivals <i class="fas fa-bolt ms-2" aria-hidden="true"></i>
-          </a>
-          <a href="#" class="btn btn-outline-light" aria-label="View sale items">
-            Sale Items <i class="fas fa-tag ms-2" aria-hidden="true"></i>
-          </a>
-        </div>
-      </div>
+ <div class="hero-slide" style="background-image: url('{% static "image/love-from-paris-steve-henderson.jpg" %}');">
+  <div class="hero-content">
+    <h1 class="hero-title" data-aos="fade-down">Topnoz: For the Next Gen</h1>
+    <p class="hero-subtitle" data-aos="fade-down" data-aos-delay="100">
+      Because your look should be as sharp as your mind
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap" data-aos="fade-up" data-aos-delay="200">
+      <a href="#categories" class="btn btn-dark scroll-to" aria-label="View new arrivals">
+        New Arrivals <i class="fas fa-bolt ms-2" aria-hidden="true"></i>
+      </a>
+      <a href="#" class="btn btn-outline-light" aria-label="View sale items">
+        Sale Items <i class="fas fa-tag ms-2" aria-hidden="true"></i>
+      </a>
     </div>
+  </div>
+</div>
     
     <!-- Slide 2 -->
-    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+   <div class="hero-slide" style="background-image: url('{% static "image/girl-555657_1920.jpg" %}');">
       <div class="hero-content">
-        <h1 class="hero-title">Elegant Minimalism</h1>
+        <h1 class="hero-title">For the Classy & Clever</h1>
         <p class="hero-subtitle">
-          Timeless designs with perfect balance of black, white and subtle accents
+          Topnoz: Minimalist fashion for maximum impact.
         </p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
           <a href="#categories" class="btn btn-dark scroll-to" aria-label="View new arrivals">
@@ -608,11 +608,11 @@
     </div>
     
     <!-- Slide 3 -->
-    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+   <div class="hero-slide" style="background-image: url('{% static "image/anne-st-marie-by-a-mercedes-benz-car-henry-clarke.jpg" %}');">
       <div class="hero-content">
-        <h1 class="hero-title">Modern Essentials</h1>
+        <h1 class="hero-title">Dress Like You Mean It</h1>
         <p class="hero-subtitle">
-          Curated collections designed to elevate your everyday style
+          Topnoz — Where comfort meets confidence.
         </p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
           <a href="#categories" class="btn btn-dark scroll-to" aria-label="View new arrivals">
@@ -629,7 +629,7 @@
   <!-- Category Section -->
   <section id="categories" class="category-section">
     <div class="container">
-      <h2 class="section-title" data-aos="fade-up">Our Collections</h2>
+      <h2 class="section-title" data-aos="fade-up">Topnoz Picks</h2>
       <div class="row g-4">
         {% for value, label in product_types %}
         <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:1 }}00">
@@ -693,10 +693,10 @@
       <div class="row">
         <div class="col-lg-4 mb-4 footer-col">
           <div class="d-flex align-items-center mb-3">
-            <img src="{% static 'image/topnozlogo.jpg' %}" alt="TopNoz Logo" class="me-2 footer-logo">
-            <h3 class="m-0 text-white">TopNoz</h3>
+            <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="me-2 footer-logo">
+            <h3 class="m-0 text-white">Topnoz</h3>
           </div>
-          <p class="text-gray-300 mb-4">Premium fashion for the modern lifestyle. Quality, style, and comfort in every stitch.</p>
+          <p class="text-gray-300 mb-4">Express your top thoughts in every look..</p>
           <div class="social-icons">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
             <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
@@ -706,7 +706,7 @@
         </div>
         
         <div class="col-lg-2 col-md-6 mb-4 footer-col">
-          <h2 class="footer-heading">Shop</h2>
+          <h2 class="footer-heading">Get Inspired</h2>
           <ul class="list-unstyled">
             <li class="mb-2"><a href="#" class="footer-link">Men</a></li>
             <li class="mb-2"><a href="#" class="footer-link">Women</a></li>

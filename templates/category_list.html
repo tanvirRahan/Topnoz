@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Discover TopNoz premium fashion collections - minimalist black & white style with elegant color accents for the modern trendsetter">
+  <meta name="description" content="Discover Topnoz premium fashion collections - minimalist black & white style with elegant color accents for the modern trendsetter">
   <title>Topnoz | EXPRESS YOUR TOP THOUGHTS</title>
   <link rel="icon" href="{% static 'image/topnozlogo.jpg' %}" type="image/jpeg">
   
@@ -100,7 +100,7 @@
       background-color: var(--black);
     }
     
-    /* Hero Section */
+    /* Hero Slider - Fixed Styles */
     .hero-slider {
       width: 100%;
       height: 80vh;
@@ -113,7 +113,8 @@
       width: 100%;
       height: 100%;
       background-size: cover;
-      background-position: center;
+      background-position: center center;
+      background-repeat: no-repeat;
       position: relative;
     }
     
@@ -423,6 +424,15 @@
       display: none;
     }
     
+    /* Slick Slider Fixes */
+    .slick-list, .slick-track {
+      height: 100%;
+    }
+    
+    .hero-slider .slick-slide {
+      height: 100%;
+    }
+    
     /* Responsive Adjustments */
     @media (max-width: 1199.98px) {
       .hero-title {
@@ -569,28 +579,28 @@
     </div>
   </nav>
 
-  <!-- Hero Slider -->
+  <!-- Hero Slider with Fixed Image Display -->
   <div class="hero-slider">
     <!-- Slide 1 -->
- <div class="hero-slide" style="background-image: url('{% static "image/love-from-paris-steve-henderson.jpg" %}');">
-  <div class="hero-content">
-    <h1 class="hero-title" data-aos="fade-down">Topnoz: For the Next Gen</h1>
-    <p class="hero-subtitle" data-aos="fade-down" data-aos-delay="100">
-      Because your look should be as sharp as your mind
-    </p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap" data-aos="fade-up" data-aos-delay="200">
-      <a href="#categories" class="btn btn-dark scroll-to" aria-label="View new arrivals">
-        New Arrivals <i class="fas fa-bolt ms-2" aria-hidden="true"></i>
-      </a>
-      <a href="#" class="btn btn-outline-light" aria-label="View sale items">
-        Sale Items <i class="fas fa-tag ms-2" aria-hidden="true"></i>
-      </a>
+    <div class="hero-slide" style="background-image: url('{% static 'image/love-from-paris-steve-henderson.jpg' %}')">
+      <div class="hero-content">
+        <h1 class="hero-title" data-aos="fade-down">Topnoz: For the Next Gen</h1>
+        <p class="hero-subtitle" data-aos="fade-down" data-aos-delay="100">
+          Because your look should be as sharp as your mind
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap" data-aos="fade-up" data-aos-delay="200">
+          <a href="#categories" class="btn btn-dark scroll-to" aria-label="View new arrivals">
+            New Arrivals <i class="fas fa-bolt ms-2" aria-hidden="true"></i>
+          </a>
+          <a href="#" class="btn btn-outline-light" aria-label="View sale items">
+            Sale Items <i class="fas fa-tag ms-2" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
     
     <!-- Slide 2 -->
-   <div class="hero-slide" style="background-image: url('{% static "image/girl-555657_1920.jpg" %}');">
+    <div class="hero-slide" style="background-image: url('{% static 'image/girl-555657_1920.jpg' %}')">
       <div class="hero-content">
         <h1 class="hero-title">For the Classy & Clever</h1>
         <p class="hero-subtitle">
@@ -608,7 +618,7 @@
     </div>
     
     <!-- Slide 3 -->
-   <div class="hero-slide" style="background-image: url('{% static "image/anne-st-marie-by-a-mercedes-benz-car-henry-clarke.jpg" %}');">
+    <div class="hero-slide" style="background-image: url('{% static 'image/anne-st-marie-by-a-mercedes-benz-car-henry-clarke.jpg' %}')">
       <div class="hero-content">
         <h1 class="hero-title">Dress Like You Mean It</h1>
         <p class="hero-subtitle">
@@ -771,7 +781,7 @@
       offset: 120
     });
     
-    // Initialize hero slider
+    // Initialize hero slider with proper image display
     $(document).ready(function(){
       $('.hero-slider').slick({
         dots: true,
@@ -781,7 +791,8 @@
         cssEase: 'linear',
         autoplay: true,
         autoplaySpeed: 5000,
-        arrows: false
+        arrows: false,
+        adaptiveHeight: false
       });
       
       // Smooth scroll to categories

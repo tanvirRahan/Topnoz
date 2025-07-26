@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6223a5da-a4f0-4c29-8412-a2064a3d411a" name="Changes" comment="" />
+    <list default="true" id="6223a5da-a4f0-4c29-8412-a2064a3d411a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/templates/category_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category_list.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,12 +31,12 @@
     &quot;assignee&quot;: &quot;tanvirRahan&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/tanvirRahan/Topnoz.git",
-    "accountId": "ddf34183-5a62-4ffe-9a67-aaa53aabd89f"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/tanvirRahan/Topnoz.git&quot;,
+    &quot;accountId&quot;: &quot;ddf34183-5a62-4ffe-9a67-aaa53aabd89f&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -50,7 +52,7 @@
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "E:/petcm",
+    "last_opened_file_path": "E:/topnoz",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -114,6 +116,7 @@
       <workItem from="1747032025041" duration="1468000" />
       <workItem from="1747207738372" duration="1466000" />
       <workItem from="1749656770245" duration="51000" />
+      <workItem from="1753522586242" duration="123000" />
     </task>
     <servers />
   </component>

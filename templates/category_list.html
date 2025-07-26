@@ -715,10 +715,13 @@
     </div>
   </div>
 </section>
-  <!-- FAB Button -->
-  <a href="#" class="fab-btn" aria-label="Shopping bag">
-    <i class="fas fa-shopping-bag" aria-hidden="true"></i>
-  </a>
+<!-- Floating Cart Button -->
+<a href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}#{% endif %}" 
+   class="fab-btn" 
+   aria-label="Shopping cart"
+   {% if not user.is_authenticated %}onclick="redirectToLogin(event)"{% endif %}>
+  <i class="fas fa-shopping-cart"></i>
+</a>
 
   <!-- Footer -->
   <footer class="bg-black text-white">
@@ -813,7 +816,7 @@
         fade: true,
         cssEase: 'linear',
         autoplay: true,
-        autoplaySpeed: 5000,
+        autoplaySpeed: 3000,
         arrows: false,
         adaptiveHeight: false
       });
@@ -848,6 +851,11 @@
         }, 5000);
       });
     });
+
+    function redirectToLogin(e) {
+  e.preventDefault();
+  window.location.href = "{% url 'userLogin' %}";
+}
   </script>
 </body>
 </html>

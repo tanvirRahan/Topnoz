@@ -48,16 +48,58 @@
       align-items: center;
     }
     
-    .logo-img {
-      height: 42px;
-      width: auto;
-      filter: brightness(0) invert(1);
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    
-    .navbar-brand:hover .logo-img {
-      transform: rotate(-5deg) scale(1.05);
-    }
+/* LOGO — polished for black navbar with JPG asset */
+.logo-img {
+  height: 42px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+
+  /* Make the JPG logo appear crisp white on dark bg */
+  filter: invert(1) grayscale(1) brightness(1.08) contrast(1.15);
+  /* ↑ white ko thoda bright + crisp, color remove */
+
+  opacity: .98;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+  image-rendering: -webkit-optimize-contrast;
+
+  transition:
+    transform .45s cubic-bezier(0.22, 1, 0.36, 1),
+    filter .2s ease,
+    opacity .2s ease;
+}
+
+/* Subtle micro-interaction */
+.navbar-brand:hover .logo-img {
+  transform: translateY(-1px) scale(1.03) rotate(-3deg);
+  opacity: 1;
+}
+
+/* Accessibility focus ring */
+.navbar-brand:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.35);
+  border-radius: 6px;
+}
+
+/* On light headers (if you ever use a white navbar), keep original colors */
+.navbar.navbar-light .logo-img,
+.navbar.bg-white .logo-img {
+  filter: none;
+  opacity: 1;
+}
+
+/* Responsive size */
+@media (max-width: 576px) {
+  .logo-img { height: 34px; }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .logo-img { transition: none; }
+}  
     
     .brand-name {
       font-size: 1.6rem;
@@ -594,7 +636,7 @@
     {% if object_list %}
       <div class="product-grid">
         {% for object in object_list %}
-          <div class="animate-fadein" style="animation-delay: {{ forloop.counter0|divisibleby:4|yesno:'0.1s,0.3s,0.5s,0.7s' }}">
+          <div class="animate-fadein" style="animation-delay: {% cycle '0.1s' '0.3s' '0.5s' '0.7s' %}">
             <div class="product-card h-100">
               {% if object.discount_price %}
                 <div class="product-badge">

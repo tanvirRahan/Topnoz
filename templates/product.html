@@ -8,768 +8,630 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Topnoz | Product Details</title>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <title>{{ object.title }} | TOPNOZ - Premium Fashion</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    .blur-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backdrop-filter: blur(5px);
-      background-color: rgba(255, 255, 255, 0.7);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .blur-overlay h4 {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .auth-buttons a {
-      min-width: 150px;
-    }
-
-    .disabled-btn {
-      opacity: 0.6;
-      cursor: not-allowed !important;
-      transition: 0.3s ease;
-      pointer-events: none;
-    }
-
-    .disabled-btn:hover {
-      transform: scale(1.01);
-      background-color: #cccccc !important;
-    }
-
-    .disabled-btn i {
-      color: #999;
-    }
-
-    /* Animation Styles */
-    .product-img-animate {
-      opacity: 0;
-      transform: scale(0.9);
-      animation: fadeInZoom 0.6s forwards 0.3s;
-    }
-
-    @keyframes fadeInZoom {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .price-animate {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideUpFade 0.5s forwards 0.5s;
-    }
-
-    @keyframes slideUpFade {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .desc-animate {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideUpFade 0.5s forwards 0.7s;
-    }
-
-    .btn-animate {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideUpFade 0.5s forwards 0.9s;
-    }
-
-    .btn-hover-animate {
-      transition: all 0.3s ease;
-    }
-
-    .btn-hover-animate:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .category-badge-animate {
-      opacity: 0;
-      animation: fadeIn 0.5s forwards 0.2s;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    :root {
+      --pure-white: #FFFFFF;
+      --pure-black: #000000;
+      --light-gray: #F5F5F5;
+      --dark-gray: #222222;
+      --accent-gold: #FFD700;
+      --accent-blue: #0066CC;
+      --text-gray: #666666;
     }
     
-    /* Smart Gallery Styles */
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--pure-white);
+      color: var(--dark-gray);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: 0.3px;
+    }
+
+    /* ========== NAVIGATION ========== */
+    .navbar {
+      background: var(--pure-black);
+      padding: 0.8rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-img {
+      height: 38px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .navbar-brand:hover .logo-img {
+      transform: rotate(-5deg) scale(1.1);
+    }
+    
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--pure-white);
+      letter-spacing: 1.5px;
+      position: relative;
+    }
+    
+    .brand-name::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--pure-white);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .navbar-brand:hover .brand-name::after {
+      transform: scaleX(1);
+    }
+
+    /* ========== PRODUCT GALLERY ========== */
+    .gallery-container {
+      position: relative;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    
     .main-media-container {
       position: relative;
       width: 100%;
-      height: 400px;
+      height: 500px;
       overflow: hidden;
-      border-radius: 8px;
-      margin-bottom: 15px;
+      border-radius: 12px;
       background-color: #f8f9fa;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.05);
     }
     
-    .main-media-container img,
-    .main-media-container video,
-    .main-media-container iframe {
+    .main-media-display {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
+      transition: opacity 0.4s ease;
     }
     
     .thumbnail-gallery {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
+      gap: 12px;
+      margin-top: 20px;
     }
     
     .thumbnail-item {
       width: 80px;
       height: 80px;
-      border-radius: 5px;
+      border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
     }
     
     .thumbnail-item:hover {
-      border-color: #4285f4;
-      transform: scale(1.05);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
     }
     
     .thumbnail-item.active {
-      border-color: #4285f4;
+      border-color: var(--accent-blue);
+      transform: scale(1.05);
     }
     
-    .thumbnail-item img {
+    .thumbnail-item img, 
+    .thumbnail-item video {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
     
-    .thumbnail-item.video-thumbnail {
-      position: relative;
-    }
-    
-    .thumbnail-item.video-thumbnail::after {
-      content: '\f144';
-      font-family: 'Font Awesome 5 Free';
-      font-weight: 900;
+    .video-indicator {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
       font-size: 20px;
-      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+      text-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+
+    /* ========== PRODUCT DETAILS ========== */
+    .product-title {
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: var(--dark-gray);
+      margin-bottom: 1rem;
+      line-height: 1.2;
     }
     
-    .media-loading {
+    .price-container {
+      margin: 1.5rem 0;
+    }
+    
+    .current-price {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--dark-gray);
+    }
+    
+    .discount-price {
+      color: #B12704;
+    }
+    
+    .original-price {
+      text-decoration: line-through;
+      font-size: 1.2rem;
+      color: var(--text-gray);
+      margin-left: 10px;
+    }
+    
+    .stock-status {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    
+    .in-stock {
+      color: #007600;
+    }
+    
+    .out-stock {
+      color: #B12704;
+    }
+    
+    .product-description {
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    /* ========== SIZE SELECTOR ========== */
+    .size-selector {
+      margin: 2rem 0;
+    }
+    
+    .size-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 0 8px 12px 0;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .size-btn:hover {
+      border-color: #aaa;
+    }
+    
+    .size-btn.selected {
+      background: var(--pure-black);
+      color: white;
+      border-color: var(--pure-black);
+    }
+
+    /* ========== ACTION BUTTONS ========== */
+    .action-buttons {
+      margin-top: 2.5rem;
+    }
+    
+    .add-to-cart-btn {
+      background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+      border: 1px solid #a88734;
+      color: #111;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 4px;
+      margin-right: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-btn:hover {
+      background: linear-gradient(to bottom, #f5d78e, #eeb933);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .buy-now-btn {
+      background: linear-gradient(to bottom, #f6c88f, #ed9220);
+      border: 1px solid #9c7e31;
+      color: #111;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .buy-now-btn:hover {
+      background: linear-gradient(to bottom, #f5b973, #e77600);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* ========== AUTH OVERLAY ========== */
+    .auth-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      backdrop-filter: blur(5px);
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 100;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: rgba(255,255,255,0.8);
-      z-index: 10;
+      flex-direction: column;
+      text-align: center;
+      border-radius: 12px;
     }
     
-    .media-loading .spinner-border {
-      width: 3rem;
-      height: 3rem;
+    .auth-message {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+    
+    .google-auth-btn {
+      background: #4285F4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .google-auth-btn:hover {
+      background: #3367D6;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .google-auth-btn i {
+      margin-right: 10px;
+      font-size: 1.2rem;
     }
 
-     .premium-btn-gold {
-  display: inline-block;
-  padding: 10px 22px;
-  border-radius: 32px;
-  background: linear-gradient(120deg, #232526 0%, #414345 100%);
-  color: #ffd700;
-  font-weight: 700;
-  font-size: 1.05rem;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 2px 8px 0 rgba(35,37,38,0.10), 0 1.5px 4px 0 rgba(255,215,0,0.08);
-  transition: 
-    background 0.22s cubic-bezier(.4,0,.2,1),
-    color 0.15s cubic-bezier(.4,0,.2,1),
-    box-shadow 0.15s cubic-bezier(.4,0,.2,1),
-    transform 0.15s cubic-bezier(.4,0,.2,1),
-    border 0.15s cubic-bezier(.4,0,.2,1);
-  position: relative;
-  letter-spacing: 0.03em;
-  margin-bottom: 2px;
-  border: 2px solid transparent;
-  outline: none;
-  overflow: hidden;
-  text-shadow: 0 2px 8px rgba(255,215,0,0.10);
-}
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fadein {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
 
-.premium-btn-gold:hover, .premium-btn-gold:focus {
-  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
-  color: #232526;
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 6px 18px 0 rgba(255,215,0,0.18), 0 2px 8px 0 rgba(35,37,38,0.12);
-  border: 2.5px solid #ffd700;
-}
-
-.premium-btn-gold:active {
-  filter: brightness(0.97);
-  transform: scale(0.98);
-}
-
-.premium-btn-gold.remove {
-  background: linear-gradient(120deg, #232526 0%, #ffd700 100%);
-  color: #ffd700;
-  border: 2px solid #ffd700;
-}
-
-.premium-btn-gold.remove:hover, .premium-btn-gold.remove:focus {
-  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
-  color: #232526;
-  border: 2.5px solid #ffd700;
-}
-
-/* Responsive for mobile */
-@media (max-width: 600px) {
-  .premium-btn-gold {
-    padding: 9px 12px;
-    font-size: 0.98rem;
-  }
-}
-
-  .smart-cart-btn {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1.5rem 0.5rem 1.2rem;
-  border: none;
-  border-radius: 2rem;
-  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
-  color: #fff !important;
-  font-weight: 600;
-  font-size: 1.08rem;
-  box-shadow: 0 4px 24px 0 rgba(24,90,157,0.13), 0 1.5px 4px 0 rgba(67,206,162,0.10);
-  transition: all 0.18s cubic-bezier(.4,0,.2,1);
-  overflow: hidden;
-  z-index: 1;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  outline: none;
-  gap: 0.7em;
-}
-.smart-cart-btn:before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 100%);
-  border-radius: inherit;
-  z-index: 0;
-  pointer-events: none;
-}
-.smart-cart-btn .cart-icon {
-  font-size: 1.3em;
-  z-index: 1;
-  filter: drop-shadow(0 2px 6px rgba(24,90,157,0.12));
-}
-.smart-cart-btn .cart-badge {
-  position: absolute;
-  top: -7px;
-  right: -7px;
-  background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
-  color: #fff;
-  font-size: 0.95em;
-  font-weight: 700;
-  border-radius: 50%;
-  padding: 0.32em 0.6em;
-  box-shadow: 0 2px 8px 0 rgba(221,36,118,0.18);
-  border: 2px solid #fff;
-  z-index: 2;
-  transition: transform 0.18s;
-}
-.smart-cart-btn:hover, .smart-cart-btn:focus {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 8px 32px 0 rgba(24,90,157,0.18), 0 2px 8px 0 rgba(67,206,162,0.12);
-  background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
-  color: #fff !important;
-  text-decoration: none;
-}
-.stylish-nav-link {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 1.2rem;
-  margin: 0.3rem 0.5rem;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 1.05rem;
-  background: rgba(255,255,255,0.08);
-  color: #fff !important;
-  transition: all 0.3s ease;
-}
-
-.stylish-nav-link:hover {
-  background: linear-gradient(90deg, #ffcc00 0%, #ffdd57 100%);
-  color: #222 !important;
-  transform: translateY(-2px) scale(1.04);
-  text-decoration: none;
-}
-
-.stylish-nav-link span {
-  background: linear-gradient(90deg, #fc5c7d, #6a82fb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-}
-
-/* মোবাইলের জন্য responsive layout */
-@media (max-width: 768px) {
-  .stylish-nav-link {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-    font-size: 1rem;
-    padding: 0.75rem 1rem;
-  }
-
-  .stylish-nav-link i {
-    font-size: 1.1rem;
-    margin-right: 6px;
-  }
-
-  .stylish-nav-link span {
-    font-size: 0.95rem;
-  }
-}  
-
-    .cart-login-hint {
-  font-size: 0.93rem;
-  font-weight: 600;
-  color: #444;
-  background: rgba(255, 239, 184, 0.4);
-  padding: 8px 14px;
-  border-radius: 8px;
-  display: inline-block;
-  margin-top: 10px;
-  letter-spacing: 0.4px;
-  line-height: 1.4;
-}
-
-.cart-login-hint a {
-  color: #2d69e0;
-  font-weight: 700;
-  text-decoration: underline dotted;
-}
-
-.cart-login-hint i {
-  color: #e69500;
-  margin-right: 5px;
-}
-.btn-google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: linear-gradient(90deg, #4285F4 0%, #34A853 100%);
-  color: #fff !important;
-  font-weight: 700;
-  font-size: 1.08rem;
-  border: none;
-  border-radius: 50px;
-  padding: 13px 0;
-  box-shadow: 0 4px 18px rgba(66, 133, 244, 0.13), 0 1.5px 4px 0 rgba(52, 168, 83, 0.10);
-  transition: all 0.25s cubic-bezier(.4,0,.2,1);
-  margin-top: 10px;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-  width: 100%;
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.btn-google i {
-  font-size: 1.3em;
-  margin-right: 8px;
-}
-.btn-google:hover, .btn-google:focus {
-  background: linear-gradient(90deg, #34A853 0%, #4285F4 100%);
-  color: #fff !important;
-  box-shadow: 0 8px 32px 0 rgba(52, 168, 83, 0.18), 0 2px 8px 0 rgba(66, 133, 244, 0.12);
-  transform: translateY(-2px) scale(1.04);
-  text-decoration: none;
-}
-.btn-google:active {
-  transform: scale(0.98);
-}
-@media (max-width: 576px) {
-  .btn-google {
-    font-size: 1rem;
-    padding: 11px 0;
-    max-width: 100%;
-  }
-  .btn-google i {
-    font-size: 1.1em;
-    margin-right: 6px;
-  }
-}  
-  
-.size-btn-glass {
-  display: inline-block;
-  padding: 15px 32px;
-  border-radius: 50px;
-  background: linear-gradient(120deg, #232526 0%, #414345 100%);
-  color: #ffd700;
-  font-weight: 700;
-  font-size: 1.18rem;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 4px 24px 0 rgba(35,37,38,0.13), 0 1.5px 4px 0 rgba(255,215,0,0.10);
-  transition: 
-    background 0.25s cubic-bezier(.4,0,.2,1),
-    color 0.18s cubic-bezier(.4,0,.2,1),
-    box-shadow 0.18s cubic-bezier(.4,0,.2,1),
-    transform 0.18s cubic-bezier(.4,0,.2,1),
-    border 0.18s cubic-bezier(.4,0,.2,1);
-  position: relative;
-  letter-spacing: 0.04em;
-  margin-bottom: 2px;
-  border: 2px solid transparent;
-  outline: none;
-  overflow: hidden;
-  text-shadow: 0 2px 8px rgba(255,215,0,0.13);
-}
-
-.size-btn-glass:hover, .size-btn-glass:focus {
-  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
-  color: #232526;
-  transform: translateY(-4px) scale(1.10) rotate(-2deg);
-  box-shadow: 0 12px 36px 0 rgba(255,215,0,0.22), 0 2px 12px 0 rgba(35,37,38,0.18);
-  border: 2.5px solid #ffd700;
-}
-
-.btn-check:checked + .size-btn-glass {
-  background: linear-gradient(120deg, #ffd700 0%, #232526 100%);
-  color: #232526;
-  box-shadow: 0 12px 36px 0 rgba(255,215,0,0.22), 0 2px 12px 0 rgba(35,37,38,0.18), 0 0 0 6px rgba(255,215,0,0.10);
-  border: 3px solid #ffd700;
-  transform: scale(1.15) rotate(1deg);
-  text-shadow: 0 2px 12px rgba(255,215,0,0.22);
-  filter: brightness(1.15);
-}
+    /* ========== RESPONSIVE ADJUSTMENTS ========== */
+    @media (max-width: 992px) {
+      .main-media-container {
+        height: 400px;
+      }
+      
+      .product-title {
+        font-size: 1.8rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .main-media-container {
+        height: 350px;
+      }
+      
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .add-to-cart-btn, 
+      .buy-now-btn {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .main-media-container {
+        height: 300px;
+      }
+      
+      .product-title {
+        font-size: 1.6rem;
+      }
+      
+      .current-price {
+        font-size: 1.5rem;
+      }
+      
+      .original-price {
+        font-size: 1rem;
+      }
+    }
   </style>
 
-     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RP643852NH');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RP643852NH');
+  </script>
 </head>
 
 <body>
 
 <!-- Navbar -->
-<nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container">
-    <a class="navbar-brand waves-effect" href="{% url 'HomeView' %}">
-      <strong class="blue-text">Topnoz</strong>
+    <a class="navbar-brand" href="{% url 'HomeView' %}">
+      <img src="{% static 'image/topnozlogo.jpg' %}" alt="TOPNOZ" class="logo-img">
+      <span class="brand-name">TOPNOZ</span>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mr-auto">
-
-  <!-- Home -->
-  <li class="nav-item">
-    <a class="nav-link stylish-nav-link" href="{% url 'HomeView' %}">
-      <i class="fas fa-home me-1"></i> <span>Home</span>
-    </a>
-  </li>
-
-  <!-- Contact -->
-  <li class="nav-item">
-    <a class="nav-link stylish-nav-link" href="{% url 'contact' %}">
-      <i class="fas fa-envelope me-1"></i> <span>Contact</span>
-    </a>
-  </li>
-
-  <!-- Login/Logout -->
-  {% if user.is_authenticated %}
-    <li class="nav-item">
-      <a class="nav-link stylish-nav-link">
-        <i class="fas fa-user-circle me-1"></i> <span>Hi, {{ user.username }}</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link stylish-nav-link" href="{% url 'logout' %}">
-        <i class="fas fa-sign-out-alt me-1"></i> <span>Logout</span>
-      </a>
-    </li>
-  {% else %}
-    <li class="nav-item">
-      <a class="nav-link stylish-nav-link" href="{% url 'userLogin' %}">
-        <i class="fas fa-sign-in-alt me-1"></i> <span>Login</span>
-      </a>
-    </li>
-  {% endif %}
-
-</ul>
-      <ul class="navbar-nav nav-flex-icons">
-  <li class="nav-item d-flex align-items-center">
-    <<a href="{% url 'cart' %}" class="smart-cart-btn">
-  <i class="fas fa-shopping-cart cart-icon"></i>
-  <span>
-    <strong>YOUR</strong>&nbsp;<small style="font-size: 0.85em;">BAG</small>
-  </span>
-</a>
-  </li>
-</ul>
+    
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'cart' %}">
+            <i class="fas fa-shopping-cart"></i> Cart
+            {% if cart_items_count > 0 %}
+              <span class="badge badge-light ml-1">{{ cart_items_count }}</span>
+            {% endif %}
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'userLogin' %}">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+          </li>
+        {% endif %}
+      </ul>
     </div>
   </div>
 </nav>
 
-<!-- Alert Messages -->
-{% if messages %}
-<div class="container mt-5 pt-4">
-  {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
-  {% endfor %}
-</div>
-{% endif %}
-
 <!-- Main Content -->
-<main class="mt-5 pt-4">
-  <div class="container dark-grey-text mt-5 position-relative">
-
-    <div class="row wow fadeIn">
-      <div class="col-md-6 mb-4">
-        <!-- Main Media Display -->
-        <div class="main-media-container">
-          {% if object.image %}
-            <img src="{{ object.image.url }}" class="img-fluid product-img-animate main-media-display" alt="{{ object.title }}">
-          {% else %}
-            <img src="{% static 'img/default.png' %}" class="img-fluid product-img-animate main-media-display" alt="No Image Available">
-          {% endif %}
+<main class="mt-5 pt-5">
+  <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
+      {% endfor %}
+    {% endif %}
 
-        <!-- Thumbnail Gallery -->
-        <div class="thumbnail-gallery">
-          <!-- Main image thumbnail -->
-          <div class="thumbnail-item {% if object.image %}active{% endif %}" data-media-type="image" data-src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}">
-            <img src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}" alt="Main Image">
+    <div class="row">
+      <!-- Product Gallery -->
+      <div class="col-lg-6 mb-5">
+        <div class="gallery-container">
+          <!-- Main Media Display -->
+          <div class="main-media-container">
+            {% if object.image %}
+              <img src="{{ object.image.url }}" class="main-media-display animate-fadein" alt="{{ object.title }}">
+            {% else %}
+              <img src="{% static 'img/default.png' %}" class="main-media-display animate-fadein" alt="No Image Available">
+            {% endif %}
+            
+            <!-- Auth Overlay for non-logged in users -->
+            {% if not user.is_authenticated %}
+              <div class="auth-overlay animate-fadein delay-3">
+                <h4 class="auth-message">Login to purchase this item</h4>
+                <a href="{% provider_login_url 'google' %}?next={{ request.get_full_path }}" class="google-auth-btn">
+                  <i class="fab fa-google"></i> Continue with Google
+                </a>
+              </div>
+            {% endif %}
           </div>
           
-          <!-- Extra media thumbnails -->
-          {% for media in object.media.all %}
-            {% if media.is_video %}
-              {% if media.video_file %}
-                <div class="thumbnail-item video-thumbnail" data-media-type="video" data-src="{{ media.video_file.url }}">
-                  <video muted loop>
-                    <source src="{{ media.video_file.url }}" type="video/mp4">
-                  </video>
-                </div>
-              {% elif media.is_youtube %}
-                <div class="thumbnail-item video-thumbnail" data-media-type="youtube" data-src="https://www.youtube.com/embed/{{ media.video_url|youtube_id }}">
-                  <img src="https://img.youtube.com/vi/{{ media.video_url|youtube_id }}/default.jpg" alt="YouTube Video">
-                </div>
-              {% elif media.is_facebook %}
-                <div class="thumbnail-item video-thumbnail" data-media-type="facebook" data-src="{{ media.video_url }}">
-                  <img src="{% static 'img/video-thumbnail.jpg' %}" alt="Facebook Video">
-                </div>
-              {% elif media.video_url %}
-                <div class="thumbnail-item video-thumbnail" data-media-type="video" data-src="{{ media.video_url }}">
-                  <video muted loop>
-                    <source src="{{ media.video_url }}" type="video/mp4">
-                  </video>
+          <!-- Thumbnail Gallery -->
+          <div class="thumbnail-gallery">
+            <!-- Main image thumbnail -->
+            <div class="thumbnail-item active" data-media-type="image" data-src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}">
+              <img src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}" alt="Main Image">
+            </div>
+            
+            <!-- Extra media thumbnails -->
+            {% for media in object.media.all %}
+              {% if media.is_video %}
+                {% if media.video_file %}
+                  <div class="thumbnail-item" data-media-type="video" data-src="{{ media.video_file.url }}">
+                    <video muted loop>
+                      <source src="{{ media.video_file.url }}" type="video/mp4">
+                    </video>
+                    <div class="video-indicator">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                {% elif media.is_youtube %}
+                  <div class="thumbnail-item" data-media-type="youtube" data-src="https://www.youtube.com/embed/{{ media.video_url|youtube_id }}">
+                    <img src="https://img.youtube.com/vi/{{ media.video_url|youtube_id }}/default.jpg" alt="YouTube Video">
+                    <div class="video-indicator">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                {% elif media.video_url %}
+                  <div class="thumbnail-item" data-media-type="video" data-src="{{ media.video_url }}">
+                    <video muted loop>
+                      <source src="{{ media.video_url }}" type="video/mp4">
+                    </video>
+                    <div class="video-indicator">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                {% endif %}
+              {% elif media.image %}
+                <div class="thumbnail-item" data-media-type="image" data-src="{{ media.image.url }}">
+                  <img src="{{ media.image.url }}" alt="Extra Image">
                 </div>
               {% endif %}
-            {% elif media.image %}
-              <div class="thumbnail-item" data-media-type="image" data-src="{{ media.image.url }}">
-                <img src="{{ media.image.url }}" alt="Extra Image">
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Details -->
+      <div class="col-lg-6">
+        <div class="product-details">
+          <!-- Category Badge -->
+          <div class="mb-3 animate-fadein">
+            <span class="badge badge-secondary">{{ object.get_categories_display }}</span>
+          </div>
+          
+          <!-- Product Title -->
+          <h1 class="product-title animate-fadein delay-1">{{ object.title }}</h1>
+          
+          <!-- Price -->
+          <div class="price-container animate-fadein delay-1">
+            {% if object.discount_price %}
+              <span class="current-price discount-price">৳{{ object.discount_price }}</span>
+              <span class="original-price">৳{{ object.price }}</span>
+            {% else %}
+              <span class="current-price">৳{{ object.price }}</span>
+            {% endif %}
+          </div>
+          
+          <!-- Stock Status -->
+          <div class="stock-status animate-fadein delay-1">
+            {% if object.stock > 0 %}
+              <span class="in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
+            {% else %}
+              <span class="out-stock"><i class="fas fa-times-circle"></i> Out of Stock</span>
+            {% endif %}
+          </div>
+          
+          <hr class="animate-fadein delay-1">
+          
+          <!-- Description -->
+          <div class="product-description animate-fadein delay-2">
+            <h5 class="font-weight-bold mb-3">Product Details</h5>
+            {{ object.description|linebreaks }}
+          </div>
+          
+          <!-- Size Selector -->
+          {% for variation in object.variation_set.all %}
+            {% if variation.name|lower == "size" and variation.itemvariation_set.all %}
+              <div class="size-selector animate-fadein delay-2">
+                <h6 class="font-weight-bold mb-3">Size:</h6>
+                <div class="size-options">
+                  {% for itemvar in variation.itemvariation_set.all %}
+                    <span class="size-btn" data-size="{{ itemvar.value }}">{{ itemvar.value }}</span>
+                  {% endfor %}
+                </div>
               </div>
             {% endif %}
           {% endfor %}
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-4">
-        <div class="p-4">
-          <div class="mb-3">
-            <span class="badge purple mr-1 category-badge-animate">{{ object.get_categories_display }}</span>
+          
+          <!-- Action Buttons -->
+          <div class="action-buttons animate-fadein delay-3">
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'add-to-cart' object.slug %}" class="d-inline">
+                {% csrf_token %}
+                <input type="hidden" name="size" id="selected-size" value="">
+                <button type="submit" class="add-to-cart-btn" id="addToCartBtn" {% if object.stock <= 0 %}disabled{% endif %}>
+                  <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                </button>
+              </form>
+              <a href="{% url 'checkout' %}" class="buy-now-btn">
+                <i class="fas fa-bolt mr-2"></i> Buy Now
+              </a>
+            {% else %}
+              <button class="add-to-cart-btn" disabled>
+                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+              </button>
+              <button class="buy-now-btn" disabled>
+                <i class="fas fa-bolt mr-2"></i> Buy Now
+              </button>
+            {% endif %}
           </div>
-
-          <h3 class="font-weight-bold price-animate">{{ object.title }}</h3>
-
-          <p class="lead mt-3 mb-2 price-animate">
-            {% if object.discount_price %}
-              <del class="text-muted">৳ {{ object.price }}</del>
-              <span class="text-danger font-weight-bold ml-2">৳ {{ object.discount_price }}</span>
-            {% else %}
-              <span class="text-primary font-weight-bold">৳ {{ object.price }}</span>
-            {% endif %}
-          </p>
-
-          <p class="text-muted mb-2 price-animate">
-            {% if object.stock > 0 %}
-              <span class="text-success">In Stock ({{ object.stock }} available)</span>
-            {% else %}
-              <span class="text-danger">Out of Stock</span>
-            {% endif %}
-          </p>
-
-          <hr class="price-animate">
-
-          <p class="lead font-weight-bold mt-4 desc-animate">Description</p>
-          <p class="desc-animate">{{ object.description|linebreaks }}</p>
-
-          <!-- Smart Add/Remove Cart Section -->
-          <div class="mt-4 btn-animate">
-  {% if user.is_authenticated %}
-
- <form method="post" action="{% url 'add-to-cart' object.slug %}">
-  {% csrf_token %}
-  {% for variation in object.variation_set.all %}
-    {% if variation.name|lower == "size" and variation.itemvariation_set.all %}
-      <label class="mb-2"><b>Select Size:</b></label>
-     <div class="size-btn-group mb-3">
-  {% for itemvar in variation.itemvariation_set.all %}
-    <input type="radio" class="btn-check" name="size" id="size-{{ itemvar.value }}" value="{{ itemvar.value }}" autocomplete="off">
-    <label class="size-btn-glass" for="size-{{ itemvar.value }}">{{ itemvar.value }}</label>
-  {% endfor %}
-</div>
-           <button type="submit" class="premium-btn-gold mr-2" id="addToCartBtn" disabled>
-        <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
-      </button>
-    {% endif %}
-  {% empty %}
-    <button type="submit" class="premium-btn-gold mr-2">
-      <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
-    </button>
-  {% endfor %}
-</form>
-
-    <a href="{{ object.get_remove_from_cart_url }}" class="premium-btn-gold remove mt-2 mt-md-0">
-      <i class="fas fa-cart-arrow-down btn-icon"></i> Remove from Cart
-    </a>
-{% else %}
-  <button class="premium-btn-gold mr-2 disabled-btn" disabled data-toggle="tooltip" title="Login to add items">
-    <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
-  </button>
-  <button class="premium-btn-gold remove disabled-btn" disabled data-toggle="tooltip" title="Login to remove items">
-    <i class="fas fa-cart-arrow-down btn-icon"></i> Remove from Cart
-  </button>
-  <p class="cart-login-hint">
-    <i class="fas fa-lock"></i>
-    Please <a href="{% url 'userLogin' %}">login</a> to manage your cart.
-  </p>
-  <a href="{% provider_login_url 'google' %}?next={{ request.get_full_path }}" class="btn btn-google btn-block mt-3" style="max-width:320px; margin:0 auto; display:block;">
-    <i class="fab fa-google mr-2"></i> Continue with Google
-  </a>
-{% endif %}
-      </div>
         </div>
       </div>
     </div>
-
-    <hr>
   </div>
 </main>
 
 <!-- Footer -->
-<footer class="page-footer text-center font-small mt-4 wow fadeIn">
-  <div class="py-3">
-    © 2025 Copyright:
-    <a href="#"> Topnoz </a>
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2025 TOPNOZ. All rights reserved.</p>
   </div>
 </footer>
 
 <!-- Scripts -->
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/mdb.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script>
-  new WOW().init();
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    // Add click animation to buttons
-    $('.btn-hover-animate').on('click', function() {
-      $(this).addClass('active');
-      setTimeout(() => {
-        $(this).removeClass('active');
-      }, 300);
-    });
-    
+  $(document).ready(function() {
     // Smart Gallery Functionality
     $('.thumbnail-item').on('click', function() {
-      // Remove active class from all thumbnails
+      // Update active thumbnail
       $('.thumbnail-item').removeClass('active');
-      // Add active class to clicked thumbnail
       $(this).addClass('active');
       
       const mediaType = $(this).data('media-type');
       const mediaSrc = $(this).data('src');
       const mainContainer = $('.main-media-container');
       
-      // Show loading spinner
-      mainContainer.html('<div class="media-loading"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>');
+      // Show loading effect
+      const mainMedia = $('.main-media-display');
+      mainMedia.css('opacity', '0');
       
-      // Clear the container after a short delay to allow spinner to show
-      setTimeout(() => {
+      // Load new media after a short delay
+      setTimeout(function() {
         mainContainer.empty();
         
-        // Create appropriate media element based on type
         let mediaElement;
         if (mediaType === 'image') {
           mediaElement = $('<img>', {
-            'class': 'img-fluid main-media-display',
+            'class': 'main-media-display',
             'src': mediaSrc,
-            'alt': 'Product Media'
+            'alt': 'Product Image'
           });
         } 
         else if (mediaType === 'video') {
           mediaElement = $('<video>', {
-            'class': 'img-fluid main-media-display',
+            'class': 'main-media-display',
             'controls': '',
-            'autoplay': ''
+            'autoplay': '',
+            'loop': ''
           }).append(
             $('<source>', {
               'src': mediaSrc,
@@ -784,56 +646,30 @@
             'frameborder': '0',
             'allow': 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
             'allowfullscreen': ''
-          }).css({
-            'width': '100%',
-            'height': '100%'
-          });
-        }
-        else if (mediaType === 'facebook') {
-          mediaElement = $('<iframe>', {
-            'class': 'main-media-display',
-            'src': mediaSrc,
-            'frameborder': '0',
-            'allow': 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share',
-            'allowfullscreen': ''
-          }).css({
-            'width': '100%',
-            'height': '100%'
           });
         }
         
-        // Add the new media element to the container
         mainContainer.append(mediaElement);
-        
-        // Add fade-in animation
-        mediaElement.hide().fadeIn(300);
-      }, 50);
+        mediaElement.hide().fadeIn(400);
+      }, 300);
+    });
+    
+    // Size selection
+    $('.size-btn').on('click', function() {
+      $('.size-btn').removeClass('selected');
+      $(this).addClass('selected');
+      $('#selected-size').val($(this).data('size'));
+      $('#addToCartBtn').prop('disabled', false);
     });
     
     // Auto-play video thumbnails on hover
-    $('.thumbnail-item video').each(function() {
-      $(this).on('mouseenter', function() {
-        this.play();
-      }).on('mouseleave', function() {
-        this.pause();
-        this.currentTime = 0;
-      });
+    $('.thumbnail-item video').on('mouseenter', function() {
+      this.play();
+    }).on('mouseleave', function() {
+      this.pause();
+      this.currentTime = 0;
     });
   });
 </script>
-
-<script>
-  // Enable Add to Cart only if size selected (for radio button)
-  const sizeRadios = document.querySelectorAll('input[name="size"]');
-  const addToCartBtn = document.getElementById('addToCartBtn');
-  if (sizeRadios.length && addToCartBtn) {
-    sizeRadios.forEach(radio => {
-      radio.addEventListener('change', function() {
-        addToCartBtn.disabled = !document.querySelector('input[name="size"]:checked');
-      });
-    });
-  }
-</script>
-
 </body>
 </html>

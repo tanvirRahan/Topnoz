@@ -48,18 +48,16 @@
       align-items: center;
     }
     
-/* LOGO — polished for black navbar with JPG asset */
 .logo-img {
   height: 42px;
   width: auto;
   display: block;
   object-fit: contain;
 
-  /* Make the JPG logo appear crisp white on dark bg */
-  filter: invert(1) grayscale(1) brightness(1.08) contrast(1.15);
-  /* ↑ white ko thoda bright + crisp, color remove */
+  /* Filter মুছে ফেলেছি যাতে লোগোর আসল রঙ দেখা যায় */
+  filter: none;
 
-  opacity: .98;
+  opacity: 1;
   transform: translateZ(0);
   backface-visibility: hidden;
   will-change: transform;
@@ -67,8 +65,13 @@
 
   transition:
     transform .45s cubic-bezier(0.22, 1, 0.36, 1),
-    filter .2s ease,
     opacity .2s ease;
+}
+
+
+.navbar-brand:hover .logo-img {
+  transform: translateY(-1px) scale(1.03) rotate(-3deg);
+  opacity: 1;
 }
 
 /* Subtle micro-interaction */

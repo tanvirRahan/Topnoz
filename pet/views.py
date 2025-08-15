@@ -200,16 +200,22 @@ def remove_from_cart(request, slug):
 
     if order_qs.exists():
         order = order_qs.first()
-        order_item = OrderItem.objects.filter(
-            item=item, user=request.user, ordered=False, size=size
-        ).first()
+        
+        # 👍 Safe filter: size থাকলে size সহ, না হলে শুধু product দিয়ে
+        order_item_qs = OrderItem.objects.filter(
+            item=item, user=request.user, ordered=False
+        )
+        if size:
+            order_item_qs = order_item_qs.filter(size=size)
+        
+        order_item = order_item_qs.first()
+
         if order_item:
-            # ✅ সবসময় পুরো আইটেম মুছে ফেলবে
             order.items.remove(order_item)
             order_item.delete()
             messages.success(request, f"{item.title} ({size or 'No Size'}) removed from cart")
         else:
-            messages.info(request, f"{item.title} ({size or 'No Size'}) not in your cart")
+            messages.info(request, f"{item.title} not found in your cart")
     else:
         messages.info(request, "No active order")
     return redirect('cart')

@@ -4,35 +4,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ category_label }} | TOPNOZ Clothing</title>
+  <title>{{ category_label }} | TOPNOZ</title>
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #3a0ca3;
-      --secondary-color: #7209b7;
-      --accent-color: #f72585;
-      --text-dark: #1a1a2e;
-      --text-light: #6c757d;
-      --bg-light: #f8f9fa;
-      --card-bg: #ffffff;
+      --pure-white: #FFFFFF;
+      --pure-black: #000000;
+      --light-gray: #F5F5F5;
+      --medium-gray: #E5E5E5;
+      --dark-gray: #333333;
+      --text-gray: #777777;
+      --accent-red: #FF0000;
     }
     
     body {
-      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-      background-color: var(--bg-light);
-      color: var(--text-dark);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--pure-white);
+      color: var(--pure-black);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     
-    /* Navigation */
+    /* Navigation - Premium Black Header */
     .navbar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+      background: var(--pure-black);
       padding: 1rem 2rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     
     .navbar-brand {
@@ -40,13 +41,14 @@
       letter-spacing: -0.5px;
       display: flex;
       align-items: center;
-      color: var(--text-dark);
+      color: var(--pure-white);
     }
     
     .logo {
-      height: 45px;
+      height: 40px;
       margin-right: 12px;
       transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      filter: brightness(0) invert(1);
     }
     
     .navbar-brand:hover .logo {
@@ -55,43 +57,42 @@
     
     .brand-name {
       font-size: 1.5rem;
-      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
       font-weight: 800;
+      color: var(--pure-white);
+      letter-spacing: 1px;
     }
     
     .home-btn {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      border-radius: 50px;
+      background: var(--pure-white);
+      border-radius: 30px;
       padding: 0.5rem 1.5rem;
       font-weight: 600;
-      box-shadow: 0 4px 15px rgba(58, 12, 163, 0.2);
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      color: white;
+      color: var(--pure-black);
       text-decoration: none;
+      border: 1px solid transparent;
     }
     
     .home-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(58, 12, 163, 0.3);
-      color: white;
+      transform: translateY(-2px);
+      background: transparent;
+      color: var(--pure-white);
+      border-color: var(--pure-white);
     }
     
     .home-btn i {
       margin-right: 8px;
     }
     
-    /* Category Header */
+    /* Category Header - Minimalist Hero */
     .category-header {
       position: relative;
-      padding: 4rem 0;
-      background: linear-gradient(135deg, #f3f0ff, #e9e4ff);
+      padding: 5rem 0;
+      background: var(--pure-black);
       margin-bottom: 3rem;
+      color: var(--pure-white);
       overflow: hidden;
     }
     
@@ -102,23 +103,20 @@
       left: 0;
       right: 0;
       height: 50px;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23f8fafc' opacity='.25'/%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' fill='%23f8fafc'/%3E%3C/svg%3E");
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23FFFFFF' opacity='.25'/%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' fill='%23FFFFFF'/%3E%3C/svg%3E");
       background-size: cover;
       background-repeat: no-repeat;
     }
     
     .category-title {
       font-weight: 800;
-      font-size: 3rem;
-      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
+      font-size: 3.5rem;
+      color: var(--pure-white);
       position: relative;
       display: inline-block;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
     }
     
     .category-title::after {
@@ -128,49 +126,53 @@
       left: 50%;
       transform: translateX(-50%);
       width: 80px;
-      height: 5px;
-      background: linear-gradient(to right, var(--accent-color), var(--primary-color));
+      height: 3px;
+      background: var(--pure-white);
       border-radius: 3px;
     }
     
     .category-subtitle {
-      font-size: 1.2rem;
-      color: var(--text-light);
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.7);
       max-width: 700px;
       margin: 1.5rem auto 0;
+      letter-spacing: 0.5px;
     }
     
-    /* Product Cards */
+    /* Product Cards - Premium Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+    
     .product-card {
       border: none;
-      border-radius: 16px;
+      border-radius: 0;
       overflow: hidden;
-      box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.05);
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      background: var(--card-bg);
+      background: var(--pure-white);
       position: relative;
-    }
-    
-    .product-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
     }
     
     .product-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
     
     .product-img-container {
       padding: 1.5rem;
-      background: white;
+      background: var(--light-gray);
       position: relative;
       overflow: hidden;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .product-img {
@@ -178,38 +180,40 @@
       width: 100%;
       object-fit: contain;
       transition: all 0.5s ease;
+      mix-blend-mode: multiply;
     }
     
     .product-card:hover .product-img {
-      transform: scale(1.08);
+      transform: scale(1.05);
     }
     
     .product-badge {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--accent-color);
-      color: white;
-      padding: 5px 12px;
-      border-radius: 50px;
-      font-size: 0.8rem;
+      top: 15px;
+      right: 15px;
+      background: var(--pure-black);
+      color: var(--pure-white);
+      padding: 4px 12px;
+      border-radius: 3px;
+      font-size: 0.7rem;
       font-weight: 600;
       z-index: 1;
+      letter-spacing: 1px;
     }
     
     .product-body {
       padding: 1.5rem;
       text-align: center;
+      border-top: 1px solid var(--medium-gray);
     }
     
     .product-title {
-      font-weight: 700;
-      color: var(--text-dark);
+      font-weight: 600;
+      color: var(--pure-black);
       margin-bottom: 1rem;
-      font-size: 1.1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     .price-container {
@@ -217,19 +221,19 @@
     }
     
     .current-price {
-      font-weight: 800;
-      font-size: 1.4rem;
-      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--pure-black);
     }
     
     .discount-price {
-      color: var(--accent-color);
+      color: var(--accent-red);
     }
     
     .original-price {
       text-decoration: line-through;
-      font-size: 1rem;
-      color: var(--text-light);
+      font-size: 0.9rem;
+      color: var(--text-gray);
       margin-left: 8px;
     }
     
@@ -239,95 +243,96 @@
     }
     
     .details-btn {
-      border: none;
-      border-radius: 50px;
+      border: 1px solid var(--pure-black);
+      border-radius: 0;
       padding: 10px 20px;
       font-weight: 600;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: white;
+      background: transparent;
+      color: var(--pure-black);
       text-decoration: none;
       width: 100%;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
     }
     
     .details-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 15px rgba(58, 12, 163, 0.3);
-      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-      color: white;
+      background: var(--pure-black);
+      color: var(--pure-white);
     }
     
-    /* Pagination */
+    /* Pagination - Minimalist Style */
     .pagination-container {
       margin-top: 4rem;
+      padding: 0 1rem;
     }
     
     .pagination {
       justify-content: center;
+      border-top: 1px solid var(--medium-gray);
+      padding-top: 2rem;
     }
     
     .page-item.active .page-link {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      border-color: transparent;
-      color: white;
+      background: var(--pure-black);
+      border-color: var(--pure-black);
+      color: var(--pure-white);
     }
     
     .page-link {
-      color: var(--primary-color);
-      border-radius: 50px;
+      color: var(--pure-black);
+      border-radius: 0;
       margin: 0 5px;
-      border: none;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      min-width: 45px;
-      height: 45px;
+      border: 1px solid var(--medium-gray);
+      min-width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
+      font-weight: 500;
       transition: all 0.3s ease;
       text-decoration: none;
     }
     
     .page-link:hover {
-      background-color: #f0e6ff;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 15px rgba(58, 12, 163, 0.1);
-      color: var(--primary-color);
+      background-color: var(--pure-black);
+      color: var(--pure-white);
+      border-color: var(--pure-black);
     }
     
-    /* Empty State */
+    /* Empty State - Premium Look */
     .empty-state {
       padding: 6rem 0;
       text-align: center;
+      background: var(--light-gray);
+      margin: 2rem;
     }
     
     .empty-icon {
-      font-size: 6rem;
-      color: #e0e0e0;
+      font-size: 5rem;
+      color: var(--medium-gray);
       margin-bottom: 2rem;
-      animation: bounce 2s infinite;
     }
     
     .empty-title {
-      font-weight: 800;
-      font-size: 2rem;
-      color: var(--text-dark);
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--pure-black);
       margin-bottom: 1rem;
-      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
     
     .empty-text {
-      color: var(--text-light);
+      color: var(--text-gray);
       max-width: 600px;
       margin: 0 auto 3rem;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      line-height: 1.6;
     }
     
     .action-buttons {
@@ -338,56 +343,100 @@
     }
     
     .back-home-btn {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      border: none;
-      border-radius: 50px;
+      background: var(--pure-black);
+      border: 1px solid var(--pure-black);
+      border-radius: 0;
       padding: 12px 30px;
       font-weight: 600;
       transition: all 0.3s ease;
-      color: white;
+      color: var(--pure-white);
       display: flex;
       align-items: center;
       text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
     }
     
     .back-home-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(58, 12, 163, 0.2);
-      color: white;
+      background: transparent;
+      color: var(--pure-black);
     }
     
     .notify-btn {
-      background: linear-gradient(135deg, #f72585, #b5179e);
-      border: none;
-      border-radius: 50px;
+      background: transparent;
+      border: 1px solid var(--pure-black);
+      border-radius: 0;
       padding: 12px 30px;
       font-weight: 600;
       transition: all 0.3s ease;
-      color: white;
+      color: var(--pure-black);
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+    
+    .notify-btn:hover {
+      background: var(--pure-black);
+      color: var(--pure-white);
+    }
+    
+    /* Search Bar - Premium Black Style */
+    .search-navbar {
+      background: rgba(255,255,255,0.1);
+      border-radius: 0;
+      padding: 0;
+      min-width: 180px;
+      max-width: 400px;
+      width: 100%;
+      margin-left: 24px;
+      margin-right: 24px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .search-navbar:focus-within {
+      border-bottom-color: var(--pure-white);
+    }
+    
+    .search-navbar-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 0.95rem;
+      flex: 1 1 120px;
+      padding: 0.6rem 0;
+      color: var(--pure-white);
+      font-weight: 400;
+    }
+    
+    .search-navbar-input::placeholder {
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+    
+    .search-navbar-btn {
+      background: transparent;
+      color: var(--pure-white);
+      border: none;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      transition: all 0.3s;
       display: flex;
       align-items: center;
     }
     
-    .notify-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(247, 37, 133, 0.2);
-      color: white;
+    .search-navbar-btn:hover {
+      color: var(--pure-white);
+      opacity: 0.8;
     }
     
-    /* Animations */
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-      40% {transform: translateY(-20px);}
-      60% {transform: translateY(-10px);}
-    }
-    
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-15px); }
-      100% { transform: translateY(0px); }
-    }
-    
-    /* Responsive */
+    /* Responsive Adjustments */
     @media (max-width: 1200px) {
       .product-img {
         height: 240px;
@@ -402,13 +451,17 @@
       .product-img {
         height: 200px;
       }
-    }
-    
-    @media (max-width: 768px) {
+      
       .navbar {
         padding: 0.8rem 1rem;
       }
       
+      .search-navbar {
+        margin: 0 15px;
+      }
+    }
+    
+    @media (max-width: 768px) {
       .category-title {
         font-size: 2rem;
       }
@@ -422,7 +475,8 @@
       }
       
       .empty-state {
-        padding: 4rem 0;
+        padding: 4rem 1rem;
+        margin: 1rem;
       }
       
       .empty-title {
@@ -438,147 +492,85 @@
         width: 100%;
         justify-content: center;
       }
-    }
-    
-    @media (max-width: 576px) {
-      .product-img {
-        height: 150px;
-      }
       
-      .product-title {
-        font-size: 1rem;
-      }
-      
-      .current-price {
-        font-size: 1.2rem;
-      }
-      
-      .page-link {
-        min-width: 40px;
-        height: 40px;
-        font-size: 0.9rem;
-      }
-    }
-
-    /* --- Navbar Search Bar --- */
-    .search-navbar {
-      background: #fff;
-      border-radius: 30px;
-      box-shadow: 0 2px 12px rgba(58,12,163,0.10), 0 1.5px 4px rgba(247,37,133,0.07);
-      padding: 3px 12px;
-      min-width: 180px;
-      max-width: 400px;
-      width: 100%;
-      margin-left: 24px;
-      margin-right: 24px;
-      transition: box-shadow 0.3s;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-navbar:focus-within {
-      box-shadow: 0 6px 24px rgba(58,12,163,0.18), 0 2px 8px rgba(247,37,133,0.12);
-    }
-
-    .search-navbar-input {
-      border: none;
-      outline: none;
-      background: transparent;
-      font-size: 1.08rem;
-      flex: 1 1 120px;
-      padding: 0.6rem 1rem;
-      border-radius: 30px;
-      box-shadow: none;
-      color: #3a0ca3;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-
-    .search-navbar-input:focus {
-      background: #f3f0ff;
-    }
-
-    .search-navbar-input::placeholder {
-      color: #bdbdbd;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
-
-    .search-navbar-btn {
-      background: linear-gradient(135deg, #3a0ca3, #f72585);
-      color: #fff;
-      border: none;
-      border-radius: 30px;
-      padding: 0.6rem 1.3rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(58,12,163,0.08);
-      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-navbar-btn:hover, .search-navbar-btn:focus {
-      background: linear-gradient(135deg, #f72585, #3a0ca3);
-      color: #fff;
-      transform: translateY(-2px) scale(1.04);
-      box-shadow: 0 6px 18px rgba(247,37,133,0.13);
-    }
-
-    @media (max-width: 992px) {
       .navbar .container {
-        flex-direction: column !important;
-        align-items: stretch !important;
+        flex-wrap: wrap;
       }
+      
       .search-navbar {
-        margin: 10px 0 0 0;
+        order: 3;
+        margin: 15px 0 0 0;
         width: 100%;
         max-width: 100%;
       }
     }
+    
     @media (max-width: 576px) {
-      .search-navbar {
-        margin: 10px 0 0 0;
-        padding: 3px 6px;
+      .product-img {
+        height: 160px;
       }
-      .search-navbar-input {
-        font-size: 1rem;
-        padding: 0.5rem 0.7rem;
+      
+      .product-title {
+        font-size: 0.9rem;
       }
-      .search-navbar-btn {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
+      
+      .current-price {
+        font-size: 1.1rem;
+      }
+      
+      .page-link {
+        min-width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+        margin: 0 2px;
+      }
+      
+      .category-header {
+        padding: 3rem 0;
+      }
+      
+      .category-title {
+        font-size: 1.8rem;
       }
     }
-</style>
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    /* Micro-interactions */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .product-card:hover .product-badge {
+      animation: float 1.5s ease-in-out infinite;
+    }
+  </style>
 
-  gtag('config', 'G-RP643852NH');
-</script>
-
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RP643852NH');
+  </script>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+  <!-- Navigation - Premium Black Header -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand" href="{% url 'HomeView' %}">
-        <img src="{% static 'image/topnozlogo.jpg' %}" alt="TOPNOZ" class="logo animate__animated animate__pulse animate__infinite" style="animation-duration: 3s">
+        <img src="{% static 'image/topnozlogo.jpg' %}" alt="TOPNOZ" class="logo">
         <span class="brand-name">TOPNOZ</span>
       </a>
-      <!-- Search Bar Start -->
-    <form method="get" action="" class="search-navbar d-flex align-items-center mx-3 flex-grow-1" style="max-width: 400px;">
-      <input class="form-control search-navbar-input" type="search" name="q" placeholder="Search in this category..." aria-label="Search" value="{{ request.GET.q }}">
-      <button class="btn search-navbar-btn ml-2" type="submit">
-        <i class="fas fa-search"></i>
-      </button>
-    </form>
-    <!-- Search Bar End -->
+      
+      <!-- Search Bar -->
+      <form method="get" action="" class="search-navbar d-flex align-items-center mx-3 flex-grow-1">
+        <input class="form-control search-navbar-input" type="search" name="q" placeholder="Search products..." aria-label="Search" value="{{ request.GET.q }}">
+        <button class="btn search-navbar-btn" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
       
       <div class="d-flex">
         <a href="{% url 'HomeView' %}" class="btn home-btn">
@@ -588,23 +580,23 @@
     </div>
   </nav>
   
-  <!-- Category Header -->
-  <div class="category-header text-center animate__animated animate__fadeIn">
+  <!-- Category Header - Minimalist Hero -->
+  <div class="category-header text-center">
     <div class="container">
-      <h1 class="category-title">{{ category_label }}</h1>
-      <p class="category-subtitle">Discover our premium collection of high-quality products designed for your lifestyle</p>
+      <h1 class="category-title animate__animated animate__fadeInDown">{{ category_label }}</h1>
+      <p class="category-subtitle animate__animated animate__fadeIn animate__delay-1s">Crafted for excellence. Designed for you.</p>
     </div>
   </div>
   
-  <!-- Main Content -->
-  <div class="container pb-5 mb-5">
+  <!-- Main Content - Premium Product Grid -->
+  <div class="container-fluid pb-5 mb-5">
     {% if object_list %}
-      <div class="row g-4">
+      <div class="product-grid">
         {% for object in object_list %}
-          <div class="col-xl-3 col-lg-4 col-md-6 animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter|add:"-1"|divisibleby:"4"|yesno:"0,0.1,0.2,0.3" }}s">
+          <div class="animate__animated animate__fadeIn" style="animation-delay: {{ forloop.counter0|divisibleby:4|yesno:'0.2s,0.4s,0.6s,0.8s' }}">
             <div class="product-card h-100">
               {% if object.discount_price %}
-                <div class="product-badge animate__animated animate__pulse animate__infinite">
+                <div class="product-badge">
                   SALE
                 </div>
               {% endif %}
@@ -636,7 +628,7 @@
         {% endfor %}
       </div>
       
-      <!-- Pagination -->
+      <!-- Pagination - Minimalist Style -->
       {% if is_paginated %}
         <div class="pagination-container">
           <nav aria-label="Page navigation">
@@ -689,12 +681,11 @@
           <i class="fas fa-box-open"></i>
         </div>
         <h3 class="empty-title">Currently Unavailable</h3>
-        <p class="empty-text">We're refreshing our collection with new arrivals. Stay tuned for our latest products or join our notification list to be the first to know when we're back in stock.</p>
+        <p class="empty-text">We're refreshing our collection with new arrivals. Check back soon or join our notification list to be the first to know when we're back in stock.</p>
         <div class="action-buttons">
           <a href="{% url 'CategoryListView' %}" class="btn back-home-btn">
-    <i class="fas fa-arrow-left me-2"></i> Back to Categories
-</a>
-
+            <i class="fas fa-arrow-left me-2"></i> Back to Categories
+          </a>
           <button class="btn notify-btn">
             <i class="fas fa-bell me-2"></i> Notify Me
           </button>
@@ -705,33 +696,51 @@
   
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
   <script>
-    // Simple animation trigger on scroll
+    // Enhanced animations with Intersection Observer
     document.addEventListener('DOMContentLoaded', function() {
-      const animateElements = document.querySelectorAll('.animate__animated');
+      // Animate elements when they come into view
+      const animateOnScroll = (elements, animation) => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(animation);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        elements.forEach(el => observer.observe(el));
+      };
       
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(entry.target.dataset.animation);
-            observer.unobserve(entry.target);
+      // Animate product cards
+      animateOnScroll(document.querySelectorAll('.product-card'), 'animate__fadeInUp');
+      
+      // Logo hover animation
+      const logo = document.querySelector('.logo');
+      if (logo) {
+        logo.addEventListener('mouseenter', () => {
+          logo.classList.add('animate__rubberBand');
+        });
+        
+        logo.addEventListener('animationend', () => {
+          logo.classList.remove('animate__rubberBand');
+        });
+      }
+      
+      // Add smooth scroll to top when pagination is clicked
+      document.querySelectorAll('.page-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          if (link.getAttribute('href') && link.getAttribute('href').includes('page=')) {
+            e.preventDefault();
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+            setTimeout(() => {
+              window.location.href = link.getAttribute('href');
+            }, 500);
           }
         });
-      }, {
-        threshold: 0.1
-      });
-      
-      animateElements.forEach(element => {
-        observer.observe(element);
-      });
-      
-      // Logo animation on hover
-      const logo = document.querySelector('.logo');
-      logo.addEventListener('mouseenter', () => {
-        logo.classList.add('animate__rubberBand');
-      });
-      
-      logo.addEventListener('animationend', () => {
-        logo.classList.remove('animate__rubberBand');
       });
     });
   </script>

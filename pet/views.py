@@ -191,6 +191,7 @@ def add_to_cart(request, slug):
 
     return redirect('ProductDetailView', slug=slug)
 
+
 @login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
@@ -203,19 +204,16 @@ def remove_from_cart(request, slug):
             item=item, user=request.user, ordered=False, size=size
         ).first()
         if order_item:
-            if order_item.quantity > 1:
-                order_item.quantity -= 1
-                order_item.save()
-                messages.success(request, f"{item.title} ({size or 'No Size'}) quantity decreased")
-            else:
-                order.items.remove(order_item)
-                order_item.delete()
-                messages.success(request, f"{item.title} ({size or 'No Size'}) removed from cart")
+            # ✅ সবসময় পুরো আইটেম মুছে ফেলবে
+            order.items.remove(order_item)
+            order_item.delete()
+            messages.success(request, f"{item.title} ({size or 'No Size'}) removed from cart")
         else:
             messages.info(request, f"{item.title} ({size or 'No Size'}) not in your cart")
     else:
         messages.info(request, "No active order")
     return redirect('cart')
+# =====================================
 # =====================================
 
 @login_required

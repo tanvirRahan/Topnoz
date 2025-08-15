@@ -163,7 +163,6 @@ def contact(request):
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     size = request.POST.get('size') or None
-
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
     if order_qs.exists():
@@ -196,8 +195,8 @@ def add_to_cart(request, slug):
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     size = request.POST.get('size') or None
-
     order_qs = Order.objects.filter(user=request.user, ordered=False)
+
     if order_qs.exists():
         order = order_qs.first()
         order_item = OrderItem.objects.filter(
@@ -374,8 +373,10 @@ def add_quantity(request, slug):
     order = Order.objects.filter(user=request.user, ordered=False).first()
     if order:
         item = get_object_or_404(Item, slug=slug)
+        size = request.POST.get('size') or None
         order_item = OrderItem.objects.filter(
-            item=item, user=request.user, ordered=False).first()
+            item=item, user=request.user, ordered=False, size=size
+        ).first()
         if order_item:
             order_item.quantity += 1
             order_item.save()
@@ -398,8 +399,10 @@ def remove_quantity(request, slug):
     order = Order.objects.filter(user=request.user, ordered=False).first()
     if order:
         item = get_object_or_404(Item, slug=slug)
+        size = request.POST.get('size') or None
         order_item = OrderItem.objects.filter(
-            item=item, user=request.user, ordered=False).first()
+            item=item, user=request.user, ordered=False, size=size
+        ).first()
         if order_item:
             if order_item.quantity > 1:
                 order_item.quantity -= 1
@@ -411,6 +414,21 @@ def remove_quantity(request, slug):
                     return JsonResponse({
                         'quantity': order_item.quantity,
                         'item_total': float(order_item.get_total_item_price()),
+                        'subtotal': float(subtotal),
+                        'tax': float(tax),
+                        'total': float(total),
+                        'cart_empty': order.items.count() == 0,
+                    })
+            else:
+                order.items.remove(order_item)
+                order_item.delete()
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    subtotal = order.get_total()
+                    tax = 0
+                    total = round(subtotal + tax, 2)
+                    return JsonResponse({
+                        'quantity': 0,
+                        'item_total': 0,
                         'subtotal': float(subtotal),
                         'tax': float(tax),
                         'total': float(total),

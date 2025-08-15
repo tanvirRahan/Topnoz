@@ -458,11 +458,13 @@
                             <div class="quantity-control">
     <form action="{% url 'remove-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="remove">
         {% csrf_token %}
+        <input type="hidden" name="size" value="{{ item.size }}">
         <button type="submit" class="quantity-btn">−</button>
     </form>
     <span class="quantity">{{ item.quantity }}</span>
     <form action="{% url 'add-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="add">
         {% csrf_token %}
+        <input type="hidden" name="size" value="{{ item.size }}">
         <button type="submit" class="quantity-btn">+</button>
     </form>
 </div>

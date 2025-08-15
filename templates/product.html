@@ -1,712 +1,668 @@
 {% load static %}
 {% load socialaccount %}
-{% load youtube_filters %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>{{ object.title }} | TOPNOZ - Premium Fashion</title>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --pure-white: #FFFFFF;
-      --pure-black: #000000;
-      --light-gray: #F5F5F5;
-      --dark-gray: #222222;
-      --accent-gold: #FFD700;
-      --accent-blue: #0066CC;
-      --text-gray: #666666;
-    }
-    
-    body {
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--pure-white);
-      color: var(--dark-gray);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      letter-spacing: 0.3px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>User Login | TopNoz</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+    <style type="text/css">
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gold: #FFD700;
+            --dark-gold: #D4AF37;
+            --light-gray: #f5f5f5;
+            --primary: #4285f4;
+            --secondary: #34a853;
+        }
+        
+        body {
+            background-color: var(--white);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: var(--black) !important;
+            z-index: 999;
+            box-shadow: none !important;
+            padding: 10px 15px;
+        }
 
-    /* ========== NAVIGATION ========== */
-    .navbar {
-      background: var(--pure-black);
-      padding: 0.8rem 2rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-    
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    .logo-img {
-      height: 38px;
-      width: auto;
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    
-    .navbar-brand:hover .logo-img {
-      transform: rotate(-5deg) scale(1.1);
-    }
-    
-    .brand-name {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--pure-white);
-      letter-spacing: 1.5px;
-      position: relative;
-    }
-    
-    .brand-name::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--pure-white);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-    
-    .navbar-brand:hover .brand-name::after {
-      transform: scaleX(1);
-    }
+        .navbar .nav-link, 
+        .navbar .navbar-brand {
+            color: var(--white) !important;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-    /* ========== CART LINK ========== */
-    .nav-cart-link {
-      position: relative;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-cart-link.blurred {
-      filter: blur(2px);
-      opacity: 0.7;
-    }
-    
-    .nav-cart-link.blurred::after {
-      content: "Login to access cart";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: var(--pure-white);
-      font-weight: 600;
-      font-size: 0.8rem;
-      white-space: nowrap;
-      z-index: 1;
-    }
+        .navbar .nav-link:hover, 
+        .navbar .navbar-brand:hover {
+            color: var(--gold) !important;
+        }
 
-    /* ========== PRODUCT GALLERY ========== */
-    .gallery-container {
-      position: relative;
-      width: 100%;
-      margin-bottom: 2rem;
-    }
-    
-    .main-media-container {
-      position: relative;
-      width: 100%;
-      height: 500px;
-      overflow: hidden;
-      border-radius: 12px;
-      background-color: #f8f9fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.05);
-    }
-    
-    .main-media-display {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      transition: opacity 0.4s ease;
-    }
-    
-    .thumbnail-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    
-    .thumbnail-item {
-      width: 80px;
-      height: 80px;
-      border-radius: 8px;
-      overflow: hidden;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      position: relative;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    }
-    
-    .thumbnail-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-    }
-    
-    .thumbnail-item.active {
-      border-color: var(--accent-blue);
-      transform: scale(1.05);
-    }
-    
-    .thumbnail-item img, 
-    .thumbnail-item video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .video-indicator {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-size: 20px;
-      text-shadow: 0 0 8px rgba(0,0,0,0.5);
-    }
+        /* Mobile Menu Button */
+        .navbar-toggler {
+            border-color: var(--white);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+            width: 1.2em;
+            height: 1.2em;
+        }
 
-    /* ========== PRODUCT DETAILS ========== */
-    .product-title {
-      font-weight: 700;
-      font-size: 2.2rem;
-      color: var(--dark-gray);
-      margin-bottom: 1rem;
-      line-height: 1.2;
-    }
-    
-    .price-container {
-      margin: 1.5rem 0;
-    }
-    
-    .current-price {
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: var(--dark-gray);
-    }
-    
-    .discount-price {
-      color: #B12704;
-    }
-    
-    .original-price {
-      text-decoration: line-through;
-      font-size: 1.2rem;
-      color: var(--text-gray);
-      margin-left: 10px;
-    }
-    
-    .stock-status {
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-    }
-    
-    .in-stock {
-      color: #007600;
-    }
-    
-    .out-stock {
-      color: #B12704;
-    }
-    
-    .product-description {
-      line-height: 1.8;
-      margin-bottom: 2rem;
-    }
+        /* Logo */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
 
-    /* ========== SIZE SELECTOR ========== */
-    .size-selector {
-      margin: 2rem 0;
-    }
-    
-    .size-btn {
-      display: inline-block;
-      padding: 12px 24px;
-      margin: 0 8px 12px 0;
-      border: 2px solid #ddd;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .size-btn:hover {
-      border-color: #aaa;
-    }
-    
-    .size-btn.selected {
-      background: var(--pure-black);
-      color: white;
-      border-color: var(--pure-black);
-    }
+        .logo-img {
+            height: 35px;
+            width: auto;
+            transition: all 0.3s;
+        }
 
-    /* ========== ACTION BUTTONS ========== */
-    .action-buttons {
-      margin-top: 2.5rem;
-    }
-    
-    .add-to-cart-btn {
-      background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
-      border: 1px solid #a88734;
-      color: #111;
-      padding: 12px 24px;
-      font-weight: 600;
-      border-radius: 4px;
-      margin-right: 15px;
-      transition: all 0.3s ease;
-    }
-    
-    .add-to-cart-btn:hover {
-      background: linear-gradient(to bottom, #f5d78e, #eeb933);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .buy-now-btn {
-      background: linear-gradient(to bottom, #f6c88f, #ed9220);
-      border: 1px solid #9c7e31;
-      color: #111;
-      padding: 12px 24px;
-      font-weight: 600;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-    }
-    
-    .buy-now-btn:hover {
-      background: linear-gradient(to bottom, #f5b973, #e77600);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+        .logo-text {
+            color: var(--white);
+            font-weight: bold;
+            margin-left: 8px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-    /* ========== AUTH OVERLAY ========== */
-    .auth-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backdrop-filter: blur(5px);
-      background-color: rgba(255, 255, 255, 0.9);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      border-radius: 12px;
-      padding: 20px;
-    }
-    
-    .auth-message {
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 20px;
-      font-size: 1.1rem;
-    }
-    
-    .google-auth-btn {
-      background: #4285F4;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 4px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-    
-    .google-auth-btn:hover {
-      background: #3367D6;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .google-auth-btn i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-    }
+        /* Login Container */
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 80px 0 40px;
+        }
+        
+        .login-card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--black), #222);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            border-bottom: none;
+            position: relative;
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.1), transparent);
+            opacity: 0.5;
+        }
+        
+        .card-title {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin: 0;
+            position: relative;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .card-body {
+            padding: 40px;
+            background-color: var(--white);
+        }
+        
+        .form-control {
+            height: 50px;
+            border-radius: 8px;
+            padding-left: 20px;
+            border: 1px solid #e0e0e0;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.2);
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+        
+        .btn-login {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            height: 50px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .btn-login:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-login:active {
+            transform: translateY(1px);
+        }
+        
+        .register-link {
+            color: var(--black);
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .register-link:hover {
+            color: var(--gold);
+            text-decoration: none;
+        }
+        
+        .register-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        
+        .register-link:hover::after {
+            width: 100%;
+        }
 
-    /* ========== ANIMATIONS ========== */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .animate-fadein {
-      animation: fadeIn 0.6s ease-out forwards;
-    }
-    
-    .delay-1 { animation-delay: 0.2s; }
-    .delay-2 { animation-delay: 0.4s; }
-    .delay-3 { animation-delay: 0.6s; }
-    .delay-4 { animation-delay: 0.8s; }
+        .forgot-link {
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .forgot-link:hover {
+            color: var(--black);
+            text-decoration: none;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            margin-top: 20px;
+        }
 
-    /* ========== RESPONSIVE ADJUSTMENTS ========== */
-    @media (max-width: 992px) {
-      .main-media-container {
-        height: 400px;
-      }
-      
-      .product-title {
-        font-size: 1.8rem;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .main-media-container {
-        height: 350px;
-      }
-      
-      .action-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      
-      .add-to-cart-btn, 
-      .buy-now-btn {
-        width: 100%;
-        margin-right: 0;
-      }
-    }
-    
-    @media (max-width: 576px) {
-      .main-media-container {
-        height: 300px;
-      }
-      
-      .product-title {
-        font-size: 1.6rem;
-      }
-      
-      .current-price {
-        font-size: 1.5rem;
-      }
-      
-      .original-price {
-        font-size: 1rem;
-      }
-    }
-  </style>
+        /* Google Login Button */
+        .btn-google {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white !important;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            height: 50px;
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-RP643852NH');
-  </script>
+        .btn-google:hover {
+            box-shadow: 0 6px 20px rgba(52, 168, 83, 0.6);
+            transform: translateY(-2px);
+            color: white !important;
+            text-decoration: none;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .divider-text {
+            padding: 0 10px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Cart Button Styles */
+        .btn-cart {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .btn-cart:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+        }
+
+        .disabled-cart {
+            position: relative;
+            opacity: 0.7;
+            pointer-events: none;
+            filter: blur(0.8px);
+            transition: all 0.3s ease;
+        }
+        
+        .disabled-cart:hover {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .disabled-cart::after {
+            content: "Login Required";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        /* Mobile Menu Styles */
+        @media (max-width: 768px) {
+            .navbar-toggler {
+                display: block !important;
+            }
+            
+            .navbar-collapse {
+                background: var(--black);
+                padding: 15px;
+                margin-top: 10px;
+                border-radius: 8px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            }
+
+            .nav-item {
+                margin: 5px 0;
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+            
+            .logo-img {
+                height: 30px;
+            }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .login-container {
+                padding: 70px 15px 30px;
+            }
+            
+            .card-header {
+                padding: 25px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+            
+            .card-body {
+                padding: 25px 20px;
+            }
+            
+            .form-control {
+                height: 44px;
+                font-size: 14px;
+            }
+            
+            .btn-login, .btn-google {
+                height: 44px;
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-header {
+                padding: 20px;
+            }
+            
+            .card-title {
+                font-size: 1.3rem;
+            }
+            
+            .form-control {
+                height: 42px;
+                padding-left: 15px;
+            }
+            
+            .btn-login, .btn-google {
+                height: 42px;
+                font-size: 13px;
+            }
+
+            .btn-cart {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            transition: color 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .social-icons a {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RP643852NH');
+    </script>
 </head>
-
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="{% url 'HomeView' %}">
-      <img src="{% static 'image/topnozlogo.jpg' %}" alt="TOPNOZ" class="logo-img">
-      <span class="brand-name">TOPNOZ</span>
-    </a>
-    
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link nav-cart-link {% if not user.is_authenticated %}blurred{% endif %}" href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}#{% endif %}">
-            <i class="fas fa-shopping-cart"></i> Cart
-            {% if cart_items_count > 0 %}
-              <span class="badge badge-light ml-1">{{ cart_items_count }}</span>
-            {% endif %}
-          </a>
-        </li>
-        {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">
-              <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'userLogin' %}">
-              <i class="fas fa-sign-in-alt"></i> Login
-            </a>
-          </li>
-        {% endif %}
-      </ul>
+<nav class="navbar fixed-top navbar-expand-lg scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'HomeView' %}">
+            <div class="logo-container">
+                <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="logo-img">
+                <span class="logo-text">Topnoz</span>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarContent" aria-controls="navbarContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'HomeView' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'CategoryListView' %}">Collections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link">Hey, {{ request.user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'userLogin' %}">Login</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link cart-link {% if not user.is_authenticated %}disabled-cart{% endif %}" 
+                       href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}javascript:void(0);{% endif %}" 
+                       {% if not user.is_authenticated %}onclick="showLoginAlert()"{% endif %}>
+                        <span class="badge badge-pill badge-primary mr-1">{{ request.user.cart.items.count }}</span>
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 
-<!-- Main Content -->
-<main class="mt-5 pt-5">
-  <div class="container">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
-      {% endfor %}
-    {% endif %}
+<!-- Login Form -->
+<div class="login-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="login-card wow fadeIn" data-wow-delay="0.1s">
+                    <div class="card-header">
+                        <h3 class="card-title">LOGIN TO YOUR ACCOUNT</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'userLogin' %}" method="post">
+                            {% csrf_token %}
+                            
+                            <div class="form-group mb-4">
+                                <label for="email" class="small mb-2">Email Address</label>
+                                <div class="position-relative">
+                                    <input class="form-control" id="email" type="email" name="email"
+                                           placeholder="Enter your email" required>
+                                    <i class="fas fa-envelope input-icon"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-4">
+                                <label for="password" class="small mb-2">Password</label>
+                                <div class="position-relative">
+                                    <input class="form-control" id="password" type="password" name="password"
+                                           placeholder="Enter password" required>
+                                    <i class="fas fa-lock input-icon"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group text-right mb-4">
+                                <a href="#" class="small forgot-link">Forgot password?</a>
+                            </div>
+                            
+                            <button class="btn btn-login btn-block mb-4" type="submit">
+                                <i class="fas fa-sign-in-alt mr-2"></i> LOGIN
+                            </button>
+                            
+                            <div class="divider">
+                                <span class="divider-text">OR</span>
+                            </div>
 
-    <div class="row">
-      <!-- Product Gallery -->
-      <div class="col-lg-6 mb-5">
-        <div class="gallery-container">
-          <!-- Main Media Display -->
-          <div class="main-media-container">
-            {% if object.image %}
-              <img src="{{ object.image.url }}" class="main-media-display animate-fadein" alt="{{ object.title }}">
-            {% else %}
-              <img src="{% static 'img/default.png' %}" class="main-media-display animate-fadein" alt="No Image Available">
-            {% endif %}
-            
-            <!-- Auth Overlay for non-logged in users -->
-            {% if not user.is_authenticated %}
-              <div class="auth-overlay animate-fadein delay-3">
-                <h4 class="auth-message">Login to purchase this item</h4>
-                <a href="{% provider_login_url 'google' %}?next={{ request.get_full_path }}" class="google-auth-btn">
-                  <i class="fab fa-google"></i> Continue with Google
-                </a>
-                <p class="mt-3 mb-0">or <a href="{% url 'userLogin' %}" class="text-primary">login with email</a></p>
-              </div>
-            {% endif %}
-          </div>
-          
-          <!-- Thumbnail Gallery -->
-          <div class="thumbnail-gallery">
-            <!-- Main image thumbnail -->
-            <div class="thumbnail-item active" data-media-type="image" data-src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}">
-              <img src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}" alt="Main Image">
+                            <!-- Google Login Button -->
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-google btn-block mb-4">
+                                <i class="fab fa-google mr-2"></i> CONTINUE WITH GOOGLE
+                            </a>
+                            
+                            <div class="text-center pt-2">
+                                <p class="mb-0">Don't have an account? <a href="{% url 'register' %}" class="register-link">REGISTER HERE</a></p>
+                            </div>
+                        </form>
+                        
+                        <!-- Cart Button -->
+                        <div class="text-center mt-4">
+                            <a class="btn btn-cart {% if not user.is_authenticated %}disabled-cart{% endif %}" 
+                               href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}javascript:void(0);{% endif %}" 
+                               {% if not user.is_authenticated %}onclick="showLoginAlert()"{% endif %}>
+                                <i class="fas fa-shopping-cart mr-2"></i> VIEW CART
+                            </a>
+                        </div>
+                        
+                        <!-- Messages -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-4" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} mr-2"></i>
+                                        <span>{{ message }}</span>
+                                    </div>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            
-            <!-- Extra media thumbnails -->
-            {% for media in object.media.all %}
-              {% if media.is_video %}
-                {% if media.video_file %}
-                  <div class="thumbnail-item" data-media-type="video" data-src="{{ media.video_file.url }}">
-                    <video muted loop>
-                      <source src="{{ media.video_file.url }}" type="video/mp4">
-                    </video>
-                    <div class="video-indicator">
-                      <i class="fas fa-play"></i>
-                    </div>
-                  </div>
-                {% elif media.is_youtube %}
-                  <div class="thumbnail-item" data-media-type="youtube" data-src="https://www.youtube.com/embed/{{ media.video_url|youtube_id }}">
-                    <img src="https://img.youtube.com/vi/{{ media.video_url|youtube_id }}/default.jpg" alt="YouTube Video">
-                    <div class="video-indicator">
-                      <i class="fas fa-play"></i>
-                    </div>
-                  </div>
-                {% elif media.video_url %}
-                  <div class="thumbnail-item" data-media-type="video" data-src="{{ media.video_url }}">
-                    <video muted loop>
-                      <source src="{{ media.video_url }}" type="video/mp4">
-                    </video>
-                    <div class="video-indicator">
-                      <i class="fas fa-play"></i>
-                    </div>
-                  </div>
-                {% endif %}
-              {% elif media.image %}
-                <div class="thumbnail-item" data-media-type="image" data-src="{{ media.image.url }}">
-                  <img src="{{ media.image.url }}" alt="Extra Image">
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
         </div>
-      </div>
-      
-      <!-- Product Details -->
-      <div class="col-lg-6">
-        <div class="product-details">
-          <!-- Category Badge -->
-          <div class="mb-3 animate-fadein">
-            <span class="badge badge-secondary">{{ object.get_categories_display }}</span>
-          </div>
-          
-          <!-- Product Title -->
-          <h1 class="product-title animate-fadein delay-1">{{ object.title }}</h1>
-          
-          <!-- Price -->
-          <div class="price-container animate-fadein delay-1">
-            {% if object.discount_price %}
-              <span class="current-price discount-price">৳{{ object.discount_price }}</span>
-              <span class="original-price">৳{{ object.price }}</span>
-            {% else %}
-              <span class="current-price">৳{{ object.price }}</span>
-            {% endif %}
-          </div>
-          
-          <!-- Stock Status -->
-          <div class="stock-status animate-fadein delay-1">
-            {% if object.stock > 0 %}
-              <span class="in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
-            {% else %}
-              <span class="out-stock"><i class="fas fa-times-circle"></i> Out of Stock</span>
-            {% endif %}
-          </div>
-          
-          <hr class="animate-fadein delay-1">
-          
-          <!-- Description -->
-          <div class="product-description animate-fadein delay-2">
-            <h5 class="font-weight-bold mb-3">Product Details</h5>
-            {{ object.description|linebreaks }}
-          </div>
-          
-          <!-- Size Selector -->
-          {% for variation in object.variation_set.all %}
-            {% if variation.name|lower == "size" and variation.itemvariation_set.all %}
-              <div class="size-selector animate-fadein delay-2">
-                <h6 class="font-weight-bold mb-3">Size:</h6>
-                <div class="size-options">
-                  {% for itemvar in variation.itemvariation_set.all %}
-                    <span class="size-btn" data-size="{{ itemvar.value }}">{{ itemvar.value }}</span>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-          
-          <!-- Action Buttons -->
-          <div class="action-buttons animate-fadein delay-3">
-            {% if user.is_authenticated %}
-              <form method="post" action="{% url 'add-to-cart' object.slug %}" class="d-inline">
-                {% csrf_token %}
-                <input type="hidden" name="size" id="selected-size" value="">
-                <button type="submit" class="add-to-cart-btn" id="addToCartBtn" {% if object.stock <= 0 %}disabled{% endif %}>
-                  <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-                </button>
-              </form>
-              <a href="{% url 'checkout' %}" class="buy-now-btn">
-                <i class="fas fa-bolt mr-2"></i> Buy Now
-              </a>
-            {% else %}
-              <button class="add-to-cart-btn" disabled>
-                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-              </button>
-              <button class="buy-now-btn" disabled>
-                <i class="fas fa-bolt mr-2"></i> Buy Now
-              </button>
-              <div class="mt-3">
-                <a href="{% provider_login_url 'google' %}?next={{ request.get_full_path }}" class="google-auth-btn d-inline-flex align-items-center justify-content-center">
-                  <i class="fab fa-google mr-2"></i> Login with Google to Purchase
-                </a>
-                <p class="text-center mt-2 mb-0">or <a href="{% url 'userLogin' %}" class="text-primary">login with email</a></p>
-              </div>
-            {% endif %}
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-</main>
+</div>
 
 <!-- Footer -->
-<footer class="bg-dark text-white py-4 mt-5">
-  <div class="container text-center">
-    <p class="mb-0">&copy; 2025 TOPNOZ. All rights reserved.</p>
-  </div>
+<footer class="text-center">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">TOPNOZ</h5>
+                <p>Express your top thoughts with our premium collection of stylish tops.</p>
+            </div>
+            
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">Quick Links</h5>
+                <div class="footer-links">
+                    <p><a href="{% url 'HomeView' %}">Home</a></p>
+                    <p><a href="{% url 'CategoryListView' %}">Collections</a></p>
+                    <p><a href="{% url 'contact' %}">Contact Us</a></p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <h5 class="text-uppercase mb-4">Connect With Us</h5>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center py-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2023 Topnoz. All rights reserved.
+    </div>
 </footer>
 
-<!-- Scripts -->
+<!-- SCRIPTS -->
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/mdb.min.js' %}"></script>
 <script>
-  $(document).ready(function() {
-    // Smart Gallery Functionality
-    $('.thumbnail-item').on('click', function() {
-      // Update active thumbnail
-      $('.thumbnail-item').removeClass('active');
-      $(this).addClass('active');
-      
-      const mediaType = $(this).data('media-type');
-      const mediaSrc = $(this).data('src');
-      const mainContainer = $('.main-media-container');
-      
-      // Show loading effect
-      const mainMedia = $('.main-media-display');
-      mainMedia.css('opacity', '0');
-      
-      // Load new media after a short delay
-      setTimeout(function() {
-        mainContainer.empty();
-        
-        let mediaElement;
-        if (mediaType === 'image') {
-          mediaElement = $('<img>', {
-            'class': 'main-media-display',
-            'src': mediaSrc,
-            'alt': 'Product Image'
-          });
-        } 
-        else if (mediaType === 'video') {
-          mediaElement = $('<video>', {
-            'class': 'main-media-display',
-            'controls': '',
-            'autoplay': '',
-            'loop': ''
-          }).append(
-            $('<source>', {
-              'src': mediaSrc,
-              'type': 'video/mp4'
-            })
-          );
+    new WOW().init();
+
+    // Show login alert when clicking cart without being logged in
+    function showLoginAlert() {
+        const isAuthenticated = {% if request.user.is_authenticated %}true{% else %}false{% endif %};
+        if (!isAuthenticated) {
+            if (confirm("You need to login to access your cart. Would you like to login now?")) {
+                window.location.href = "{% url 'userLogin' %}";
+            }
         }
-        else if (mediaType === 'youtube') {
-          mediaElement = $('<iframe>', {
-            'class': 'main-media-display',
-            'src': mediaSrc + '?autoplay=1',
-            'frameborder': '0',
-            'allow': 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
-            'allowfullscreen': ''
-          });
+    }
+
+    // Input focus effects
+    $(document).ready(function() {
+        $('.form-control').focus(function() {
+            $(this).css('border-color', 'var(--gold)');
+            $(this).parent().find('.input-icon').css('color', 'var(--gold)');
+        }).blur(function() {
+            $(this).css('border-color', '#e0e0e0');
+            $(this).parent().find('.input-icon').css('color', '#aaa');
+        });
+    });
+
+    // Mobile menu close when clicking outside
+    $(document).click(function(event) {
+        if (!$(event.target).closest('.navbar-collapse, .navbar-toggler').length) {
+            $('.navbar-collapse').collapse('hide');
         }
-        
-        mainContainer.append(mediaElement);
-        mediaElement.hide().fadeIn(400);
-      }, 300);
     });
-    
-    // Size selection
-    $('.size-btn').on('click', function() {
-      $('.size-btn').removeClass('selected');
-      $(this).addClass('selected');
-      $('#selected-size').val($(this).data('size'));
-      $('#addToCartBtn').prop('disabled', false);
-    });
-    
-    // Auto-play video thumbnails on hover
-    $('.thumbnail-item video').on('mouseenter', function() {
-      this.play();
-    }).on('mouseleave', function() {
-      this.pause();
-      this.currentTime = 0;
-    });
-    
-    // Prevent clicking on blurred cart link
-    $('.nav-cart-link.blurred').on('click', function(e) {
-      e.preventDefault();
-    });
-  });
 </script>
 </body>
 </html>

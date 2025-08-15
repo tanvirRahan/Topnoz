@@ -150,59 +150,74 @@ def contact(request):
             ['topnozweb@gmail.com'],
             fail_silently=True
         )
-        # Form submit er por redirect
         return redirect(f"{reverse('contact')}?success=1&name={message_name}")
-    # Success message show
     congratulations_message = None
     if request.GET.get('success') == '1':
         congratulations_message = f"{request.GET.get('name')}, your email has been received!"
     return render(request, "contact.html", {
         'congratulations_message': congratulations_message
     })
-    return render(request, "contact.html")
 
+# ==== FIXED SMART QUANTITY VERSION ====
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
-    size = request.POST.get('size')  # New line: size receive korbe
-    order_item, created = OrderItem.objects.get_or_create(
-        item=item, user=request.user, ordered=False, size=size  # size add
-    )
+    size = request.POST.get('size') or None
+
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
     if order_qs.exists():
-        order = order_qs[0]
-        if order.items.filter(item__slug=item.slug, size=size).exists():
+        order = order_qs.first()
+        order_item = OrderItem.objects.filter(
+            item=item, user=request.user, ordered=False, size=size
+        ).first()
+
+        if order_item:
             order_item.quantity += 1
             order_item.save()
-            messages.success(request, f"{item.title} ({size or 'No Size'})'s quantity updated")
+            messages.success(request, f"{item.title} ({size or 'No Size'}) quantity updated")
         else:
+            order_item = OrderItem.objects.create(
+                item=item, user=request.user, ordered=False, size=size, quantity=1
+            )
             order.items.add(order_item)
             messages.success(request, f"{item.title} ({size or 'No Size'}) added to cart")
     else:
-        order = Order.objects.create(
-            user=request.user, ordered=False, ordered_date=timezone.now())
+        order = Order.objects.create(user=request.user, ordered=False, ordered_date=timezone.now())
+        order_item = OrderItem.objects.create(
+            item=item, user=request.user, ordered=False, size=size, quantity=1
+        )
         order.items.add(order_item)
         messages.success(request, f"{item.title} ({size or 'No Size'}) added to cart")
+
     return redirect('ProductDetailView', slug=slug)
 
 @login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    size = request.POST.get('size') or None
 
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
-        order = order_qs[0]
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.get(
-                item=item, user=request.user, ordered=False)
-            order.items.remove(order_item)
-            messages.success(request, f"{item.title} removed from cart")
+        order = order_qs.first()
+        order_item = OrderItem.objects.filter(
+            item=item, user=request.user, ordered=False, size=size
+        ).first()
+        if order_item:
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+                messages.success(request, f"{item.title} ({size or 'No Size'}) quantity decreased")
+            else:
+                order.items.remove(order_item)
+                order_item.delete()
+                messages.success(request, f"{item.title} ({size or 'No Size'}) removed from cart")
         else:
-            messages.info(request, f"{item.title} not in your cart")
+            messages.info(request, f"{item.title} ({size or 'No Size'}) not in your cart")
     else:
         messages.info(request, "No active order")
     return redirect('cart')
+# =====================================
 
 @login_required
 def cart_view(request):
@@ -210,7 +225,6 @@ def cart_view(request):
         order = Order.objects.get(user=request.user, ordered=False)
         subtotal = float(order.get_total())
         tax = 0
-        #tax = round(subtotal * 0.05, 2)
         total = round(subtotal + tax, 2)
         return render(request, "cart.html", {
             'cart_items': order.items.all(),
@@ -270,7 +284,7 @@ def process_order(request):
             order_items = order.items.all()
             product_names = [item.item.title for item in order_items]
             quantities = [str(item.quantity) for item in order_items]
-            sizes = [item.size or '' for item in order_items]  # New line
+            sizes = [item.size or '' for item in order_items]
 
             customer_order = CustomerOrder.objects.create(
                 user=request.user,
@@ -286,7 +300,7 @@ def process_order(request):
                 order_total=order.get_total(),
                 products=", ".join(product_names),
                 quantities=", ".join(quantities),
-                sizes=", ".join(sizes),  # New line
+                sizes=", ".join(sizes)
             )
             for item in order.items.all():
                 item.customer_order = customer_order
@@ -295,7 +309,6 @@ def process_order(request):
             order.ordered_date = timezone.now()
             order.save()
 
-            # ====== Email pathanor code (user + admin) ======
             product_details = ""
             for item in order.items.all():
                 product_details += f"Product: {item.item.title}, Quantity: {item.quantity}\n"
@@ -313,16 +326,8 @@ def process_order(request):
                 f"TopNoz Team"
             )
 
-            # User ke email
-            send_mail(
-                subject,
-                message,
-                'topnozweb@gmail.com',
-                [request.user.email],
-                fail_silently=False,
-            )
+            send_mail(subject, message, 'topnozweb@gmail.com', [request.user.email], fail_silently=False)
 
-            # Admin ke email
             admin_message = (
                 f"New order placed by {request.user.username} ({request.user.email})\n\n"
                 f"Order Details:\n"
@@ -331,14 +336,8 @@ def process_order(request):
                 f"Phone: {customer_order.phone}\n"
                 f"Order ID: {order.id}\n"
             )
-            send_mail(
-                f"New Order Placed - Order #{order.id}",
-                admin_message,
-                'topnozweb@gmail.com',
-                ['topnozweb@gmail.com'],
-                fail_silently=False,
-            )
-            # ===============================================
+            send_mail(f"New Order Placed - Order #{order.id}",
+                      admin_message, 'topnozweb@gmail.com', ['topnozweb@gmail.com'], fail_silently=False)
 
             messages.success(request, "Order placed successfully!")
             return redirect('thanks')
@@ -346,6 +345,7 @@ def process_order(request):
             messages.error(request, f"Error: {str(e)}")
             return redirect('order')
     return redirect('HomeView')
+
 @login_required
 def order_complete(request):
     if request.method == "POST":
@@ -369,7 +369,6 @@ def thanks(request):
     return render(request, "thanks.html")
 
 # --------- SMART AJAX CART VIEWS BELOW ---------
-
 @login_required
 def add_quantity(request, slug):
     order = Order.objects.filter(user=request.user, ordered=False).first()
@@ -382,7 +381,7 @@ def add_quantity(request, slug):
             order_item.save()
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 subtotal = order.get_total()
-                tax = 0  # Tax always 0
+                tax = 0
                 total = round(subtotal + tax, 2)
                 return JsonResponse({
                     'quantity': order_item.quantity,
@@ -402,13 +401,12 @@ def remove_quantity(request, slug):
         order_item = OrderItem.objects.filter(
             item=item, user=request.user, ordered=False).first()
         if order_item:
-            # Quantity 1 theke komano jabe na
             if order_item.quantity > 1:
                 order_item.quantity -= 1
                 order_item.save()
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                     subtotal = order.get_total()
-                    tax = 0  # Tax always 0
+                    tax = 0
                     total = round(subtotal + tax, 2)
                     return JsonResponse({
                         'quantity': order_item.quantity,
@@ -418,5 +416,4 @@ def remove_quantity(request, slug):
                         'total': float(total),
                         'cart_empty': order.items.count() == 0,
                     })
-            # else: kichu korbena, quantity 1 tei thakbe
     return redirect('cart')

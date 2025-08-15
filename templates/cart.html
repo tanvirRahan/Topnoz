@@ -531,15 +531,17 @@ document.querySelectorAll('.quantity-form').forEach(form => {
 
         const url = this.action;
         const csrftoken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+        const size = this.querySelector('[name=size]').value; // ✅ size নেয়া হল
         const cartItemDiv = this.closest('.cart-item');
-        const slug = cartItemDiv.getAttribute('data-item-slug');
 
         fetch(url, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': csrftoken,
-                'X-Requested-With': 'XMLHttpRequest'
-            }
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded' // ✅ POST ফর্ম ডাটা পাঠাতে হবে
+            },
+            body: `size=${encodeURIComponent(size)}` // ✅ size পাঠানো হল
         })
         .then(response => response.json())
         .then(data => {
@@ -553,7 +555,6 @@ document.querySelectorAll('.quantity-form').forEach(form => {
             document.querySelector('.tax').textContent = `৳${parseFloat(data.tax).toFixed(2)}`;
             document.querySelector('.total-price').textContent = `৳${parseFloat(data.total).toFixed(2)}`;
 
-            // Cart empty hole empty state dekhabe
             if (data.cart_empty) {
                 document.querySelector('.cart-items').style.display = 'none';
                 document.querySelector('.cart-summary').style.display = 'none';

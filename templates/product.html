@@ -1,21 +1,25 @@
 {% load static %}
 {% load socialaccount %}
+{% load youtube_filters %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>{{ object.title }} | TOPNOZ - Premium Fashion</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --pure-white: #FFFFFF;
       --pure-black: #000000;
-      --light-gray: #F8F8F8;
+      --light-gray: #F5F5F5;
       --dark-gray: #222222;
       --accent-gold: #FFD700;
+      --accent-blue: #0066CC;
       --text-gray: #666666;
     }
     
@@ -25,6 +29,7 @@
       color: var(--dark-gray);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      letter-spacing: 0.3px;
     }
 
     /* ========== NAVIGATION ========== */
@@ -32,6 +37,9 @@
       background: var(--pure-black);
       padding: 0.8rem 2rem;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     
     .navbar-brand {
@@ -41,7 +49,7 @@
     }
     
     .logo-img {
-      height: 42px;
+      height: 38px;
       width: auto;
       transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
@@ -51,29 +59,78 @@
     }
     
     .brand-name {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 800;
       color: var(--pure-white);
       letter-spacing: 1.5px;
+      position: relative;
+    }
+    
+    .brand-name::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--pure-white);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .navbar-brand:hover .brand-name::after {
+      transform: scaleX(1);
+    }
+
+    /* ========== CART LINK ========== */
+    .nav-cart-link {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-cart-link.blurred {
+      filter: blur(2px);
+      opacity: 0.7;
+    }
+    
+    .nav-cart-link.blurred::after {
+      content: "Login to access cart";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--pure-white);
+      font-weight: 600;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      z-index: 1;
     }
 
     /* ========== PRODUCT GALLERY ========== */
+    .gallery-container {
+      position: relative;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    
     .main-media-container {
       position: relative;
       width: 100%;
       height: 500px;
       overflow: hidden;
       border-radius: 12px;
-      background-color: var(--light-gray);
+      background-color: #f8f9fa;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.05);
     }
     
     .main-media-display {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
+      transition: opacity 0.4s ease;
     }
     
     .thumbnail-gallery {
@@ -90,69 +147,36 @@
       overflow: hidden;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
     }
     
     .thumbnail-item:hover {
-      border-color: var(--dark-gray);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
     }
     
     .thumbnail-item.active {
-      border-color: var(--pure-black);
+      border-color: var(--accent-blue);
+      transform: scale(1.05);
     }
     
-    .thumbnail-item img {
+    .thumbnail-item img, 
+    .thumbnail-item video {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
-    /* ========== CART AUTH OVERLAY ========== */
-    .cart-auth-overlay {
+    
+    .video-indicator {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(5px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      text-align: center;
-      z-index: 100;
-    }
-    
-    .cart-auth-message {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--dark-gray);
-      margin-bottom: 1.5rem;
-    }
-    
-    .google-auth-btn {
-      background: #4285F4;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       color: white;
-      padding: 12px 24px;
-      border-radius: 4px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-    
-    .google-auth-btn:hover {
-      background: #3367D6;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      color: white;
-    }
-    
-    .google-auth-btn i {
-      margin-right: 10px;
-      font-size: 1.2rem;
+      font-size: 20px;
+      text-shadow: 0 0 8px rgba(0,0,0,0.5);
     }
 
     /* ========== PRODUCT DETAILS ========== */
@@ -161,6 +185,7 @@
       font-size: 2.2rem;
       color: var(--dark-gray);
       margin-bottom: 1rem;
+      line-height: 1.2;
     }
     
     .price-container {
@@ -196,43 +221,140 @@
     .out-stock {
       color: #B12704;
     }
+    
+    .product-description {
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
 
-    /* ========== CART BUTTON ========== */
-    .cart-btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      padding: 0.8rem 1.5rem;
-      background: var(--pure-black);
-      color: var(--pure-white);
-      border-radius: 4px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-decoration: none;
+    /* ========== SIZE SELECTOR ========== */
+    .size-selector {
+      margin: 2rem 0;
     }
     
-    .cart-btn:hover {
-      background: var(--dark-gray);
-      color: var(--pure-white);
+    .size-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 0 8px 12px 0;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .size-btn:hover {
+      border-color: #aaa;
+    }
+    
+    .size-btn.selected {
+      background: var(--pure-black);
+      color: white;
+      border-color: var(--pure-black);
+    }
+
+    /* ========== ACTION BUTTONS ========== */
+    .action-buttons {
+      margin-top: 2.5rem;
+    }
+    
+    .add-to-cart-btn {
+      background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+      border: 1px solid #a88734;
+      color: #111;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 4px;
+      margin-right: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-btn:hover {
+      background: linear-gradient(to bottom, #f5d78e, #eeb933);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     
-    .cart-btn .cart-count {
+    .buy-now-btn {
+      background: linear-gradient(to bottom, #f6c88f, #ed9220);
+      border: 1px solid #9c7e31;
+      color: #111;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .buy-now-btn:hover {
+      background: linear-gradient(to bottom, #f5b973, #e77600);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* ========== AUTH OVERLAY ========== */
+    .auth-overlay {
       position: absolute;
-      top: -8px;
-      right: -8px;
-      background: var(--accent-gold);
-      color: var(--pure-black);
-      font-size: 0.8rem;
-      font-weight: 700;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(5px);
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 100;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      border-radius: 12px;
+      padding: 20px;
     }
+    
+    .auth-message {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+    
+    .google-auth-btn {
+      background: #4285F4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .google-auth-btn:hover {
+      background: #3367D6;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .google-auth-btn i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fadein {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
 
     /* ========== RESPONSIVE ADJUSTMENTS ========== */
     @media (max-width: 992px) {
@@ -249,6 +371,18 @@
       .main-media-container {
         height: 350px;
       }
+      
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .add-to-cart-btn, 
+      .buy-now-btn {
+        width: 100%;
+        margin-right: 0;
+      }
     }
     
     @media (max-width: 576px) {
@@ -263,8 +397,21 @@
       .current-price {
         font-size: 1.5rem;
       }
+      
+      .original-price {
+        font-size: 1rem;
+      }
     }
   </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RP643852NH');
+  </script>
 </head>
 
 <body>
@@ -277,69 +424,129 @@
       <span class="brand-name">TOPNOZ</span>
     </a>
     
-    <div class="d-flex align-items-center">
-      <a href="{% url 'cart' %}" class="cart-btn position-relative">
-        <i class="fas fa-shopping-cart mr-2"></i>
-        Cart
-        {% if cart_items_count > 0 %}
-          <span class="cart-count">{{ cart_items_count }}</span>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link nav-cart-link {% if not user.is_authenticated %}blurred{% endif %}" href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}#{% endif %}">
+            <i class="fas fa-shopping-cart"></i> Cart
+            {% if cart_items_count > 0 %}
+              <span class="badge badge-light ml-1">{{ cart_items_count }}</span>
+            {% endif %}
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'userLogin' %}">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+          </li>
         {% endif %}
-      </a>
+      </ul>
     </div>
   </div>
 </nav>
 
 <!-- Main Content -->
-<main class="mt-5 pt-4">
+<main class="mt-5 pt-5">
   <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
     <div class="row">
       <!-- Product Gallery -->
-      <div class="col-lg-6 mb-5 position-relative">
-        <div class="main-media-container">
-          {% if object.image %}
-            <img src="{{ object.image.url }}" class="main-media-display" alt="{{ object.title }}">
-          {% else %}
-            <img src="{% static 'img/default.png' %}" class="main-media-display" alt="No Image Available">
-          {% endif %}
-          
-          <!-- Auth Overlay (only shows when not logged in) -->
-          {% if not user.is_authenticated %}
-            <div class="cart-auth-overlay">
-              <p class="cart-auth-message">
-                <i class="fas fa-lock mr-2"></i>
-                Please login to access your cart
-              </p>
-              <a href="{% provider_login_url 'google' %}?next={{ request.path }}" class="google-auth-btn">
-                <i class="fab fa-google mr-2"></i> Continue with Google
-              </a>
-            </div>
-          {% endif %}
-        </div>
-        
-        <!-- Thumbnail Gallery -->
-        <div class="thumbnail-gallery">
-          {% if object.image %}
-            <div class="thumbnail-item active" data-media-type="image" data-src="{{ object.image.url }}">
-              <img src="{{ object.image.url }}" alt="Main Image">
-            </div>
-          {% endif %}
-          
-          {% for media in object.media.all %}
-            {% if media.image %}
-              <div class="thumbnail-item" data-media-type="image" data-src="{{ media.image.url }}">
-                <img src="{{ media.image.url }}" alt="Product Image">
+      <div class="col-lg-6 mb-5">
+        <div class="gallery-container">
+          <!-- Main Media Display -->
+          <div class="main-media-container">
+            {% if object.image %}
+              <img src="{{ object.image.url }}" class="main-media-display animate-fadein" alt="{{ object.title }}">
+            {% else %}
+              <img src="{% static 'img/default.png' %}" class="main-media-display animate-fadein" alt="No Image Available">
+            {% endif %}
+            
+            <!-- Auth Overlay for non-logged in users -->
+            {% if not user.is_authenticated %}
+              <div class="auth-overlay animate-fadein delay-3">
+                <h4 class="auth-message">Login to purchase this item</h4>
+                <a href="{% provider_login_url 'google' %}?next={{ request.get_full_path }}" class="google-auth-btn">
+                  <i class="fab fa-google"></i> Continue with Google
+                </a>
+                <p class="mt-3 mb-0">or <a href="{% url 'userLogin' %}" class="text-primary">login with email</a></p>
               </div>
             {% endif %}
-          {% endfor %}
+          </div>
+          
+          <!-- Thumbnail Gallery -->
+          <div class="thumbnail-gallery">
+            <!-- Main image thumbnail -->
+            <div class="thumbnail-item active" data-media-type="image" data-src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}">
+              <img src="{% if object.image %}{{ object.image.url }}{% else %}{% static 'img/default.png' %}{% endif %}" alt="Main Image">
+            </div>
+            
+            <!-- Extra media thumbnails -->
+            {% for media in object.media.all %}
+              {% if media.is_video %}
+                {% if media.video_file %}
+                  <div class="thumbnail-item" data-media-type="video" data-src="{{ media.video_file.url }}">
+                    <video muted loop>
+                      <source src="{{ media.video_file.url }}" type="video/mp4">
+                    </video>
+                    <div class="video-indicator">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                {% elif media.is_youtube %}
+                  <div class="thumbnail-item" data-media-type="youtube" data-src="https://www.youtube.com/embed/{{ media.video_url|youtube_id }}">
+                    <img src="https://img.youtube.com/vi/{{ media.video_url|youtube_id }}/default.jpg" alt="YouTube Video">
+                    <div class="video-indicator">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                {% elif media.video_url %}
+                  <div class="thumbnail-item" data-media-type="video" data-src="{{ media.video_url }}">
+                    <video muted loop>
+                      <source src="{{ media.video_url }}" type="video/mp4">
+                    </video>
+                    <div class="video-indicator">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                {% endif %}
+              {% elif media.image %}
+                <div class="thumbnail-item" data-media-type="image" data-src="{{ media.image.url }}">
+                  <img src="{{ media.image.url }}" alt="Extra Image">
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
       </div>
       
       <!-- Product Details -->
       <div class="col-lg-6">
         <div class="product-details">
-          <h1 class="product-title">{{ object.title }}</h1>
+          <!-- Category Badge -->
+          <div class="mb-3 animate-fadein">
+            <span class="badge badge-secondary">{{ object.get_categories_display }}</span>
+          </div>
           
-          <div class="price-container">
+          <!-- Product Title -->
+          <h1 class="product-title animate-fadein delay-1">{{ object.title }}</h1>
+          
+          <!-- Price -->
+          <div class="price-container animate-fadein delay-1">
             {% if object.discount_price %}
               <span class="current-price discount-price">৳{{ object.discount_price }}</span>
               <span class="original-price">৳{{ object.price }}</span>
@@ -348,16 +555,64 @@
             {% endif %}
           </div>
           
-          <div class="stock-status">
+          <!-- Stock Status -->
+          <div class="stock-status animate-fadein delay-1">
             {% if object.stock > 0 %}
-              <span class="in-stock"><i class="fas fa-check-circle mr-2"></i> In Stock</span>
+              <span class="in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
             {% else %}
-              <span class="out-stock"><i class="fas fa-times-circle mr-2"></i> Out of Stock</span>
+              <span class="out-stock"><i class="fas fa-times-circle"></i> Out of Stock</span>
             {% endif %}
           </div>
           
-          <div class="product-description mt-4">
+          <hr class="animate-fadein delay-1">
+          
+          <!-- Description -->
+          <div class="product-description animate-fadein delay-2">
+            <h5 class="font-weight-bold mb-3">Product Details</h5>
             {{ object.description|linebreaks }}
+          </div>
+          
+          <!-- Size Selector -->
+          {% for variation in object.variation_set.all %}
+            {% if variation.name|lower == "size" and variation.itemvariation_set.all %}
+              <div class="size-selector animate-fadein delay-2">
+                <h6 class="font-weight-bold mb-3">Size:</h6>
+                <div class="size-options">
+                  {% for itemvar in variation.itemvariation_set.all %}
+                    <span class="size-btn" data-size="{{ itemvar.value }}">{{ itemvar.value }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+          
+          <!-- Action Buttons -->
+          <div class="action-buttons animate-fadein delay-3">
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'add-to-cart' object.slug %}" class="d-inline">
+                {% csrf_token %}
+                <input type="hidden" name="size" id="selected-size" value="">
+                <button type="submit" class="add-to-cart-btn" id="addToCartBtn" {% if object.stock <= 0 %}disabled{% endif %}>
+                  <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                </button>
+              </form>
+              <a href="{% url 'checkout' %}" class="buy-now-btn">
+                <i class="fas fa-bolt mr-2"></i> Buy Now
+              </a>
+            {% else %}
+              <button class="add-to-cart-btn" disabled>
+                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+              </button>
+              <button class="buy-now-btn" disabled>
+                <i class="fas fa-bolt mr-2"></i> Buy Now
+              </button>
+              <div class="mt-3">
+                <a href="{% provider_login_url 'google' %}?next={{ request.get_full_path }}" class="google-auth-btn d-inline-flex align-items-center justify-content-center">
+                  <i class="fab fa-google mr-2"></i> Login with Google to Purchase
+                </a>
+                <p class="text-center mt-2 mb-0">or <a href="{% url 'userLogin' %}" class="text-primary">login with email</a></p>
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -373,28 +628,83 @@
 </footer>
 
 <!-- Scripts -->
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script>
-  // Gallery functionality
-  document.querySelectorAll('.thumbnail-item').forEach(item => {
-    item.addEventListener('click', function() {
-      // Remove active class from all thumbnails
-      document.querySelectorAll('.thumbnail-item').forEach(thumb => {
-        thumb.classList.remove('active');
-      });
+  $(document).ready(function() {
+    // Smart Gallery Functionality
+    $('.thumbnail-item').on('click', function() {
+      // Update active thumbnail
+      $('.thumbnail-item').removeClass('active');
+      $(this).addClass('active');
       
-      // Add active class to clicked thumbnail
-      this.classList.add('active');
+      const mediaType = $(this).data('media-type');
+      const mediaSrc = $(this).data('src');
+      const mainContainer = $('.main-media-container');
       
-      // Get media source and type
-      const mediaType = this.dataset.mediaType;
-      const mediaSrc = this.dataset.src;
-      const mainDisplay = document.querySelector('.main-media-display');
+      // Show loading effect
+      const mainMedia = $('.main-media-display');
+      mainMedia.css('opacity', '0');
       
-      // Create appropriate media element
-      if (mediaType === 'image') {
-        mainDisplay.src = mediaSrc;
-      }
+      // Load new media after a short delay
+      setTimeout(function() {
+        mainContainer.empty();
+        
+        let mediaElement;
+        if (mediaType === 'image') {
+          mediaElement = $('<img>', {
+            'class': 'main-media-display',
+            'src': mediaSrc,
+            'alt': 'Product Image'
+          });
+        } 
+        else if (mediaType === 'video') {
+          mediaElement = $('<video>', {
+            'class': 'main-media-display',
+            'controls': '',
+            'autoplay': '',
+            'loop': ''
+          }).append(
+            $('<source>', {
+              'src': mediaSrc,
+              'type': 'video/mp4'
+            })
+          );
+        }
+        else if (mediaType === 'youtube') {
+          mediaElement = $('<iframe>', {
+            'class': 'main-media-display',
+            'src': mediaSrc + '?autoplay=1',
+            'frameborder': '0',
+            'allow': 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+            'allowfullscreen': ''
+          });
+        }
+        
+        mainContainer.append(mediaElement);
+        mediaElement.hide().fadeIn(400);
+      }, 300);
+    });
+    
+    // Size selection
+    $('.size-btn').on('click', function() {
+      $('.size-btn').removeClass('selected');
+      $(this).addClass('selected');
+      $('#selected-size').val($(this).data('size'));
+      $('#addToCartBtn').prop('disabled', false);
+    });
+    
+    // Auto-play video thumbnails on hover
+    $('.thumbnail-item video').on('mouseenter', function() {
+      this.play();
+    }).on('mouseleave', function() {
+      this.pause();
+      this.currentTime = 0;
+    });
+    
+    // Prevent clicking on blurred cart link
+    $('.nav-cart-link.blurred').on('click', function(e) {
+      e.preventDefault();
     });
   });
 </script>

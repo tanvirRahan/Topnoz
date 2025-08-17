@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,25 +9,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #000000;
+            --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary: #f8f9fa;
-            --accent: #000000;
+            --accent: #ff6b6b;
             --text: #2d3748;
-            --light-text: #6b7280;
-            --border: #e5e7eb;
-            --shadow: 0 8px 32px rgba(0,0,0,0.05);
-            --radius: 12px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --radius: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --hover-darken: brightness(0.95);
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f9fafb;
+            background: #f0f2f5;
             color: var(--text);
             line-height: 1.5;
-            margin: 0;
-            padding: 0;
         }
 
         .container {
@@ -50,7 +44,6 @@
             box-shadow: var(--shadow);
             overflow: hidden;
             position: relative;
-            transition: var(--transition);
         }
 
         .cart-header {
@@ -72,7 +65,7 @@
             right: -30px;
             width: 100px;
             height: 100px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.1);
             border-radius: 50%;
         }
 
@@ -87,17 +80,16 @@
             margin: 0.5rem 0;
         }
 
-       .cart-logo {
-    height: 32px;
-   
-    filter: none;
-}
+        .cart-logo {
+            height: 32px;
+            filter: drop-shadow(0 0 2px rgba(255,255,255,0.7));
+        }
 
         .cart-icon {
             width: 32px;
             height: 32px;
             padding: 6px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.2);
             border-radius: 6px;
         }
 
@@ -113,18 +105,11 @@
             grid-template-columns: 80px 1fr;
             gap: 1rem;
             padding: 1rem;
-            border-radius: var(--radius);
+            border-radius: 12px;
             background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             transition: var(--transition);
             position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .cart-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .item-image {
@@ -132,14 +117,8 @@
             height: 80px;
             object-fit: cover;
             border-radius: 8px;
-            border: 1px solid var(--border);
+            border: 1px solid #e2e8f0;
             grid-row: span 2;
-            transition: var(--transition);
-            transform-style: preserve-3d;
-        }
-
-        .item-image:hover {
-            transform: scale(1.03) rotate(1deg);
         }
 
         .item-details {
@@ -154,7 +133,6 @@
             font-weight: 600;
             color: var(--text);
             margin: 0;
-            transition: var(--transition);
         }
 
         .item-title a {
@@ -162,16 +140,12 @@
             text-decoration: none;
         }
 
-        .item-title a:hover {
-            color: var(--primary);
-        }
-
         .item-meta {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
             font-size: 0.8rem;
-            color: var(--light-text);
+            color: #718096;
             margin-bottom: 0.5rem;
         }
 
@@ -180,7 +154,7 @@
             flex-direction: column;
             gap: 0.75rem;
             grid-column: span 2;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid #eee;
             padding-top: 0.75rem;
         }
 
@@ -195,13 +169,13 @@
         .current-price {
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--text);
+            color: #2d3748;
         }
 
         .original-price {
             font-size: 0.9rem;
             text-decoration: line-through;
-            color: var(--light-text);
+            color: #a0aec0;
         }
 
         .discount-badge {
@@ -221,7 +195,6 @@
             border-radius: 8px;
             padding: 4px;
             justify-content: space-between;
-            border: 1px solid var(--border);
         }
 
         .quantity-btn {
@@ -230,25 +203,23 @@
             border: none;
             background: white;
             border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: var(--transition);
             font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
         }
 
         .quantity-btn:hover {
             background: #edf2f7;
-            transform: scale(1.1);
         }
 
         .remove-btn {
             background: none;
             border: none;
-            color: #ef4444;
+            color: #fc8181;
             padding: 6px;
             border-radius: 6px;
             cursor: pointer;
@@ -257,12 +228,10 @@
             align-items: center;
             gap: 0.25rem;
             font-size: 0.85rem;
-            font-weight: 500;
         }
 
         .remove-btn:hover {
-            background: #fee2e2;
-            transform: translateY(-1px);
+            background: #fff5f5;
         }
 
         .cart-summary {
@@ -271,13 +240,6 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             margin-top: 1rem;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .cart-summary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
         .summary-header {
@@ -285,15 +247,7 @@
             font-weight: 700;
             margin-bottom: 1rem;
             padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .summary-header svg {
-            width: 20px;
-            height: 20px;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .summary-item {
@@ -301,19 +255,13 @@
             justify-content: space-between;
             margin-bottom: 0.75rem;
             font-size: 0.95rem;
-            transition: var(--transition);
-            padding: 0.25rem 0;
-        }
-
-        .summary-item:hover {
-            transform: translateX(3px);
         }
 
         .total {
             font-size: 1.1rem;
             font-weight: 700;
             padding-top: 0.75rem;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid #e2e8f0;
             margin-top: 0.75rem;
         }
 
@@ -329,22 +277,16 @@
             margin-top: 1.5rem;
             cursor: pointer;
             transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
         }
 
         .checkout-btn:hover {
             opacity: 0.9;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .empty-state {
             padding: 2rem 1rem;
             text-align: center;
-            animation: fadeIn 0.6s ease-out;
         }
 
         .empty-icon {
@@ -352,19 +294,11 @@
             height: 120px;
             margin: 0 auto 1.5rem;
             opacity: 0.8;
-            filter: grayscale(1);
-            transition: var(--transition);
-        }
-
-        .empty-icon:hover {
-            transform: scale(1.05) rotate(5deg);
-            opacity: 1;
         }
 
         .empty-title {
             font-size: 1.5rem;
             margin-bottom: 0.75rem;
-            font-weight: 700;
         }
 
         .explore-btn {
@@ -377,12 +311,11 @@
             margin-top: 1rem;
             font-size: 0.95rem;
             transition: var(--transition);
-            font-weight: 500;
         }
 
         .explore-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         /* Desktop specific styles */
@@ -437,33 +370,13 @@
             }
         }
 
-        /* Animations */
+        .animated {
+            animation: fadeIn 0.6s ease-in;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        .animated {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .slide-in {
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
         }
 
         /* Form styles for quantity controls */
@@ -473,69 +386,27 @@
         }
 
         .item-meta span b {
-            color: var(--primary);
-            font-weight: 700;
-            letter-spacing: 0.03em;
-        }
-
-        /* Loading state */
-        .loading {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Payment icons */
-        .payment-icons {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .payment-icon {
-            width: 30px;
-            height: 20px;
-            object-fit: contain;
-            filter: grayscale(1);
-            opacity: 0.7;
-            transition: var(--transition);
-        }
-
-        .payment-icon:hover {
-            filter: grayscale(0);
-            opacity: 1;
-        }
+  color: #fa0462;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
     </style>
+    
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RP643852NH');
-    </script>
+  gtag('config', 'G-RP643852NH');
+</script>
+
 </head>
 <body>
     <div class="container animated">
         <div class="cart-wrapper">
-            <div class="cart-card slide-in">
+            <div class="cart-card">
                 <div class="cart-header">
                     <h1 class="cart-title">
                         <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -550,26 +421,26 @@
                 <div class="cart-items">
                     {% for item in cart_items %}
                     <div class="cart-item animated" data-item-slug="{{ item.item.slug }}">
-                        <img src="{{ item.item.image.url }}" alt="{{ item.item.title }}" class="item-image pulse">
+                        <img src="{{ item.item.image.url }}" alt="{{ item.item.title }}" class="item-image">
                         <div class="item-details">
                             <h3 class="item-title"><a href="{% url 'ProductDetailView' item.item.slug %}">{{ item.item.title }}</a></h3>
                             <div class="item-meta">
                                 <span>SKU: {{ item.item.sku }}</span>
                                 <span>Stock: {{ item.item.stock }}</span>
                                 {% if item.size %}
-                                <span>Size: <b>{{ item.size }}</b></span>
-                                {% endif %}
+    <span>Size: <b>{{ item.size }}</b></span>
+{% endif %}
                             </div>
-                            <form action="{% url 'remove-from-cart' item.item.slug %}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="size" value="{{ item.size }}">
-                                <button type="submit" class="remove-btn">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                    </svg>
-                                    Remove
-                                </button>
-                            </form>
+                          <form action="{% url 'remove-from-cart' item.item.slug %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="size" value="{{ item.size }}">
+    <button type="submit" class="remove-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+        Remove
+    </button>
+</form>
                         </div>
                         <div class="price-section">
                             <div class="price-display">
@@ -585,18 +456,18 @@
                                 <span class="item-total">৳{{ item.total_price|floatformat:2 }}</span>
                             </div>
                             <div class="quantity-control">
-                                <form action="{% url 'remove-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="remove">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="size" value="{{ item.size }}">
-                                    <button type="submit" class="quantity-btn">−</button>
-                                </form>
-                                <span class="quantity">{{ item.quantity }}</span>
-                                <form action="{% url 'add-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="add">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="size" value="{{ item.size }}">
-                                    <button type="submit" class="quantity-btn">+</button>
-                                </form>
-                            </div>
+    <form action="{% url 'remove-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="remove">
+        {% csrf_token %}
+        <input type="hidden" name="size" value="{{ item.size }}">
+        <button type="submit" class="quantity-btn">−</button>
+    </form>
+    <span class="quantity">{{ item.quantity }}</span>
+    <form action="{% url 'add-quantity' item.item.slug %}" method="post" class="quantity-form" data-slug="{{ item.item.slug }}" data-action="add">
+        {% csrf_token %}
+        <input type="hidden" name="size" value="{{ item.size }}">
+        <button type="submit" class="quantity-btn">+</button>
+    </form>
+</div>
                         </div>
                     </div>
                     {% endfor %}
@@ -607,9 +478,6 @@
                     <h2 class="empty-title">Your Cart Is Empty</h2>
                     <p>Add some products to get started</p>
                     <a href="{% url 'HomeView' %}" class="explore-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 12h18M12 3v18m-7-4l7-7 7 7"></path>
-                        </svg>
                         Shop Now
                     </a>
                 </div>
@@ -617,17 +485,8 @@
             </div>
 
             {% if cart_items %}
-            <div class="cart-summary slide-in" style="animation-delay: 0.2s">
-                <h2 class="summary-header">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
-                    Order Summary
-                </h2>
+            <div class="cart-summary animated">
+                <h2 class="summary-header">Order Summary</h2>
                 <div class="summary-item">
                     <span>Subtotal ({{ cart_items|length }} items):</span>
                     <span class="subtotal">৳{{ subtotal|floatformat:2 }}</span>
@@ -644,18 +503,8 @@
                     <span>Total:</span>
                     <span class="total-price">৳{{ total|floatformat:2 }}</span>
                 </div>
-                <a href="{% url 'order' %}" class="checkout-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
-                    Proceed to Checkout
-                </a>
-                <div class="payment-icons">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visa/visa-original.svg" class="payment-icon" alt="Visa">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mastercard/mastercard-original.svg" class="payment-icon" alt="Mastercard">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/paypal/paypal-original.svg" class="payment-icon" alt="PayPal">
-                </div>
-                <div style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--light-text);">
+                <a href="{% url 'order' %}" class="checkout-btn">Proceed to Checkout</a>
+                <div style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #718096;">
                     Secure SSL encrypted payment
                 </div>
             </div>
@@ -664,132 +513,56 @@
     </div>
 
     <script>
-        // Enhanced button animations
+        // Simple animation for buttons
         document.querySelectorAll('button').forEach(button => {
-            button.addEventListener('mousedown', function() {
+            button.addEventListener('click', function() {
                 this.style.transform = 'scale(0.95)';
-            });
-            button.addEventListener('mouseup', function() {
-                this.style.transform = 'scale(1)';
-            });
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
-            });
-        });
-
-        // Improved quantity form handling with loading states
-        document.querySelectorAll('.quantity-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const url = this.action;
-                const csrftoken = this.querySelector('[name=csrfmiddlewaretoken]').value;
-                const size = this.querySelector('[name=size]').value;
-                const cartItemDiv = this.closest('.cart-item');
-                const isRemoveAction = this.dataset.action === 'remove';
-                
-                // Add loading state
-                const quantityDisplay = cartItemDiv.querySelector('.quantity');
-                const currentQuantity = parseInt(quantityDisplay.textContent);
-                
-                
-                // Update UI optimistically
-                if (isRemoveAction) {
-                    quantityDisplay.textContent = currentQuantity - 1;
-                } else {
-                    quantityDisplay.textContent = currentQuantity + 1;
-                }
-                
-                // Add temporary loading effect
-                const button = this.querySelector('button');
-                button.disabled = true;
-                button.innerHTML = '<span class="loading-dots">.</span>';
-                
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrftoken,
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `size=${encodeURIComponent(size)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Restore button state
-                    button.disabled = false;
-                    button.innerHTML = isRemoveAction ? '−' : '+';
-                    
-                    if (data.success) {
-                        if (data.quantity > 0) {
-                            quantityDisplay.textContent = data.quantity;
-                            cartItemDiv.querySelector('.item-total').textContent = `৳${parseFloat(data.item_total).toFixed(2)}`;
-                        } else {
-                            // Animate removal
-                            cartItemDiv.style.transform = 'translateX(-100%)';
-                            cartItemDiv.style.opacity = '0';
-                            setTimeout(() => {
-                                cartItemDiv.remove();
-                            }, 300);
-                        }
-                        
-                        // Update summary
-                        document.querySelector('.subtotal').textContent = `৳${parseFloat(data.subtotal).toFixed(2)}`;
-                        document.querySelector('.tax').textContent = `৳${parseFloat(data.tax).toFixed(2)}`;
-                        document.querySelector('.total-price').textContent = `৳${parseFloat(data.total).toFixed(2)}`;
-                        
-                        if (data.cart_empty) {
-                            // Animate empty state
-                            document.querySelector('.cart-items').style.overflow = 'hidden';
-                            document.querySelector('.cart-items').style.height = document.querySelector('.cart-items').offsetHeight + 'px';
-                            
-                            setTimeout(() => {
-                                document.querySelector('.cart-items').style.display = 'none';
-                                document.querySelector('.cart-summary').style.display = 'none';
-                                document.querySelector('.empty-state').style.display = 'block';
-                                document.querySelector('.empty-state').style.opacity = '0';
-                                document.querySelector('.empty-state').style.transform = 'translateY(20px)';
-                                
-                                setTimeout(() => {
-                                    document.querySelector('.empty-state').style.opacity = '1';
-                                    document.querySelector('.empty-state').style.transform = 'translateY(0)';
-                                }, 50);
-                            }, 300);
-                        }
-                    } else {
-                        // Revert optimistic update if failed
-                        quantityDisplay.textContent = currentQuantity;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Revert optimistic update on error
-                    quantityDisplay.textContent = currentQuantity;
-                    button.disabled = false;
-                    button.innerHTML = isRemoveAction ? '−' : '+';
-                });
-            });
-        });
-
-        // Add subtle animations to page elements on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const items = document.querySelectorAll('.cart-item');
-            items.forEach((item, index) => {
-                item.style.animationDelay = `${index * 0.1}s`;
-            });
-            
-            // Add hover effect to cart items
-            items.forEach(item => {
-                item.addEventListener('mouseenter', () => {
-                    item.style.transform = 'translateY(-3px)';
-                    item.style.boxShadow = '0 6px 16px rgba(0,0,0,0.08)';
-                });
-                item.addEventListener('mouseleave', () => {
-                    item.style.transform = '';
-                    item.style.boxShadow = '';
-                });
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
             });
         });
     </script>
+
+     <script>
+document.querySelectorAll('.quantity-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const url = this.action;
+        const csrftoken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+        const size = this.querySelector('[name=size]').value; // ✅ size নেয়া হল
+        const cartItemDiv = this.closest('.cart-item');
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded' // ✅ POST ফর্ম ডাটা পাঠাতে হবে
+            },
+            body: `size=${encodeURIComponent(size)}` // ✅ size পাঠানো হল
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.quantity > 0) {
+                cartItemDiv.querySelector('.quantity').textContent = data.quantity;
+                cartItemDiv.querySelector('.item-total').textContent = `৳${parseFloat(data.item_total).toFixed(2)}`;
+            } else {
+                cartItemDiv.remove();
+            }
+            document.querySelector('.subtotal').textContent = `৳${parseFloat(data.subtotal).toFixed(2)}`;
+            document.querySelector('.tax').textContent = `৳${parseFloat(data.tax).toFixed(2)}`;
+            document.querySelector('.total-price').textContent = `৳${parseFloat(data.total).toFixed(2)}`;
+
+            if (data.cart_empty) {
+                document.querySelector('.cart-items').style.display = 'none';
+                document.querySelector('.cart-summary').style.display = 'none';
+                document.querySelector('.empty-state').style.display = 'block';
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>

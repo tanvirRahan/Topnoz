@@ -87,10 +87,11 @@
             margin: 0.5rem 0;
         }
 
-        .cart-logo {
-            height: 32px;
-            filter: invert(1) brightness(2);
-        }
+       .cart-logo {
+    height: 32px;
+   
+    filter: none;
+}
 
         .cart-icon {
             width: 32px;
@@ -691,10 +692,6 @@
                 const quantityDisplay = cartItemDiv.querySelector('.quantity');
                 const currentQuantity = parseInt(quantityDisplay.textContent);
                 
-                if (isRemoveAction && currentQuantity === 1) {
-                    // Don't allow quantity to go below 1
-                    return;
-                }
                 
                 // Update UI optimistically
                 if (isRemoveAction) {

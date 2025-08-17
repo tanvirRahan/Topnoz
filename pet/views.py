@@ -394,7 +394,6 @@ def add_quantity(request, slug):
         tax = 0
         total = round(subtotal + tax, 2)
         return JsonResponse({
-            'success': True,   # 🟢 FIX আস্তে বসাও
             'quantity': order_item.quantity if order_item else 0,
             'item_total': float(order_item.get_total_item_price()) if order_item else 0.0,
             'subtotal': float(subtotal),
@@ -432,7 +431,7 @@ def remove_quantity(request, slug):
         tax = 0
         total = round(subtotal + tax, 2)
         return JsonResponse({
-            'success': True,  # 🟢 FIX এখানেও
+            
             'quantity': order_item.quantity if order_item else 0,
             'item_total': float(order_item.get_total_item_price()) if order_item else 0.0,
             'subtotal': float(subtotal),

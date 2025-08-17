@@ -11,6 +11,7 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.urls import reverse
 
+
 class HomeView(ListView):
     model = Item
     template_name = "home.html"
@@ -25,6 +26,7 @@ class HomeView(ListView):
                 Q(description__icontains=query)
             ).distinct()
         return queryset
+
 
 class CategoryListView(TemplateView):
     template_name = 'category_list.html'
@@ -41,6 +43,7 @@ class CategoryListView(TemplateView):
             ('lifestyle', 'Lifestyle'),
         ]
         return context
+
 
 class CategoryProductListView(ListView):
     model = Item
@@ -68,9 +71,11 @@ class CategoryProductListView(ListView):
         ])[self.kwargs['product_type']]
         return context
 
+
 class ProductDetailView(DetailView):
     model = Item
     template_name = "product.html"
+
 
 def userLogin(request):
     if request.method == "POST":
@@ -90,13 +95,16 @@ def userLogin(request):
             messages.error(request, "An unexpected error occurred. Please try again.")
     return render(request, "login.html")
 
+
 def logout(request):
     auth.logout(request)
     return redirect('/')
 
+
 @login_required
 def checkout(request):
     return render(request, "checkout.html")
+
 
 def register(request):
     if request.method == "POST":
@@ -137,6 +145,7 @@ def register(request):
             return redirect('register')
     return render(request, "register.html")
 
+
 def contact(request):
     if request.method == "POST":
         message_name = request.POST['message_name']
@@ -158,37 +167,39 @@ def contact(request):
         'congratulations_message': congratulations_message
     })
 
-# ==== FIXED SMART QUANTITY VERSION ====
+
+# ================== CART VIEWS (Fixed & Future-proof) ==================
+
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     size = request.POST.get('size') or None
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
 
-    if order_qs.exists():
-        order = order_qs.first()
-        order_item = OrderItem.objects.filter(
-            item=item, user=request.user, ordered=False, size=size
-        ).first()
+    # একজন user = একটাই active order (ordered=False)
+    order, created_order = Order.objects.get_or_create(
+        user=request.user,
+        ordered=False,
+        defaults={'ordered_date': timezone.now()}
+    )
 
-        if order_item:
-            order_item.quantity += 1
-            order_item.save()
-            messages.success(request, f"{item.title} ({size or 'No Size'}) quantity updated")
-        else:
-            order_item = OrderItem.objects.create(
-                item=item, user=request.user, ordered=False, size=size, quantity=1
-            )
-            order.items.add(order_item)
-            messages.success(request, f"{item.title} ({size or 'No Size'}) added to cart")
-    else:
-        order = Order.objects.create(user=request.user, ordered=False, ordered_date=timezone.now())
-        order_item = OrderItem.objects.create(
-            item=item, user=request.user, ordered=False, size=size, quantity=1
-        )
+    # একই item+size থাকলে শুধু quantity বাড়াও
+    order_item, created_item = OrderItem.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False,
+        size=size,
+        defaults={'quantity': 1}
+    )
+
+    if created_item:
         order.items.add(order_item)
         messages.success(request, f"{item.title} ({size or 'No Size'}) added to cart")
+    else:
+        order_item.quantity += 1
+        order_item.save()
+        messages.success(request, f"{item.title} ({size or 'No Size'}) quantity updated")
 
+    order.save()  # relation flush
     return redirect('ProductDetailView', slug=slug)
 
 
@@ -196,31 +207,26 @@ def add_to_cart(request, slug):
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     size = request.POST.get('size') or None
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    order = Order.objects.filter(user=request.user, ordered=False).first()
 
-    if order_qs.exists():
-        order = order_qs.first()
-        
-        # 👍 Safe filter: size থাকলে size সহ, না হলে শুধু product দিয়ে
-        order_item_qs = OrderItem.objects.filter(
-            item=item, user=request.user, ordered=False
-        )
-        if size:
-            order_item_qs = order_item_qs.filter(size=size)
-        
-        order_item = order_item_qs.first()
-
-        if order_item:
-            order.items.remove(order_item)
-            order_item.delete()
-            messages.success(request, f"{item.title} ({size or 'No Size'}) removed from cart")
-        else:
-            messages.info(request, f"{item.title} not found in your cart")
-    else:
+    if not order:
         messages.info(request, "No active order")
+        return redirect('cart')
+
+    order_item = OrderItem.objects.filter(
+        item=item, user=request.user, ordered=False, size=size
+    ).first()
+
+    if order_item:
+        order.items.remove(order_item)
+        order_item.delete()
+        order.save()  # cache refresh
+        messages.success(request, f"{item.title} ({size or 'No Size'}) removed from cart")
+    else:
+        messages.info(request, f"{item.title} not found in your cart")
+
     return redirect('cart')
-# =====================================
-# =====================================
+
 
 @login_required
 def cart_view(request):
@@ -237,6 +243,81 @@ def cart_view(request):
         })
     except Order.DoesNotExist:
         return render(request, "cart.html", {'cart_items': [], 'subtotal': 0, 'tax': 0, 'total': 0})
+
+
+# ------------------ AJAX Quantity Controls ------------------
+
+@login_required
+def add_quantity(request, slug):
+    order = Order.objects.filter(user=request.user, ordered=False).first()
+    if not order:
+        return redirect('cart')
+
+    item = get_object_or_404(Item, slug=slug)
+    size = request.POST.get('size') or None
+
+    order_item = OrderItem.objects.filter(
+        item=item, user=request.user, ordered=False, size=size
+    ).first()
+
+    if order_item:
+        order_item.quantity += 1
+        order_item.save()
+
+    order.save()
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        subtotal = order.get_total()
+        total = round(subtotal, 2)
+        return JsonResponse({
+            'success': True,
+            'quantity': order_item.quantity if order_item else 0,
+            'item_total': float(order_item.get_total_item_price()) if order_item else 0.0,
+            'subtotal': float(subtotal),
+            'tax': 0,
+            'total': total,
+            'cart_empty': not order.items.exists(),
+        })
+    return redirect('cart')
+
+
+@login_required
+def remove_quantity(request, slug):
+    order = Order.objects.filter(user=request.user, ordered=False).first()
+    if not order:
+        return redirect('cart')
+
+    item = get_object_or_404(Item, slug=slug)
+    size = request.POST.get('size') or None
+
+    order_item = OrderItem.objects.filter(
+        item=item, user=request.user, ordered=False, size=size
+    ).first()
+
+    if order_item:
+        if order_item.quantity > 1:
+            order_item.quantity -= 1
+            order_item.save()
+        else:
+            order.items.remove(order_item)
+            order_item.delete()
+
+    order.save()
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        subtotal = order.get_total()
+        total = round(subtotal, 2)
+        return JsonResponse({
+            'success': True,
+            'quantity': order_item.quantity if order_item else 0,
+            'item_total': float(order_item.get_total_item_price()) if order_item else 0.0,
+            'subtotal': float(subtotal),
+            'tax': 0,
+            'total': total,
+            'cart_empty': not order.items.exists(),
+        })
+    return redirect('cart')
+
+# ================== END CART VIEWS ==================
+
 
 @login_required
 def order_page(request):
@@ -258,6 +339,7 @@ def order_page(request):
         messages.error(request, f"Error: {str(e)}")
         return redirect('cart')
 
+
 @login_required
 def process_order(request):
     if request.method == "POST":
@@ -266,6 +348,7 @@ def process_order(request):
             if not order:
                 messages.error(request, "No active order found")
                 return redirect('cart')
+
             payment_method = request.POST.get('payment_method')
             if payment_method == 'bkash':
                 bkash_number = request.POST.get('bkash_number')
@@ -276,14 +359,17 @@ def process_order(request):
             else:
                 bkash_number = ''
                 bkash_transaction = ''
+
             if payment_method == 'bkash':
                 if not bkash_number or not bkash_transaction:
                     messages.error(request, "Please provide bKash details")
                     return redirect('order')
+
             if payment_method == 'cod':
                 if not bkash_number or not bkash_transaction:
                     messages.error(request, "Please provide bKash details for delivery fee payment")
                     return redirect('order')
+
             order_items = order.items.all()
             product_names = [item.item.title for item in order_items]
             quantities = [str(item.quantity) for item in order_items]
@@ -305,9 +391,11 @@ def process_order(request):
                 quantities=", ".join(quantities),
                 sizes=", ".join(sizes)
             )
+
             for item in order.items.all():
                 item.customer_order = customer_order
                 item.save()
+
             order.ordered = True
             order.ordered_date = timezone.now()
             order.save()
@@ -349,6 +437,7 @@ def process_order(request):
             return redirect('order')
     return redirect('HomeView')
 
+
 @login_required
 def order_complete(request):
     if request.method == "POST":
@@ -367,77 +456,7 @@ def order_complete(request):
             return redirect('cart')
     return redirect('HomeView')
 
+
 @login_required
 def thanks(request):
     return render(request, "thanks.html")
-
-# --------- SMART AJAX CART VIEWS BELOW (Safe + Size Support) ---------
-@login_required
-def add_quantity(request, slug):
-    order = Order.objects.filter(user=request.user, ordered=False).first()
-    if not order:
-        return redirect('cart')
-
-    item = get_object_or_404(Item, slug=slug)
-    size = request.POST.get('size') or None
-
-    order_item = OrderItem.objects.filter(
-        item=item, user=request.user, ordered=False, size=size
-    ).first()
-
-    if order_item:
-        order_item.quantity += 1
-        order_item.save()
-
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        subtotal = order.get_total()
-        tax = 0
-        total = round(subtotal + tax, 2)
-        return JsonResponse({
-            'quantity': order_item.quantity if order_item else 0,
-            'item_total': float(order_item.get_total_item_price()) if order_item else 0.0,
-            'subtotal': float(subtotal),
-            'tax': float(tax),
-            'total': float(total),
-            'cart_empty': order.items.count() == 0,
-        })
-
-    return redirect('cart')
-
-
-@login_required
-def remove_quantity(request, slug):
-    order = Order.objects.filter(user=request.user, ordered=False).first()
-    if not order:
-        return redirect('cart')
-
-    item = get_object_or_404(Item, slug=slug)
-    size = request.POST.get('size') or None
-
-    order_item = OrderItem.objects.filter(
-        item=item, user=request.user, ordered=False, size=size
-    ).first()
-
-    if order_item:
-        if order_item.quantity > 1:
-            order_item.quantity -= 1
-            order_item.save()
-        else:
-            order.items.remove(order_item)
-            order_item.delete()
-
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        subtotal = order.get_total()
-        tax = 0
-        total = round(subtotal + tax, 2)
-        return JsonResponse({
-            
-            'quantity': order_item.quantity if order_item else 0,
-            'item_total': float(order_item.get_total_item_price()) if order_item else 0.0,
-            'subtotal': float(subtotal),
-            'tax': float(tax),
-            'total': float(total),
-            'cart_empty': order.items.count() == 0,
-        })
-
-    return redirect('cart')

@@ -1,3 +1,5 @@
+
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
@@ -7,6 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pet.urls')),              # This is main app Url
     path('accounts/', include('allauth.urls')), # 🔗 This is main allauth.urls for (google login)
+
+  
+    path('api/', include('chat.urls')),
 ]
 
 if settings.DEBUG:
@@ -22,4 +27,3 @@ else:
         re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
         re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
     ]
-  

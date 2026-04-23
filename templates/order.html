@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Checkout | Topnoz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --primary-solid: #6C5CE7;
-            --primary-light: #A29BFE;
-            --secondary: #00B894;
-            --accent: #FD79A8;
-            --dark: #2D3436;
+            --primary: #000000;
+            --primary-solid: #000000;
+            --primary-light: #333333;
+            --secondary: #000000;
+            --accent: #ffffff;
+            --dark: #000000;
             --light: #F5F6FA;
             --gray: #DFE6E9;
             --border-radius: 12px;
@@ -28,11 +28,57 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F9FAFF;
+            font-family: 'Montserrat', 'Inter', sans-serif;
+            background-color: #ffffff;
             color: var(--dark);
             line-height: 1.6;
         }
+
+        /* --- START: NEW STYLES FOR HEADER AND BUTTON --- */
+        .page-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            background-color: #ffffff;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .continue-shopping-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .continue-shopping-btn:hover {
+            background-color: #000000;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        /* --- END: NEW STYLES --- */
+
         .checkout-container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -54,15 +100,18 @@
         .checkout-header img {
             height: 60px;
             margin-bottom: 1rem;
+            filter: contrast(1.2);
         }
         .checkout-header h1 {
             font-size: 2.2rem;
-            font-weight: 700;
-            background: var(--primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            color: var(--primary);
             margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        .checkout-header p {
+            color: #666;
+            font-weight: 400;
         }
         .progress-steps {
             display: flex;
@@ -108,9 +157,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.5rem;
             transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
         }
         .step.active .step-number,
         .step.completed .step-number {
@@ -123,11 +173,17 @@
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
         }
+        .step-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+        }
         .form-container, .summary-container {
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             padding: 2rem;
+            border: 1px solid #f0f0f0;
         }
         .summary-container {
             position: sticky;
@@ -136,14 +192,15 @@
         }
         .section-title, .summary-title {
             font-size: 1.4rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 1.5rem;
             color: var(--primary-solid);
             display: flex;
             align-items: center;
             gap: 0.75rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--gray);
+            border-bottom: 2px solid #000;
+            font-family: 'Montserrat', sans-serif;
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -156,11 +213,12 @@
             font-family: inherit;
             font-size: 1rem;
             transition: var(--transition);
+            background: #fff;
         }
         .form-control:focus {
             outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+            border-color: var(--primary-solid);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
         }
         .payment-option {
             display: flex;
@@ -173,11 +231,11 @@
             transition: var(--transition);
         }
         .payment-option:hover {
-            border-color: var(--primary-light);
+            border-color: var(--primary-solid);
         }
         .payment-option.active {
             border-color: var(--primary-solid);
-            background: rgba(108, 92, 231, 0.05);
+            background: rgba(0, 0, 0, 0.05);
         }
         .payment-option i {
             font-size: 1.5rem;
@@ -191,6 +249,7 @@
             padding: 1rem;
             background: var(--light);
             border-radius: var(--border-radius);
+            border-left: 3px solid var(--primary-solid);
         }
         .payment-details.active {
             display: block;
@@ -206,11 +265,11 @@
             transition: var(--transition);
         }
         .delivery-option:hover {
-            border-color: var(--primary-light);
+            border-color: var(--primary-solid);
         }
         .delivery-option.active {
             border-color: var(--primary-solid);
-            background: rgba(108, 92, 231, 0.05);
+            background: rgba(0, 0, 0, 0.05);
         }
         .delivery-option i {
             font-size: 1.5rem;
@@ -250,9 +309,11 @@
             border-bottom: 1px solid var(--gray);
         }
         .summary-total {
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1.2rem;
             margin-top: 1.5rem;
+            color: var(--primary-solid);
+            font-family: 'Montserrat', sans-serif;
         }
         .btn {
             display: inline-flex;
@@ -260,21 +321,24 @@
             justify-content: center;
             gap: 0.75rem;
             padding: 1rem 2rem;
-            font-family: inherit;
-            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
             transition: var(--transition);
             width: 100%;
+            font-size: 1.1rem;
+            letter-spacing: -0.5px;
         }
         .btn-primary {
             background: var(--primary);
             color: white;
         }
         .btn-primary:hover {
-            opacity: 0.9;
+            background: #333;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
         .terms-check {
             display: flex;
@@ -289,23 +353,43 @@
             .form-container, .summary-container {
                 padding: 1.5rem;
             }
+            /* --- Responsive style for the new button --- */
+            .continue-shopping-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .header-brand {
+                font-size: 1.2rem;
+            }
         }
     </style>
 
-               <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RP643852NH');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RP643852NH');
+    </script>
 </head>
 <body>
+
+<!-- START: NEW SMART HEADER -->
+<header class="page-header">
+    <div class="header-container">
+        <a href="{% url 'HomeView' %}" class="header-brand">Topnoz</a>
+        <a href="{% url 'CategoryListView' %}" class="continue-shopping-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Continue Shopping</span>
+        </a>
+    </div>
+</header>
+<!-- END: NEW SMART HEADER -->
+
 <div class="checkout-container">
     <div class="checkout-header">
-        <img src="{% static 'image\topnozlogo.jpg' %}" alt="Topnozlogo">
+        <img src="{% static 'image\topnozlogo.jpg' %}" alt="Topnoz">
         <h1>Complete Your Order</h1>
         <p>Almost there! Just a few more details to complete your purchase</p>
     </div>
@@ -408,43 +492,43 @@
                         <small>Instant payment via bKash</small>
                     </div>
                 </label>
-<!-- Cash on Delivery Details -->
-<div id="cod-details" class="payment-details">
-    <div style="margin-bottom: 1rem; font-weight: 600; color:  #00B894">
-       Kindly pay the delivery fee in advance to the merchant bKash number above to process your order.
-    </div>
-    <div style="margin-bottom: 1rem; font-weight: 600;">
-        Merchant bKash Number: 01709219473
-    </div>
-    <div class="form-group">
-        <input type="text" name="cod_bkash_number" class="form-control" placeholder="Your bKash Number">
-    </div>
-    <div class="form-group">
-        <input type="text" name="cod_bkash_transaction" class="form-control" placeholder="Transaction ID">
-    </div>
-</div>
 
-<!-- bKash Details -->
-<div id="bkash-details" class="payment-details">
-     <div style="margin-bottom: 1rem; font-weight: 600; color:  #E2136E">
-       Please send the total amount to the merchant bKash number below and enter your bKash number and transaction ID.
-    </div>
-    <div style="margin-bottom: 1rem; font-weight: 600;">
-        Merchant bKash Number: 01709219473
-    </div>
-    <div class="form-group">
-        <input type="text" name="bkash_number" class="form-control" placeholder="Your bKash Number">
-    </div>
-    <div class="form-group">
-        <input type="text" name="bkash_transaction" class="form-control" placeholder="Transaction ID">
-    </div>
-</div>
-                
+                <!-- Cash on Delivery Details -->
+                <div id="cod-details" class="payment-details">
+                    <div style="margin-bottom: 1rem; font-weight: 600; color: #000">
+                       Kindly pay the delivery fee in advance to the merchant bKash number above to process your order.
+                    </div>
+                    <div style="margin-bottom: 1rem; font-weight: 600;">
+                        Merchant bKash Number: 01709219473
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cod_bkash_number" class="form-control" placeholder="Your bKash Number">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cod_bkash_transaction" class="form-control" placeholder="Transaction ID">
+                    </div>
+                </div>
+
+                <!-- bKash Details -->
+                <div id="bkash-details" class="payment-details">
+                    <div style="margin-bottom: 1rem; font-weight: 600; color: #000">
+                       Please send the total amount to the merchant bKash number below and enter your bKash number and transaction ID.
+                    </div>
+                    <div style="margin-bottom: 1rem; font-weight: 600;">
+                        Merchant bKash Number: 01709219473
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="bkash_number" class="form-control" placeholder="Your bKash Number">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="bkash_transaction" class="form-control" placeholder="Transaction ID">
+                    </div>
+                </div>
             </div>
 
             <div class="terms-check">
                 <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">I agree to the <a href="#" style="color: var(--primary-solid);">Terms & Conditions</a></label>
+                <label for="terms">I agree to the <a href="#" style="color: var(--primary-solid); font-weight: 600;">Terms & Conditions</a></label>
             </div>
 
             <button type="submit" class="btn btn-primary">
@@ -465,15 +549,15 @@
                     <div class="order-item-name">
                         <img src="{{ item.item.image.url }}" alt="{{ item.item.title }}" class="order-item-img">
                         <div>
-                            <div>{{ item.item.title }}</div>
-                            <small style="color: #718096;">Qty: {{ item.quantity }}</small>
+                            <div style="font-weight: 600;">{{ item.item.title }}</div>
+                            <small style="color: #666;">Qty: {{ item.quantity }}</small>
                         </div>
                     </div>
-                    <span>৳{{ item.get_total_item_price|floatformat:2 }}</span>
+                    <span style="font-weight: 600;">৳{{ item.get_total_item_price|floatformat:2 }}</span>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="alert" style="color: #718096; text-align: center; padding: 1rem;">
+                <div class="alert" style="color: #666; text-align: center; padding: 1rem;">
                     Your cart is empty
                 </div>
             {% endif %}

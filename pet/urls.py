@@ -1,3 +1,5 @@
+
+
 from django.urls import path
 from .views import (
     HomeView,
@@ -17,7 +19,9 @@ from .views import (
     add_quantity,
     remove_quantity,
     CategoryListView,
-    CategoryProductListView,  # <-- Now imported for Step 3
+    CategoryProductListView,
+    NewArrivalsView,
+    chatbot_view,  
 )
 
 urlpatterns = [
@@ -41,4 +45,10 @@ urlpatterns = [
     # --------- Category Browsing ---------
     path('categories/', CategoryListView.as_view(), name="CategoryListView"),
     path('categories/<str:product_type>/', CategoryProductListView.as_view(), name="CategoryProductListView"),
+
+    # --------- New Arrivals ---------
+    path('new-arrivals/', NewArrivalsView.as_view(), name='new_arrivals'),
+
+    # --------- AI Chatbot Page ---------
+    path('chatbot/', chatbot_view, name='chatbot_view'), 
 ]

@@ -5,655 +5,255 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ category_label }} | TOPNOZ - Premium Fashion</title>
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="{% static 'image/topnozlogo.jpg' %}" type="image/jpeg">
+  
+  <!-- CSS (Bootstrap 5 CDN for simplicity & stability) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- UPDATED FONT FOR AESTHETIC VIBE -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --pure-white: #FFFFFF;
-      --pure-black: #000000;
-      --light-gray: #F8F8F8;
-      --medium-gray: #E8E8E8;
-      --dark-gray: #222222;
-      --text-gray: #666666;
-      --accent-red: #D10000;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #212529;
+      --text-gray: #6c757d;
     }
     
     body {
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--pure-white);
-      color: var(--pure-black);
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--white);
+      color: var(--black);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      letter-spacing: 0.3px;
     }
-    
-    /* ========== NAVIGATION ========== */
+
+    /* --- 1. NAVIGATION BAR (IMPROVED FOR ALL DEVICES) --- */
     .navbar {
-      background: var(--pure-black);
-      padding: 0.8rem 2rem;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--medium-gray);
+      padding: 0.8rem 0;
     }
-    
     .navbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 15px;
+      display: flex; align-items: center; gap: 0.75rem;
+      font-weight: 700; font-size: 1.5rem;
+      color: var(--black); text-decoration: none;
     }
-    
-    .logo-container {
-      display: flex;
-      align-items: center;
-    }
-    
-.logo-img {
-  height: 42px;
-  width: auto;
-  display: block;
-  object-fit: contain;
+    .navbar-brand img { height: 36px; width: 36px; object-fit: contain; transition: transform 0.4s ease; }
+    .navbar-brand:hover img { transform: rotate(-10deg); }
 
-  /* Filter মুছে ফেলেছি যাতে লোগোর আসল রঙ দেখা যায় */
-  filter: none;
+    .navbar-actions { gap: 0.5rem; }
 
-  opacity: 1;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  will-change: transform;
-  image-rendering: -webkit-optimize-contrast;
-
-  transition:
-    transform .45s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity .2s ease;
-}
-
-
-.navbar-brand:hover .logo-img {
-  transform: translateY(-1px) scale(1.03) rotate(-3deg);
-  opacity: 1;
-}
-
-/* Subtle micro-interaction */
-.navbar-brand:hover .logo-img {
-  transform: translateY(-1px) scale(1.03) rotate(-3deg);
-  opacity: 1;
-}
-
-/* Accessibility focus ring */
-.navbar-brand:focus-visible {
-  outline: 0;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.35);
-  border-radius: 6px;
-}
-
-/* On light headers (if you ever use a white navbar), keep original colors */
-.navbar.navbar-light .logo-img,
-.navbar.bg-white .logo-img {
-  filter: none;
-  opacity: 1;
-}
-
-/* Responsive size */
-@media (max-width: 576px) {
-  .logo-img { height: 34px; }
-}
-
-/* Respect reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .logo-img { transition: none; }
-}  
-    
-    .brand-name {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--pure-white);
-      letter-spacing: 1.5px;
+    .nav-icon-btn {
+      color: var(--black);
+      font-size: 1.25rem;
+      padding: 0.5rem;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.3s ease;
       position: relative;
-    }
-    
-    .brand-name::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--pure-white);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-    
-    .navbar-brand:hover .brand-name::after {
-      transform: scaleX(1);
-    }
-    
-    /* ========== HERO SECTION ========== */
-    .category-header {
-      position: relative;
-      padding: 6rem 0 5rem;
-      background: var(--pure-black);
-      margin-bottom: 4rem;
-      color: var(--pure-white);
-      overflow: hidden;
-    }
-    
-    .category-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 100%;
-      background: radial-gradient(circle at 70% 50%, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.8) 100%);
-    }
-    
-    .category-title {
-      font-weight: 800;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      color: var(--pure-white);
-      position: relative;
-      display: inline-block;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-    }
-    
-    .category-title::after {
-      content: '';
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: var(--pure-white);
-    }
-    
-    .category-subtitle {
-      font-size: 1.2rem;
-      color: rgba(255,255,255,0.7);
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-      letter-spacing: 0.8px;
-      font-weight: 300;
-    }
-    
-    /* ========== PRODUCT GRID ========== */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2.5rem;
-      padding: 0 2rem;
-    }
-    
-    .product-card {
       border: none;
-      overflow: hidden;
-      background: var(--pure-white);
-      position: relative;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--medium-gray);
-    }
-    
-    .product-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-      border-color: var(--pure-black);
-    }
-    
-    .product-img-container {
-      padding: 2rem;
-      background: var(--light-gray);
-      position: relative;
-      overflow: hidden;
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .product-img {
-      height: 300px;
-      width: 100%;
-      object-fit: contain;
-      transition: all 0.6s ease;
-      mix-blend-mode: multiply;
-    }
-    
-    .product-card:hover .product-img {
-      transform: scale(1.08);
-    }
-    
-    .product-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--pure-black);
-      color: var(--pure-white);
-      padding: 5px 15px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      z-index: 1;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    
-    .product-body {
-      padding: 1.8rem;
-      text-align: center;
-      border-top: 1px solid var(--medium-gray);
-    }
-    
-    .product-title {
-      font-weight: 600;
-      color: var(--pure-black);
-      margin-bottom: 1.2rem;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-    }
-    
-    .price-container {
-      margin-bottom: 1.8rem;
-    }
-    
-    .current-price {
-      font-weight: 700;
-      font-size: 1.3rem;
-      color: var(--pure-black);
-    }
-    
-    .discount-price {
-      color: var(--accent-red);
-    }
-    
-    .original-price {
-      text-decoration: line-through;
-      font-size: 0.95rem;
-      color: var(--text-gray);
-      margin-left: 8px;
-    }
-    
-    .action-btn {
-      display: flex;
-      justify-content: center;
-    }
-    
-    .details-btn {
-      border: 1px solid var(--pure-black);
-      padding: 12px 25px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: transparent;
-      color: var(--pure-black);
-      text-decoration: none;
-      width: 100%;
-      letter-spacing: 1.5px;
-      font-size: 0.9rem;
-      text-transform: uppercase;
     }
+    .nav-icon-btn:hover { color: var(--black); transform: scale(1.1); }
     
-    .details-btn:hover {
-      background: var(--pure-black);
-      color: var(--pure-white);
-    }
+    .dropdown-menu { border-radius: 0.5rem; border: 1px solid #eee; box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1); }
+    .dropdown-item { font-weight: 500; }
     
-    /* ========== PAGINATION ========== */
-    .pagination-container {
-      margin-top: 5rem;
-      padding: 0 2rem;
-    }
-    
-    .pagination {
-      justify-content: center;
-      border-top: 1px solid var(--medium-gray);
-      padding-top: 3rem;
-    }
-    
-    .page-item.active .page-link {
-      background: var(--pure-black);
-      border-color: var(--pure-black);
-      color: var(--pure-white);
-    }
-    
-    .page-link {
-      color: var(--pure-black);
-      margin: 0 8px;
-      border: 1px solid var(--medium-gray);
-      min-width: 45px;
-      height: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-    
-    .page-link:hover {
-      background-color: var(--pure-black);
-      color: var(--pure-white);
-      border-color: var(--pure-black);
-    }
-    
-    /* ========== EMPTY STATE ========== */
-    .empty-state {
-      padding: 8rem 2rem;
-      text-align: center;
-      background: var(--light-gray);
-    }
-    
-    .empty-icon {
-      font-size: 6rem;
-      color: var(--medium-gray);
-      margin-bottom: 3rem;
-      opacity: 0.8;
-    }
-    
-    .empty-title {
-      font-weight: 700;
-      font-size: 2rem;
-      color: var(--pure-black);
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-    }
-    
-    .empty-text {
-      color: var(--text-gray);
-      max-width: 600px;
-      margin: 0 auto 4rem;
-      font-size: 1.1rem;
-      line-height: 1.8;
-    }
-    
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .back-home-btn {
-      background: var(--pure-black);
-      border: 1px solid var(--pure-black);
-      padding: 15px 35px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      color: var(--pure-white);
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-size: 0.95rem;
-    }
-    
-    .back-home-btn:hover {
-      background: transparent;
-      color: var(--pure-black);
-    }
-    
-    .notify-btn {
-      background: transparent;
-      border: 1px solid var(--pure-black);
-      padding: 15px 35px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      color: var(--pure-black);
-      display: flex;
-      align-items: center;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-size: 0.95rem;
-    }
-    
-    .notify-btn:hover {
-      background: var(--pure-black);
-      color: var(--pure-white);
-    }
-    
-    /* ========== SEARCH BAR ========== */
+    /* --- 1.1 DESKTOP SEARCH BAR --- */
+    .search-container { max-width: 400px; flex-grow: 1; }
     .search-navbar {
-      background: rgba(255,255,255,0.1);
-      padding: 0;
-      min-width: 200px;
-      max-width: 450px;
-      width: 100%;
-      margin: 0 30px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
+      background: var(--light-gray); border: 1px solid var(--medium-gray);
+      border-radius: 50px; padding: 0 0.5rem 0 1rem;
+      transition: all 0.3s ease; width: 100%;
     }
-    
     .search-navbar:focus-within {
-      border-bottom-color: var(--pure-white);
+      border-color: var(--black); box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
     }
-    
-    .search-navbar-input {
-      border: none;
-      outline: none;
-      background: transparent;
-      font-size: 1rem;
-      flex: 1;
-      padding: 0.7rem 0;
-      color: var(--pure-white);
-      font-weight: 400;
+    .search-input {
+      border: none; outline: none; background: transparent;
+      height: 44px; font-size: 0.95rem; color: var(--black);
+      width: 100%;
     }
-    
-    .search-navbar-input::placeholder {
-      color: rgba(255,255,255,0.6);
-      font-weight: 300;
-      letter-spacing: 0.5px;
+    .search-input::placeholder { color: var(--text-gray); }
+    .search-btn {
+      background: transparent; color: var(--text-gray); border: none;
+      font-size: 1rem; cursor: pointer; transition: color 0.3s ease;
     }
-    
-    .search-navbar-btn {
-      background: transparent;
-      color: var(--pure-white);
-      border: none;
-      padding: 0.7rem 1.2rem;
-      font-size: 1.1rem;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
+    .search-btn:hover { color: var(--black); }
+
+    /* --- 1.2 MOBILE SEARCH MODAL --- */
+    #searchModal .modal-content {
+        background-color: var(--light-gray);
+        border: none;
+        border-radius: 0.75rem;
     }
-    
-    /* ========== MICRO-INTERACTIONS ========== */
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0px); }
+    #searchModal .modal-header {
+        border-bottom: none;
     }
-    
-    .product-card:hover .product-badge {
-      animation: float 1.8s ease-in-out infinite;
+    .search-modal-form .form-control {
+        height: 60px;
+        font-size: 1.25rem;
+        border: 2px solid var(--medium-gray);
+        border-radius: 50px;
+        padding-left: 1.5rem;
+        padding-right: 4rem;
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .search-modal-form .form-control:focus {
+        border-color: var(--black);
+        box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
     }
-    
-    .animate-fadein {
-      animation: fadeIn 0.8s ease-out forwards;
+    .search-modal-form .btn-search-modal {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        color: var(--text-gray);
     }
-    
-    /* ========== RESPONSIVE ADJUSTMENTS ========== */
-    @media (max-width: 1200px) {
-      .product-img {
-        height: 260px;
-      }
+
+    /* --- 2. HERO SECTION --- */
+    .category-header {
+      padding: 5rem 0; background-color: var(--light-gray);
+      text-align: center; border-bottom: 1px solid var(--medium-gray);
+      overflow: hidden;
     }
-    
-    @media (max-width: 992px) {
-      .navbar {
-        padding: 0.8rem 1.5rem;
-      }
-      
-      .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 2rem;
-      }
-      
-      .search-navbar {
-        margin: 0 20px;
-      }
+    .category-title {
+      font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase; letter-spacing: 4px; margin-bottom: 1rem;
     }
-    
-    @media (max-width: 768px) {
-      .category-header {
-        padding: 5rem 0 4rem;
-      }
-      
-      .category-title {
-        font-size: 2.2rem;
-      }
-      
-      .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1.5rem;
-        padding: 0 1.5rem;
-      }
-      
-      .product-img {
-        height: 220px;
-      }
-      
-      .empty-state {
-        padding: 6rem 1.5rem;
-      }
-      
-      .navbar-brand {
-        gap: 10px;
-      }
-      
-      .brand-name {
-        font-size: 1.4rem;
-      }
-      
-      .search-navbar {
-        order: 3;
-        margin: 15px 0 0;
-        width: 100%;
-        max-width: 100%;
-      }
+    .category-subtitle {
+      font-size: 1.1rem; color: var(--text-gray);
+      max-width: 600px; margin: 0 auto 2rem;
     }
+    .back-to-collections-btn {
+      color: var(--text-gray); text-decoration: none;
+      font-weight: 500; transition: color 0.3s ease;
+    }
+    .back-to-collections-btn:hover { color: var(--black); }
+    .back-to-collections-btn i { transition: transform 0.3s ease; }
+    .back-to-collections-btn:hover i { transform: translateX(-4px); }
+
+    /* --- 3. PRODUCT GRID & CARDS --- */
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem; }
+    .product-card { border: 1px solid var(--medium-gray); overflow: hidden; background: var(--white); position: relative; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 5px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; }
+    .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--black); }
+    .product-img-container { padding: 2rem; background: var(--light-gray); position: relative; overflow: hidden; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+    .product-img { height: 300px; width: 100%; object-fit: contain; transition: all 0.6s ease; mix-blend-mode: multiply; }
+    .product-card:hover .product-img { transform: scale(1.08); }
+    .product-badge { position: absolute; top: 20px; right: 20px; background: var(--black); color: var(--white); padding: 5px 15px; font-size: 0.75rem; font-weight: 600; z-index: 1; letter-spacing: 1px; text-transform: uppercase; }
+    .product-body { padding: 1.8rem; text-align: center; border-top: 1px solid var(--medium-gray); }
+    .product-title { font-weight: 600; color: var(--black); margin-bottom: 1.2rem; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1.2px; }
+    .price-container { margin-bottom: 1.8rem; }
+    .current-price { font-weight: 700; font-size: 1.3rem; color: var(--black); }
+    .discount-price { color: #D10000; }
+    .original-price { text-decoration: line-through; font-size: 0.95rem; color: var(--text-gray); margin-left: 8px; }
+    .details-btn { border: 1px solid var(--black); padding: 12px 25px; font-weight: 600; transition: all 0.3s ease; background: transparent; color: var(--black); text-decoration: none; width: 100%; letter-spacing: 1.5px; font-size: 0.9rem; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; }
+    .details-btn:hover { background: var(--black); color: var(--white); }
+    .details-btn i { transition: transform 0.3s ease; }
+    .details-btn:hover i { transform: translateX(5px); }
     
-    @media (max-width: 576px) {
-      .category-header {
-        padding: 4rem 0 3rem;
-      }
-      
-      .category-title {
-        font-size: 1.8rem;
-        letter-spacing: 2px;
-      }
-      
-      .category-subtitle {
-        font-size: 1rem;
-      }
-      
-      .product-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 0 1rem;
-      }
-      
-      .product-img {
-        height: 200px;
-      }
-      
-      .empty-title {
-        font-size: 1.6rem;
-      }
-      
-      .action-buttons {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .back-home-btn, .notify-btn {
-        width: 100%;
-        justify-content: center;
-      }
+    /* --- PAGINATION & EMPTY STATE --- */
+    .pagination-container { margin-top: 5rem; }
+    .pagination { justify-content: center; }
+    .page-link { color: var(--black); margin: 0 8px; border: 1px solid var(--medium-gray); min-width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 500; transition: all 0.3s ease; border-radius: 50% !important; }
+    .page-item.active .page-link { background: var(--black); border-color: var(--black); color: var(--white); }
+    .page-link:hover { background-color: var(--black); color: var(--white); border-color: var(--black); }
+    .empty-state { padding: 6rem 0; text-align: center; }
+    .empty-icon { font-size: 5rem; color: var(--medium-gray); margin-bottom: 2rem; }
+    .empty-title { font-weight: 700; font-size: 1.8rem; }
+    .empty-text { color: var(--text-gray); max-width: 500px; margin: 1rem auto 2rem; }
+    .btn-dark { border-radius: 50px; padding: 0.75rem 1.5rem; background-color: var(--black); border-color: var(--black); }
+    
+    /* --- NEW ANIMATION CLASSES --- */
+    .animate-item { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .animate-item.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* --- RESPONSIVE ADJUSTMENTS --- */
+    @media (max-width: 767.98px) {
+      .navbar-brand { font-size: 1.25rem; }
+      .navbar-actions { gap: 0.1rem; }
     }
   </style>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RP643852NH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-RP643852NH');
-  </script>
 </head>
 <body>
-  <!-- ========== NAVIGATION ========== -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
+
+  <!-- 1. NAVIGATION BAR (RESTRUCTURED FOR SMARTER MOBILE VIEW) -->
+  <nav class="navbar sticky-top shadow-sm">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- Left Side: Brand Logo -->
       <a class="navbar-brand" href="{% url 'HomeView' %}">
-        <div class="logo-container">
-          <img src="{% static 'image/topnozlogo.jpg' %}" alt="TOPNOZ" class="logo-img">
-        </div>
-        <span class="brand-name">TOPNOZ</span>
+        <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo">
+        <span>Topnoz</span>
       </a>
       
-      <!-- Search Bar -->
-      <form method="get" action="" class="search-navbar d-flex align-items-center mx-3 flex-grow-1">
-        <input class="form-control search-navbar-input" type="search" name="q" placeholder="Search premium collections..." aria-label="Search" value="{{ request.GET.q }}">
-        <button class="btn search-navbar-btn" type="submit">
-          <i class="fas fa-search"></i>
+      <!-- Middle: Search Bar (Visible on Desktop only) -->
+      <div class="search-container d-none d-md-block mx-auto">
+        <form method="get" action="" class="search-navbar d-flex align-items-center">
+          <input class="form-control search-input" type="search" name="q" placeholder="Search products..." aria-label="Search" value="{{ request.GET.q }}">
+          <button class="btn search-btn" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+
+      <!-- Right Side: Actions (Search, Cart & Menu) -->
+      <div class="navbar-actions d-flex align-items-center">
+        <!-- NEW: Search Icon (Visible on Mobile only) -->
+        <button class="nav-icon-btn d-md-none" type="button" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Open Search">
+            <i class="fas fa-search"></i>
         </button>
-      </form>
-      
-      <div class="d-flex">
-        <a href="{% url 'HomeView' %}" class="btn home-btn">
-          <i class="fas fa-home me-2"></i> Home
+        
+        <!-- Cart Button -->
+        <a href="{% url 'cart' %}" class="nav-icon-btn" aria-label="View Shopping Cart">
+          <i class="fas fa-shopping-bag"></i>
         </a>
+        
+        <!-- Menu Dropdown -->
+        <div class="dropdown">
+          <a href="#" class="nav-icon-btn dropdown-toggle" id="navbarMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Main Menu">
+            <i class="fas fa-bars"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarMenu">
+            <li><a class="dropdown-item" href="{% url 'CategoryListView' %}"><i class="fas fa-layer-group fa-fw me-2"></i> Collections</a></li>
+            <li><a class="dropdown-item" href="{% url 'contact' %}"><i class="fas fa-phone fa-fw me-2"></i> Contact</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
-  
-  <!-- ========== HERO SECTION ========== -->
-  <div class="category-header text-center">
+
+  <!-- 2. HERO SECTION -->
+  <header class="category-header">
     <div class="container">
-      <h1 class="category-title animate__animated animate__fadeInDown">{{ category_label }}</h1>
-      <p class="category-subtitle animate__animated animate__fadeIn animate__delay-1s">Curated premium fashion for the modern lifestyle</p>
+      <h1 class="category-title animate-item">{{ category_label }}</h1>
+      <p class="category-subtitle animate-item" style="transition-delay: 0.2s;">Curated premium fashion for the modern lifestyle.</p>
+      <a href="{% url 'CategoryListView' %}" class="back-to-collections-btn animate-item" style="transition-delay: 0.4s;">
+        <i class="fas fa-arrow-left me-2"></i> Back to All Collections
+      </a>
     </div>
-  </div>
-  
-  <!-- ========== MAIN CONTENT ========== -->
-  <div class="container-fluid pb-5 mb-5">
+  </header>
+
+  <!-- 3. MAIN CONTENT -->
+  <main class="container py-5">
     {% if object_list %}
       <div class="product-grid">
         {% for object in object_list %}
-          <div class="animate-fadein" style="animation-delay: {% cycle '0.1s' '0.3s' '0.5s' '0.7s' %}">
-            <div class="product-card h-100">
-              {% if object.discount_price %}
-                <div class="product-badge">
-                  Limited
-                </div>
-              {% endif %}
-              
+          <div class="product-card h-100 animate-item" style="transition-delay: {% widthratio forloop.counter0 1 100 %}ms;">
+            {% if object.discount_price %}
+              <div class="product-badge">Limited</div>
+            {% endif %}
+            <a href="{{ object.get_absolute_url }}" class="text-decoration-none d-flex flex-column flex-grow-1">
               <div class="product-img-container">
-                <img src="{{ object.image.url }}" class="product-img img-fluid" alt="{{ object.title }}">
+                <img src="{{ object.image.url }}" class="product-img" alt="{{ object.title }}">
               </div>
-              
               <div class="product-body">
                 <h5 class="product-title">{{ object.title }}</h5>
-                
                 <div class="price-container">
                   {% if object.discount_price %}
                     <span class="current-price discount-price">৳ {{ object.discount_price }}</span>
@@ -662,59 +262,32 @@
                     <span class="current-price">৳ {{ object.price }}</span>
                   {% endif %}
                 </div>
-                
-                <div class="action-btn">
-                  <a href="{% url 'ProductDetailView' object.slug %}" class="btn details-btn">
-                    <i class="fas fa-shopping-bag me-2"></i> View Details
-                  </a>
+                <div class="action-btn-container mt-auto">
+                    <span class="btn details-btn">
+                        View Details <i class="fas fa-arrow-right ms-2"></i>
+                    </span>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
         {% endfor %}
       </div>
-      
-      <!-- ========== PAGINATION ========== -->
+
+      <!-- PAGINATION -->
       {% if is_paginated %}
-        <div class="pagination-container">
+        <div class="pagination-container animate-item" style="transition-delay: 0.5s;">
           <nav aria-label="Page navigation">
             <ul class="pagination">
               {% if page_obj.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page=1" aria-label="First">
-                    <i class="fas fa-angle-double-left"></i>
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                    <i class="fas fa-angle-left"></i>
-                  </a>
-                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"><i class="fas fa-angle-left"></i></a></li>
               {% endif %}
-              
               {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                  <li class="page-item active">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                  </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                  <li class="page-item">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                  </li>
-                {% endif %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
               {% endfor %}
-              
               {% if page_obj.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                    <i class="fas fa-angle-right"></i>
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                    <i class="fas fa-angle-double-right"></i>
-                  </a>
-                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next"><i class="fas fa-angle-right"></i></a></li>
               {% endif %}
             </ul>
           </nav>
@@ -722,73 +295,62 @@
       {% endif %}
       
     {% else %}
-      <!-- ========== EMPTY STATE ========== -->
+      <!-- EMPTY STATE -->
       <div class="empty-state">
-        <div class="empty-icon animate__animated animate__fadeIn">
-          <i class="fas fa-box-open"></i>
-        </div>
-        <h3 class="empty-title animate__animated animate__fadeIn animate__delay-1s">CURATED SELECTION COMING SOON</h3>
-        <p class="empty-text animate__animated animate__fadeIn animate__delay-2s">We're meticulously preparing our new collection to meet TOPNOZ's high standards of quality and design. Join our waiting list for exclusive early access.</p>
-        <div class="action-buttons animate__animated animate__fadeIn animate__delay-3s">
-          <a href="{% url 'CategoryListView' %}" class="btn back-home-btn">
-            <i class="fas fa-arrow-left me-2"></i> Explore Collections
-          </a>
-          <button class="btn notify-btn">
-            <i class="fas fa-flag me-2"></i> Notify Me
-          </button>
-        </div>
+        <div class="empty-icon animate-item"><i class="fas fa-box-open"></i></div>
+        <h3 class="empty-title animate-item" style="transition-delay: 0.2s;">Collection Coming Soon</h3>
+        <p class="empty-text animate-item" style="transition-delay: 0.4s;">We are preparing our new selection. Please check back later or explore our other collections.</p>
+        <a href="{% url 'CategoryListView' %}" class="btn btn-dark animate-item" style="transition-delay: 0.6s;">
+          Explore All Collections
+        </a>
       </div>
     {% endif %}
-  </div>
+  </main>
   
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <!-- NEW: FULLSCREEN SEARCH MODAL FOR MOBILE -->
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="searchModalLabel">Search Products</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="get" action="" class="search-modal-form position-relative">
+                <input class="form-control" type="search" name="q" placeholder="What are you looking for?" aria-label="Search" id="modalSearchInput" value="{{ request.GET.q }}">
+                <button class="btn btn-search-modal" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    // Enhanced animations and interactions
+    // Intersection Observer for animations on scroll
     document.addEventListener('DOMContentLoaded', function() {
-      // Logo hover effect
-      const logo = document.querySelector('.logo-img');
-      if (logo) {
-        logo.addEventListener('mouseenter', () => {
-          logo.classList.add('animate__animated', 'animate__pulse');
-        });
-        
-        logo.addEventListener('animationend', () => {
-          logo.classList.remove('animate__animated', 'animate__pulse');
-        });
-      }
-      
-      // Scroll animation for product cards
-      const animateOnScroll = () => {
-        const elements = document.querySelectorAll('.animate-fadein');
-        const windowHeight = window.innerHeight;
-        
-        elements.forEach(element => {
-          const elementPosition = element.getBoundingClientRect().top;
-          const elementVisible = 150;
-          
-          if (elementPosition < windowHeight - elementVisible) {
-            element.style.opacity = '1';
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
           }
         });
-      };
+      }, { threshold: 0.1 });
+
+      const elementsToAnimate = document.querySelectorAll('.animate-item');
+      elementsToAnimate.forEach(el => {
+        observer.observe(el);
+      });
+
+      // NEW: Auto-focus search input when modal is shown
+      var searchModal = document.getElementById('searchModal');
+      var modalSearchInput = document.getElementById('modalSearchInput');
       
-      window.addEventListener('scroll', animateOnScroll);
-      animateOnScroll(); // Initialize
-      
-      // Smooth scroll for pagination
-      document.querySelectorAll('.page-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-          if (link.getAttribute('href') && link.getAttribute('href').includes('page=')) {
-            e.preventDefault();
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            });
-            setTimeout(() => {
-              window.location.href = link.getAttribute('href');
-            }, 500);
-          }
-        });
+      searchModal.addEventListener('shown.bs.modal', function () {
+        modalSearchInput.focus();
       });
     });
   </script>

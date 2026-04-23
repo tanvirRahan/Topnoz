@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover the latest arrivals from Topnoz - premium fashion for the modern trendsetter.">
+    <title>New Arrivals | Topnoz</title>
+    <link rel="icon" href="{% static 'image/topnozlogo.jpg' %}" type="image/jpeg">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-700: #6c757d;
+        }
+
+        body {
+            background-color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--black);
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        .navbar {
+            border-bottom: 1px solid #eee;
+            background-color: var(--white);
+            padding: 1rem 0;
+            z-index: 1020;
+        }
+        .navbar-brand img {
+            height: 36px;
+            margin-right: 0.75rem;
+        }
+        .nav-link {
+            font-weight: 600;
+            color: var(--black);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover { color: #444; }
+
+        .navbar .dropdown-toggle::after { display: none; }
+        .navbar .nav-link i { transition: transform 0.3s ease; }
+        .navbar .nav-link:hover i { transform: scale(1.1); }
+
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            border: 1px solid #eee;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+        }
+        
+        /* Header */
+        .page-header {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 6rem 1rem;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            color: #adb5bd;
+            max-width: 600px;
+            margin: 1rem auto 0;
+        }
+        
+        /* Products */
+        .product-section { padding: 5rem 0; }
+        .product-card {
+            border: none;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .product-image-wrapper {
+            overflow: hidden;
+            position: relative;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
+        .card-img-top {
+            aspect-ratio: 1 / 1.2;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .product-card:hover .card-img-top { transform: scale(1.08); }
+        .product-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.45);
+            color: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .product-card:hover .product-overlay { opacity: 1; }
+        .product-overlay span {
+            font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; font-size: 0.9rem;
+            transform: translateY(10px); transition: transform 0.4s ease;
+        }
+        .product-card:hover .product-overlay span { transform: translateY(0); }
+        .card-body { padding: 1.5rem; background-color: var(--white); }
+        .product-title {
+            font-weight: 700; font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--black);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .product-price { font-weight: 600; font-size: 1.1rem; color: var(--black); }
+        .original-price { text-decoration: line-through; color: var(--gray-700); font-size: 0.9rem; margin-left: 0.5rem; }
+        
+        /* Pagination */
+        .pagination .page-link {
+            color: var(--black); border: none; margin: 0 5px;
+            border-radius: 50% !important; width: 40px; height: 40px;
+            line-height: 28px; text-align: center;
+            transition: background 0.3s ease;
+        }
+        .pagination .page-item.active .page-link { background-color: var(--black); color: var(--white); }
+        .pagination .page-link:hover { background-color: #f1f1f1; }
+
+        /* Footer */
+        footer { background-color: var(--black); padding: 4rem 0 2rem; color: var(--white); }
+        .footer-logo { height: 40px; } /* আসল logo color রাখলেই চলবে */
+        .footer-link { color: #adb5bd; text-decoration: none; transition: color 0.3s ease; }
+        .footer-link:hover { color: var(--white); }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'HomeView' %}">
+                <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo"> Topnoz
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-bars fa-lg"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'HomeView' %}">Home</a></li>
+                            <li><a class="dropdown-item" href="{% url 'CategoryListView' %}">Collections</a></li>
+                            <li><a class="dropdown-item" href="{% url 'contact' %}">Contact</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 data-aos="fade-down">The Latest Drop</h1>
+            <p data-aos="fade-up" data-aos-delay="200">Freshly curated styles, designed for the modern mind. Explore the newest additions to the Topnoz collection.</p>
+        </div>
+    </header>
+
+    <!-- Products -->
+    <section class="product-section">
+        <div class="container">
+            <div class="row g-4">
+                {% for object in object_list %}
+                <div class="col-lg-3 col-md-4 col-sm-6 product-item-col" data-aos="fade-up">
+                    <a href="{{ object.get_absolute_url }}" class="product-card d-block h-100">
+                        <div class="product-image-wrapper">
+                            <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
+                            <div class="product-overlay">
+                                <span>View Product <i class="fas fa-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                        <div class="card-body text-center">
+                            <h2 class="product-title mb-2">{{ object.title }}</h2>
+                            <p class="product-price">
+                                {% if object.discount_price %}
+                                    ৳{{ object.discount_price }} <span class="original-price">৳{{ object.price }}</span>
+                                {% else %}
+                                    ৳{{ object.price }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                    <h3 class="text-muted">No new arrivals just yet.</h3>
+                    <p class="text-muted">Please check back soon for our latest styles.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if is_paginated %}
+            <nav class="mt-5 d-flex justify-content-center" aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <a class="d-inline-block mb-3" href="{% url 'HomeView' %}">
+                <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="footer-logo">
+            </a>
+            <p class="text-white-50 small mb-4">Express your top thoughts in every look.</p>
+            <p class="text-white-50 small">&copy; {% now "Y" %} Topnoz. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            AOS.init({ once: true, duration: 800, offset: 50 });
+            const productItems = document.querySelectorAll('.product-item-col');
+            productItems.forEach((item, index) => {
+                item.setAttribute('data-aos-delay', (index % 4) * 100);
+            });
+        });
+    </script>
+</body>
+</html>

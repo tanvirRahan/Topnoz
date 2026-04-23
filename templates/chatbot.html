@@ -1,0 +1,282 @@
+<!-- ফাইল: templates/chatbot.html (Advanced Step 3: Multimedia Responses) -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TARS'BOT - by Topnoz</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #1a1a1a;
+            --primary-text: #f0f0f0;
+            --secondary-text: #888;
+            --brand-accent: #FFD700;
+            --user-bubble: #3a3a3a;
+            --bot-bubble: #252525;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--primary-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; animation: fadeIn 0.8s ease-in-out; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+        .smart-nav { width: 100%; background-color: #ffffff; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: fixed; top: 0; left: 0; z-index: 1000; }
+        .logo-area { display: flex; align-items: center; text-decoration: none; color: #121212; }
+        .logo-icon { height: 38px; width: 38px; margin-right: 12px; border-radius: 50%; }
+        .brand-name { font-size: 1.4rem; font-weight: 700; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { font-size: 1rem; font-weight: 500; color: #333; text-decoration: none; margin-left: 35px; position: relative; transition: color 0.3s ease; }
+        .nav-links a:hover { color: #000; }
+        .mobile-menu-icon { display: none; font-size: 1.5rem; cursor: pointer; color: #121212; }
+        .chat-container { width: 100%; flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; margin-top: 62px; }
+        .chat-window { width: 95%; max-width: 900px; height: calc(100vh - 102px); background-color: var(--surface-color); border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #282828; }
+        .chat-header { padding: 18px 20px; border-bottom: 1px solid #333; text-align: center; }
+        .chat-header h1 { font-size: 1.25rem; font-weight: 600; margin: 0; }
+        .chat-header h1 span { font-weight: 300; color: var(--secondary-text); }
+        .chat-header p { font-size: 0.85rem; color: var(--brand-accent); margin-top: 4px; font-weight: 400; letter-spacing: 0.5px; }
+        .status-indicator { display: inline-block; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; margin-right: 10px; animation: pulse-green 2s infinite; }
+        .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message { display: flex; max-width: 80%; animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .message-content { padding: 12px 18px; border-radius: 20px; line-height: 1.6; font-size: 0.95rem; white-space: pre-wrap; word-wrap: break-word; }
+        .user-message { align-self: flex-end; }
+        .user-message .message-content { background-color: var(--user-bubble); color: var(--primary-text); border-bottom-right-radius: 5px; }
+        .bot-message { align-self: flex-start; }
+        .bot-message .message-content { background-color: var(--bot-bubble); color: var(--primary-text); border-bottom-left-radius: 5px; }
+        
+        /* --- নতুন: Product Card Styles --- */
+        .product-card-container {
+            align-self: flex-start;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .product-card {
+            background-color: var(--bot-bubble);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #333;
+        }
+        .product-card-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            background-color: #444;
+        }
+        .product-card-details {
+            flex-grow: 1;
+        }
+        .product-card-name {
+            font-weight: 600;
+            margin: 0;
+            color: var(--primary-text);
+        }
+        .product-card-price {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin: 4px 0;
+        }
+        .product-card-button {
+            background-color: var(--brand-accent);
+            color: #121212;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .product-card-button:hover {
+            transform: scale(1.05);
+        }
+
+        .typing-indicator { display: flex; align-items: center; gap: 5px; padding: 12px 18px; background-color: var(--bot-bubble); border-radius: 20px; border-bottom-left-radius: 5px; }
+        .typing-indicator span { width: 8px; height: 8px; background-color: var(--secondary-text); border-radius: 50%; animation: bounce-dot 1.4s infinite ease-in-out both; }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        
+        .chat-input-area { display: flex; align-items: center; padding: 15px 20px; border-top: 1px solid #333; background-color: var(--surface-color); }
+        #userInput { flex-grow: 1; background-color: #333; border: 1px solid #444; border-radius: 25px; padding: 12px 20px; font-size: 1rem; color: var(--primary-text); outline: none; transition: border-color 0.3s; }
+        #userInput:focus { border-color: var(--brand-accent); }
+        #sendBtn { margin-left: 10px; background: none; border: none; color: var(--brand-accent); font-size: 1.5rem; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+        @keyframes bounce-dot { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+        @media (max-width: 768px) {
+            .nav-links, .mobile-nav-overlay { display: none; } /* Simplified for this page */
+            .mobile-menu-icon { display: none; }
+            .smart-nav { padding: 12px 20px; }
+            .chat-window { width: 100%; height: calc(100vh - 62px); border-radius: 0; box-shadow: none; border: none;}
+            .chat-container { padding: 0; margin-top: 62px; }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let session_id = localStorage.getItem('chat_session_id') || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        localStorage.setItem('chat_session_id', session_id);
+        console.log("Current Session ID:", session_id);
+    </script>
+
+    <nav class="smart-nav">
+        <a href="{% url 'HomeView' %}" class="logo-area">
+            <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="logo-icon">
+            <span class="brand-name">topnoz</span>
+        </a>
+        <div class="nav-links">
+            <a href="{% url 'HomeView' %}">Home</a>
+            <a href="{% url 'CategoryListView' %}">Collections</a>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-window">
+            <div class="chat-header">
+                <h1><span class="status-indicator"></span>TARS <span>by topnoz</span></h1>
+                <p>Powered by Rifat</p>
+            </div>
+            <div class="chat-messages" id="chatbox">
+                <div class="message bot-message">
+                    <div class="message-content">Greetings! I'm TARS'BOT', your personal style architect. How can we define your look today? ✨</div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input id="userInput" type="text" placeholder="Describe your style query..." autocomplete="off">
+                <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const csrftoken = getCookie('csrftoken');
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        sendBtn.addEventListener('click', handleSendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') handleSendMessage();
+        });
+        
+        async function handleSendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === '') return;
+
+            appendUserMessage(messageText);
+            userInput.value = '';
+            userInput.focus();
+            showTypingIndicator();
+
+            try {
+                const response = await fetch('/api/chat/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken },
+                    body: JSON.stringify({ message: messageText, session_id: session_id })
+                });
+
+                removeTypingIndicator();
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const data = await response.json();
+                
+                
+                data.forEach(item => {
+                    if (item.type === 'text') {
+                        appendBotMessage(item.content);
+                    } else if (item.type === 'product_card') {
+                        appendProductCard(item);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error fetching AI response:', error);
+                removeTypingIndicator();
+                appendBotMessage('Sorry, there was a connection issue. Please try again.');
+            }
+        }
+
+        function appendUserMessage(text) {
+            const messageHtml = `
+                <div class="message user-message">
+                    <div class="message-content">${text}</div>
+                </div>`;
+            chatbox.insertAdjacentHTML('beforeend', messageHtml);
+            scrollToBottom();
+        }
+
+        function appendBotMessage(text) {
+            const messageHtml = `
+                <div class="message bot-message">
+                    <div class="message-content">${text}</div>
+                </div>`;
+            chatbox.insertAdjacentHTML('beforeend', messageHtml);
+            scrollToBottom();
+        }
+
+         
+        function appendProductCard(product) {
+            const cardHtml = `
+                <div class="product-card-container">
+                    <div class="product-card">
+                        <img src="${product.image_url}" alt="${product.name}" class="product-card-image">
+                        <div class="product-card-details">
+                            <p class="product-card-name">${product.name}</p>
+                            <p class="product-card-price">${product.price}</p>
+                        </div>
+                        <a href="${product.product_link}" target="_blank" class="product-card-button">View Product</a>
+                    </div>
+                </div>`;
+            chatbox.insertAdjacentHTML('beforeend', cardHtml);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            const indicatorHtml = `
+                <div id="typing-indicator" class="message bot-message">
+                    <div class="typing-indicator"><span></span><span></span><span></span></div>
+                </div>`;
+            chatbox.insertAdjacentHTML('beforeend', indicatorHtml);
+            scrollToBottom();
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) indicator.remove();
+        }
+
+        function scrollToBottom() {
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

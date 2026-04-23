@@ -10,329 +10,98 @@
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --black: #000000;
       --white: #ffffff;
       --gold: #FFD700;
-      --dark-gold: #D4AF37;
       --light-gray: #f5f5f5;
     }
-    
-    html, body, header {
+
+    /* ACCESSIBILITY: REDUCE MOTION */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* BASE & TYPOGRAPHY */
+    html, body {
       height: 100%;
       font-family: 'Montserrat', 'Poppins', sans-serif;
       background-color: var(--white);
       color: var(--black);
       overflow-x: hidden;
     }
-
-    /* Carousel */
-    .carousel {
-      height: 100vh;
+    body {
+      animation: fadeIn 1s ease-out;
     }
-
-    @media (max-width: 768px) {
-      .carousel {
-        height: 60vh;
-      }
-
-      .carousel-caption {
-        bottom: 20%;
-      }
-
-      .carousel-caption h1 {
-        font-size: 1.8rem;
-      }
-
-      .carousel-caption p {
-        font-size: 0.9rem;
-      }
-
-      .carousel-caption .btn {
-        font-size: 0.8rem;
-        padding: 0.375rem 0.75rem;
-      }
-    }
-
-    /* Navbar */
-    .navbar {
-      background: transparent !important;
-      z-index: 999;
-      transition: background-color 0.3s;
-      box-shadow: none !important;
-    }
-
-    .navbar.scrolled {
-      background-color: var(--black) !important;
-    }
-
-    .navbar .nav-link, 
-    .navbar .navbar-brand {
-      color: var(--white) !important;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .navbar .nav-link:hover, 
-    .navbar .navbar-brand:hover {
-      color: var(--gold) !important;
-    }
-
-    .navbar .form-inline input {
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 20px;
-    }
-
-    .carousel .carousel-inner .carousel-item {
-      height: 100%;
-    }
-
-    .view {
-      background-size: cover;
-      background-position: center center;
-    }
-
-    .carousel-caption {
-      bottom: 30%;
-    }
-
-    .carousel-caption h1,
-    .carousel-caption p,
-    .carousel-caption a {
-      color: var(--white);
-    }
-
-    .btn-outline-white {
-      border-color: var(--white) !important;
-      color: var(--white) !important;
-    }
-
-    .btn-outline-white:hover {
-      background-color: var(--white) !important;
-      color: var(--black) !important;
-    }
-
     #products {
       scroll-margin-top: 100px;
     }
 
-    /* Logo */
-    .logo-container {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 5px 15px;
-      border-radius: 30px;
-      transition: all 0.3s ease;
-      animation: float 6s ease-in-out infinite;
+    /* CAROUSEL & HERO SECTION */
+    header, .carousel {
+      height: 100vh;
     }
-
-    .logo-img {
-      height: 40px;
-      width: auto;
-      transition: all 0.3s ease;
+    .carousel-inner, .carousel-item {
+      height: 100%;
     }
-
-    .logo-text {
+    .view {
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .carousel-item .view {
+        background-size: cover; /* This will now apply to all carousel items */
+    }
+    .carousel-caption {
+      position: absolute;
+      left: 15%;
+      right: 15%;
+      bottom: 25%;
+      z-index: 10;
+      text-align: center;
       color: var(--white);
-      font-weight: bold;
-      margin-left: 10px;
-      font-size: 1.2rem;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-      transition: all 0.3s ease;
     }
-
-    .scrolled-logo .logo-img {
-      height: 30px;
-    }
-
-    .scrolled-logo .logo-text {
-      font-size: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      .logo-container {
-        top: 15px;
-        left: 15px;
-        padding: 4px 12px;
-        animation: none;
-      }
-
-      .logo-img {
-        height: 35px;
-      }
-
-      .logo-text {
-        font-size: 1rem;
-      }
-
-      .scrolled-logo .logo-img {
-        height: 25px;
-      }
-
-      .scrolled-logo .logo-text {
-        font-size: 0.9rem;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .logo-container {
-        top: 10px;
-        left: 10px;
-        padding: 3px 10px;
-      }
-
-      .logo-img {
-        height: 30px;
-      }
-
-      .logo-text {
-        font-size: 0.9rem;
-        margin-left: 8px;
-      }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-    }
-
-    /* Details Button */
-    .details-btn {
+    .topnoz-main-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.08rem;
-      font-weight: 700;
+      font-weight: 900;
       letter-spacing: 2px;
-      padding: 0.62rem 2.2rem 0.62rem 1.6rem;
-      border-radius: 40px;
-      background: rgba(0,0,0,0.8);
-      color: var(--white) !important;
-      border: 2px solid var(--gold);
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 13px;
-      text-transform: uppercase;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.2);
+      font-size: clamp(2.1rem, 5vw, 3.5rem);
     }
-
-    .details-btn:hover, .details-btn:focus {
-      background: var(--gold);
-      color: var(--black) !important;
-      border-color: var(--gold);
-      transform: translateY(-2px);
-    }
-
-    .details-btn i {
-      font-size: 1.18em;
-      margin-right: 8px;
-      transition: transform 0.22s ease;
-    }
-
-    .details-btn:hover i {
-      transform: translateX(10px);
-    }
-
-    /* Product Cards */
-    .card {
-      transition: all 0.3s ease;
-      overflow: hidden;
-      border: none;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-    }
-
-    @media (max-width: 768px) {
-      .col-lg-3 {
-        padding-left: 8px;
-        padding-right: 8px;
-      }
-
-      .card-body {
-        padding: 0.75rem;
-      }
-
-      .card-body h5 {
-        font-size: 1rem;
-      }
-
-      .card-body .btn {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.5rem;
-      }
-    }
-
-    /* Footer */
-    @media (max-width: 576px) {
-      footer .pb-4 {
-        padding-bottom: 1rem !important;
-      }
-
-      footer .py-3 {
-        padding-top: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
-      }
-    }
-
-    /* Navbar Toggle */
-    .navbar-toggler {
-      border-color: rgba(255,255,255,0.5);
-      transition: all 0.3s ease;
-    }
-
-    .navbar-toggler:hover {
-      transform: rotate(90deg);
-    }
-
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-      transition: all 0.3s ease;
-    }
-
-    /* Custom Button */
-    .custom-btn {
-      font-weight: 600;
-      font-size: 1.2rem;
+    .topnoz-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
       letter-spacing: 1.5px;
-      color: var(--white);
-      border: 2px solid var(--white);
-      padding: 12px 30px;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
       text-transform: uppercase;
+      margin-bottom: 0.7rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
     }
-
-    .custom-btn:hover {
-      background-color: var(--white);
-      color: var(--black);
-      border-color: var(--black);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      text-decoration: none;
+    .topnoz-subtext {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+      font-size: clamp(0.75rem, 1.5vw, 0.95rem);
     }
-
-    /* Scroll Indicator */
+    .carousel-control-prev, .carousel-control-next {
+      width: 5%;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    .carousel-control-prev:hover, .carousel-control-next:hover {
+      opacity: 1;
+      background-color: rgba(0,0,0,0.2);
+    }
     .scroll-indicator {
       position: absolute;
       bottom: 30px;
@@ -345,169 +114,62 @@
       cursor: pointer;
     }
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-      40% { transform: translateY(-20px) translateX(-50%); }
-      60% { transform: translateY(-10px) translateX(-50%); }
-    }
-
-    /* Page Load Animation */
-    body {
-      animation: fadeIn 1s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Carousel Controls */
-    .carousel-control-prev, .carousel-control-next {
-      transition: all 0.3s ease;
-      opacity: 0.7;
-      width: 5%;
-    }
-
-    .carousel-control-prev:hover, .carousel-control-next:hover {
-      opacity: 1;
-      background-color: rgba(0,0,0,0.2);
-    }
-
-    /* Navbar Items */
-    .nav-item {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.5s forwards;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Sequential Animation */
-    .nav-item:nth-child(1) { animation-delay: 0.2s; }
-    .nav-item:nth-child(2) { animation-delay: 0.3s; }
-    .nav-item:nth-child(3) { animation-delay: 0.4s; }
-    .nav-item:nth-child(4) { animation-delay: 0.5s; }
-    .nav-item:nth-child(5) { animation-delay: 0.6s; }
-    .nav-item:nth-child(6) { animation-delay: 0.7s; }
-
-    /* Product Hover */
-    .view.overlay {
-      transition: all 0.5s ease;
-    }
-
-    .view.overlay:hover {
-      transform: scale(1.05);
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .nav-item {
-        animation: none;
-        opacity: 1;
-        transform: none;
-      }
-      
-      .scroll-indicator {
-        font-size: 1.5rem;
-        bottom: 15px;
-      }
-    }
-
-    /* Navbar Links */
-    .navbar .nav-link {
-      position: relative;
-      display: inline-flex;
+    /* LOGO */
+    .logo-container {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1031; /* Above navbar */
+      display: flex;
       align-items: center;
-      padding: 0.5rem 1.2rem;
-      margin: 0 0.3rem;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 5px 15px;
       border-radius: 30px;
-      font-weight: 600;
-      font-size: 1.05rem;
-      letter-spacing: 0.5px;
-      background: rgba(255,255,255,0.08);
-      color: var(--white) !important;
-      transition: all 0.25s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      animation: float 6s ease-in-out infinite;
     }
-
-    .navbar .nav-link:hover, 
-    .navbar .nav-link:focus {
-      background: var(--gold);
-      color: var(--black) !important;
-      box-shadow: 0 4px 16px rgba(255, 215, 0, 0.18);
-      transform: translateY(-2px);
+    .logo-img {
+      height: 40px;
+      width: auto;
+      transition: all 0.3s ease;
     }
-
-    .navbar .nav-link .fas, 
-    .navbar .nav-link .fa {
-      margin-right: 0.5em;
-      font-size: 1.1em;
-    }
-
-    /* Responsive Nav Links */
-    @media (max-width: 768px) {
-      .navbar .nav-link {
-        width: 100%;
-        margin: 6px 0;
-        font-size: 1rem;
-        padding: 0.7rem 1.2rem;
-        border-radius: 25px;
-        justify-content: center;
-      }
-    }
-
-    /* Typography */
-    .topnoz-main-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      letter-spacing: 2px;
+    .logo-text {
       color: var(--white);
-      text-shadow: 0 4px 24px rgba(0,0,0,0.18);
-      margin-bottom: 0.5rem;
+      font-weight: bold;
+      margin-left: 10px;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+    }
+    .scrolled-logo .logo-img {
+      height: 30px;
+    }
+    .scrolled-logo .logo-text {
+      font-size: 1rem;
     }
 
-    .topnoz-tagline {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: var(--white);
-      text-transform: uppercase;
-      margin-bottom: 0.7rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    /* NAVBAR */
+    .navbar {
+      background: transparent !important;
+      z-index: 999;
+      transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+      box-shadow: none !important;
     }
-
-    .topnoz-subtext {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      margin-bottom: 1.2rem;
-      opacity: 0.9;
+    .navbar.scrolled {
+      background: rgba(0, 0, 0, 0.7) !important;
+      backdrop-filter: blur(8px);
     }
-
     .topnoz-slogan {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 500;
       color: #e0e0e0;
-      letter-spacing: 2.5px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      margin-left: 16px;
-      margin-right: 8px;
+      margin-left: 1rem;
       display: inline-flex;
       align-items: center;
-      vertical-align: middle;
-      opacity: 0.92;
+      opacity: 0.95;
     }
-
     .topnoz-slogan::before {
       content: '';
       display: inline-block;
@@ -517,201 +179,395 @@
       background: var(--gold);
       margin-right: 10px;
     }
+    .navbar .form-inline input {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .navbar .form-inline input:focus {
+        background-color: var(--white);
+        border-color: var(--gold);
+    }
+    .navbar .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1.2rem;
+      margin: 0 0.3rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      color: var(--white) !important;
+      transition: all 0.25s ease;
+    }
+    .navbar .nav-link:hover, .navbar .nav-link:focus {
+      background: var(--gold);
+      color: var(--black) !important;
+      transform: translateY(-2px);
+    }
+    .navbar .nav-link .fas, .navbar .nav-link .fa {
+      margin-right: 0.5em;
+      font-size: 1.1em;
+    }
+    .nav-item {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s forwards;
+    }
+    .nav-item:nth-child(1) { animation-delay: 0.2s; }
+    .nav-item:nth-child(2) { animation-delay: 0.3s; }
+    .nav-item:nth-child(3) { animation-delay: 0.4s; }
+    .nav-item:nth-child(4) { animation-delay: 0.5s; }
+    .nav-item:nth-child(5) { animation-delay: 0.6s; }
+    .nav-item:nth-child(6) { animation-delay: 0.7s; }
+    .nav-item:nth-child(7) { animation-delay: 0.8s; } /* নতুন বাটনের জন্য অ্যানিমেশন ডিলে */
 
-    /* Product Styles */
+    /* ====================================================== */
+    /* ======== STYLES FOR THE NEW AI CHATBOT BUTTON ======== */
+    /* ====================================================== */
+    .ai-chat-button {
+      background: var(--gold); /* ব্র্যান্ডের গোল্ডেন রঙ ব্যবহার করা হয়েছে */
+      color: var(--black) !important; /* লেখার রঙ কালো */
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); /* গোল্ডেন আভা */
+      animation: pulse 2s infinite; /* অ্যানিমেশন */
+    }
+    
+    .ai-chat-button:hover {
+      background: var(--white) !important; /* হোভারে সাদা ব্যাকগ্রাউন্ড */
+      color: var(--black) !important;
+      animation: none; /* হোভারে অ্যানিমেশন বন্ধ */
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* পালস অ্যানিমেশন */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      }
+      70% {
+        transform: scale(1.03);
+        box-shadow: 0 6px 25px rgba(255, 215, 0, 0.7);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      }
+    }
+    
+    /* মোবাইল ডিভাইসে বাটনটিকে আরও আকর্ষণীয় করার জন্য */
+    @media (max-width: 991.98px) {
+      .ai-chat-button {
+        font-size: 1.2rem; /* মোবাইলে একটু বড় দেখাবে */
+        padding: 0.8rem 1.5rem;
+      }
+    }
+
+    /* PRODUCT CARDS */
+    .card {
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    .card .view.overlay {
+      transition: transform 0.4s ease;
+    }
+    .card:hover .view.overlay {
+      transform: scale(1.05);
+    }
     .product-type {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.08rem;
+      font-size: 1rem;
       font-weight: 700;
       letter-spacing: 2px;
       color: var(--gold);
       text-transform: uppercase;
       margin-bottom: 0.3rem;
     }
-
     .product-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 900;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       color: var(--black);
       margin-bottom: 0.2rem;
       text-transform: capitalize;
       transition: color 0.2s;
     }
-
-    .product-title:hover {
+    a:hover .product-title {
       color: var(--gold);
       text-decoration: underline;
     }
-
     .product-price {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.18rem;
+      font-size: 1.1rem;
       font-weight: 900;
       color: var(--black);
-      letter-spacing: 2px;
-      margin-bottom: 0.2rem;
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 8px;
+      letter-spacing: 1px;
     }
-
     .product-price::before {
       content: "৳ ";
-      font-size: 1.1em;
       font-weight: 800;
-      color: var(--black);
     }
-
-    /* Badges */
-    .badge.badge-pill,
-    .badge-primary,
-    .badge-secondary,
-    .badge-danger {
-      color: inherit !important;
-      background: inherit !important;
-    }
-
     .badge-primary {
-      border-color: var(--gold) !important;
-      color: var(--black) !important;
       background: var(--gold) !important;
+      color: var(--black) !important;
     }
-
     .badge-secondary {
-      border-color: var(--black) !important;
-      color: var(--white) !important;
       background: var(--black) !important;
+      color: var(--white) !important;
     }
-
     .badge-danger {
-      border-color: #dd2476 !important;
+      border: 1px solid #dd2476;
       color: #dd2476 !important;
       background: #fff6fa !important;
     }
 
-    /* Responsive Font Sizes */
-    @media (max-width: 768px) {
-      .topnoz-main-title {
-        font-size: 2.2rem !important;
-      }
-
-      .topnoz-tagline {
-        font-size: 1.1rem !important;
-        letter-spacing: 1px;
-      }
-
-      .topnoz-subtext {
-        font-size: 0.8rem !important;
-        letter-spacing: 1.5px;
-      }
-
-      .carousel-caption {
-        bottom: 18% !important;
-        padding: 0 12px;
-      }
+    /* BUTTONS */
+    .custom-btn {
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1.5px;
+      border: 2px solid var(--white);
+      padding: 12px 30px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      color: var(--white) !important;
     }
-
-    /* Desktop Font Sizes */
-    .topnoz-main-title {
-      font-size: 3.5rem !important;
+    .custom-btn:hover {
+      background-color: var(--white);
+      color: var(--black) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-
-    .topnoz-tagline {
-      font-size: 1.3rem !important;
+    .details-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
       letter-spacing: 2px;
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      background: rgba(0,0,0,0.9);
+      color: var(--white) !important;
+      border: 2px solid var(--gold);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+    .details-btn:hover {
+      background: var(--gold);
+      color: var(--black) !important;
+      border-color: var(--gold);
+      transform: translateY(-2px);
     }
 
-    .topnoz-subtext {
-      font-size: 0.95rem !important;
-      letter-spacing: 2.5px;
-    }
-
-    /* Tablet Font Sizes */
-    @media (max-width: 992px) {
-      .topnoz-main-title {
-        font-size: 2.8rem !important;
-      }
-
-      .topnoz-tagline {
-        font-size: 1.1rem !important;
-      }
-
-      .topnoz-subtext {
-        font-size: 0.85rem !important;
-      }
-    }
-
-    /* Mobile Font Sizes */
-    @media (max-width: 576px) {
-      .topnoz-main-title {
-        font-size: 2.1rem !important;
-      }
-
-      .topnoz-tagline {
-        font-size: 1rem !important;
-        letter-spacing: 1.3px;
-      }
-
-      .topnoz-subtext {
-        font-size: 0.75rem !important;
-        letter-spacing: 1.2px;
-      }
-    }
-
+    /* RESPONSIVE STYLES */
     @media (max-width: 991.98px) {
-  .navbar-collapse {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(10,10,10,0.92);
-    z-index: 2000;
-    padding-top: 80px;
-    transition: all 0.3s;
-    overflow-y: auto;
-    display: none;
-    backdrop-filter: blur(8px); /* <-- blur effect */
-  }
-  .navbar-collapse.show {
-    display: block !important;
-  }
-  .navbar-nav {
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-  .navbar-nav .nav-item {
-    margin: 18px 0;
-    width: 80%;
-    text-align: center;
-  }
-  .navbar .form-inline {
-    width: 90%;
-    margin: 0 auto 20px auto;
-  }
-  .logo-container {
-    z-index: 100;
-  }
-}
-@media (max-width: 991.98px) {
-  .navbar-toggler {
-    z-index: 3001 !important;
-    position: fixed !important;
-    top: 22px;
-    right: 22px;
-    background: rgba(0,0,0,0.7);
-    border-radius: 50%;
-    padding: 10px;
-  }
-  .logo-container {
-    z-index: 3002 !important;
-    position: fixed !important;
-    top: 20px;
-    left: 20px;
-  }
-}
+      .navbar-toggler {
+        z-index: 1051;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.7);
+        border-radius: 50%;
+        padding: 10px;
+        border: 1px solid rgba(255,255,255,0.2);
+      }
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+      }
+      .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10,10,10,0.95);
+        z-index: 1050;
+        padding-top: 80px;
+        display: none !important;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+      }
+      .navbar-collapse.show {
+        display: flex !important;
+      }
+      .navbar-nav {
+        text-align: center;
+        width: 80%;
+      }
+      .navbar .nav-item {
+        margin: 15px 0;
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+      .navbar .form-inline {
+        width: 80%;
+        margin: 20px auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header, .carousel {
+        height: 60vh;
+      }
+      .carousel-caption {
+        bottom: 18%;
+        padding: 0 1rem;
+      }
+      .logo-container {
+        top: 15px;
+        left: 15px;
+        padding: 4px 12px;
+        animation: none;
+      }
+      .logo-img { height: 35px; }
+      .logo-text { font-size: 1rem; }
+      .scrolled-logo .logo-img { height: 25px; }
+      .scrolled-logo .logo-text { font-size: 0.9rem; }
+      .scroll-indicator { font-size: 1.5rem; bottom: 15px; }
+    }
+    
+    @media (max-width: 576px) {
+      .logo-container {
+        top: 10px;
+        left: 10px;
+        padding: 3px 10px;
+      }
+      .logo-img { height: 30px; }
+      .logo-text { font-size: 0.9rem; margin-left: 8px; }
+    }
+    
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-20px) translateX(-50%); }
+      60% { transform: translateY(-10px) translateX(-50%); }
+    }
+
+    /* =================================================================== */
+    /* ======== UPDATED STYLES FOR NEW PROFILE DROPDOWN MENU ========= */
+    /* =================================================================== */
+
+    /* Only apply these fancy styles on desktop where the navbar is not collapsed */
+    @media (min-width: 992px) {
+      .navbar .dropdown-menu {
+        /* Frosted Glass Effect - পরিবর্তিত হয়ে সাদা হয়েছে */
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px); /* For Safari */
+        
+        /* Modern Look - হালকা কালো বর্ডার */
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+        padding: 0.75rem 0;
+        margin-top: 15px !important; /* Spacing from navbar */
+        min-width: 220px;
+
+        /* Animation Setup */
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      /* Animation Trigger */
+      .navbar .dropdown-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+      }
+
+      /* Style for each link inside the dropdown - লেখার রঙ কালো করা হয়েছে */
+      .dropdown-menu .dropdown-item {
+        color: var(--black);
+        font-weight: 500;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease-in-out;
+      }
+
+      /* Hover effect for the links - পরিবর্তিত হয়েছে */
+      .dropdown-menu .dropdown-item:hover,
+      .dropdown-menu .dropdown-item:focus {
+        background-color: var(--black);
+        color: var(--white) !important;
+        transform: translateX(5px);
+      }
+      
+      /* Icon styling */
+      .dropdown-menu .dropdown-item i {
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+        opacity: 0.7;
+      }
+      
+      .dropdown-menu .dropdown-item:hover i {
+        opacity: 1;
+      }
+
+      /* Special style for the logout link - রঙ পরিবর্তন করা হয়েছে */
+      .logout-link {
+        color: #dc3545 !important; /* A standard, strong red for logout */
+      }
+      .logout-link:hover {
+        color: var(--white) !important;
+        background-color: #c82333 !important; /* A darker red on hover */
+      }
+
+      /* Header style (e.g., "Hey, rifat") - রঙ পরিবর্তন করা হয়েছে */
+      .dropdown-menu .dropdown-header {
+        color: #6c757d; /* Darker grey text */
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding: 8px 20px;
+      }
+      
+      /* Divider line style - রঙ পরিবর্তন করা হয়েছে */
+      .dropdown-menu .dropdown-divider {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        margin: 0.5rem 0;
+      }
+
+      /* The Profile Icon itself */
+      .navbar .dropdown-toggle::after {
+        display: none; /* Hides the default dropdown arrow */
+      }
+
+      .navbar .dropdown-toggle .fa-user-circle {
+        font-size: 1.5rem; /* Makes the icon a bit larger and more clickable */
+      }
+    }
   </style>
 
   <!-- Google tag (gtag.js) -->
@@ -726,47 +582,72 @@
 <body>
 
 <!-- Logo -->
-<div class="logo-container">
+<a href="{% url 'HomeView' %}" class="logo-container">
   <img src="{% static 'image/topnozlogo.jpg' %}" alt="Topnoz Logo" class="logo-img">
   <span class="logo-text">Topnoz</span>
-</div>
+</a>
 
 <!-- Navbar -->
 <nav class="navbar fixed-top navbar-expand-lg scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'HomeView' %}"><strong></strong></a>
-    <span class="topnoz-slogan d-none d-md-inline">Style. Comfort. Confidence. Always.</span>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarContent" aria-controls="navbarContent"
-            aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{% url 'HomeView' %}"></a>
+    <span class="topnoz-slogan d-none d-lg-inline">Style. Comfort. Confidence. Always.</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarContent">
       <form method="get" action="{% url 'HomeView' %}" class="form-inline my-2 my-lg-0 ml-auto mr-3" id="searchForm">
-        <input class="form-control" type="search" name="q" placeholder="Search products"
-               aria-label="Search" value="{{ request.GET.q }}">
+        <input class="form-control" type="search" name="q" placeholder="Search products" aria-label="Search" value="{{ request.GET.q }}">
       </form>
+      
       <ul class="navbar-nav">
-       <li class="nav-item">
-  <a class="nav-link" href="{% url 'CategoryListView' %}">
-    <i class="fas fa-th-large"></i> Collections
-  </a>
-</li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-        {% if user.is_authenticated %}
-        <li class="nav-item"><a class="nav-link">Hey, {{ request.user.username }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'userLogin' %}">Login</a></li>
-        {% endif %}
         <li class="nav-item">
-          <a class="nav-link" href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}javascript:void(0);{% endif %}" 
-             {% if not user.is_authenticated %}onclick="showLoginAlert()"{% endif %}>
-            <span class="badge badge-pill badge-primary mr-1">{{ request.user.cart.items.count }}</span>
-            <i class="fas fa-shopping-cart"></i> Cart
+          <a class="nav-link" href="{% url 'CategoryListView' %}">
+            <i class="fas fa-th-large"></i> Collections
           </a>
+        </li>
+        
+        <!-- ====================================================== -->
+        <!-- =========== START: AI CHATBOT BUTTON HERE ============ -->
+        <!-- ====================================================== -->
+        <li class="nav-item">
+          <a class="nav-link ai-chat-button" href="{% url 'chatbot_view' %}">
+            <i class="fas fa-robot"></i> AI Assistant
+          </a>
+        </li>
+        <!-- ====================================================== -->
+        <!-- ============ END: AI CHATBOT BUTTON HERE ============= -->
+        <!-- ====================================================== -->
+        
+        <!-- Profile Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            {% if user.is_authenticated %}
+              <h6 class="dropdown-header">Hey, {{ request.user.username }}</h6>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'cart' %}">
+                <span><i class="fas fa-shopping-cart"></i> My Cart</span>
+                <span class="badge badge-pill badge-primary">{{ request.user.cart.items.count }}</span>
+              </a>
+              <a class="dropdown-item" href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact Us</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item logout-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            {% else %}
+              <h6 class="dropdown-header">Welcome, Guest</h6>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'userLogin' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+              <a class="dropdown-item" href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Register</a>
+              <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="javascript:void(0);" onclick="showLoginAlert()">
+                <span><i class="fas fa-shopping-cart"></i> My Cart</span>
+              </a>
+              <a class="dropdown-item" href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact Us</a>
+            {% endif %}
+          </div>
         </li>
       </ul>
     </div>
@@ -774,51 +655,45 @@
 </nav>
 
 <!-- Carousel -->
-<div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
+<header id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
     <li data-target="#carousel-example" data-slide-to="1"></li>
     <li data-target="#carousel-example" data-slide-to="2"></li>
   </ol>
-  <div class="carousel-inner">
+  <div class="carousel-inner" role="listbox">
     <div class="carousel-item active">
-      <div class="view" style="background-image: url('{% static "image/clem-onojeghuo-HpEDSZukJqk-unsplash.jpg" %}');">
-        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-          <div>
+      <div class="view" style="background-image: url('{% static "image/topnoz cover 2.jpg" %}');">
+        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+          <div class="carousel-caption">
             <h1 class="topnoz-main-title">Topnoz</h1>
-<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
-<p class="topnoz-subtext">Top Thoughts. Top Looks. Topnoz</p>
-            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-  EXPLORE PRODUCTS <span class="divider">|</span> Trendy Tops
-</a>
+            <p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
+            <p class="topnoz-subtext">Top Thoughts. Top Looks. Topnoz</p>
+            <a href="{% url 'CategoryListView' %}" class="btn btn-lg custom-btn">Explore Products</a>
           </div>
         </div>
       </div>
     </div>
     <div class="carousel-item">
-      <div class="view" style="background-image: url('{% static "image/topnoz cover 2.jpg" %}');">
-        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-          <div>
+      <div class="view" style="background-image: url('{% static "image/clem-onojeghuo-HpEDSZukJqk-unsplash.jpg" %}');">
+        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+          <div class="carousel-caption">
             <h1 class="topnoz-main-title">Topnoz</h1>
-<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
-<p class="topnoz-subtext">Top Thoughts. Top Looks. Topnoz</p>
-            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-  EXPLORE PRODUCTS <span class="divider">|</span> Top Categories
-</a>
+            <p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
+            <p class="topnoz-subtext">Top Thoughts. Top Looks. Topnoz</p>
+            <a href="{% url 'CategoryListView' %}" class="btn btn-lg custom-btn">Explore Categories</a>
           </div>
         </div>
       </div>
     </div>
     <div class="carousel-item">
       <div class="view" style="background-image: url('{% static "image/topnoz_photo.jpg" %}');">
-        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center text-center text-white">
-          <div>
-           <h1 class="topnoz-main-title">Topnoz</h1>
-<p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
-<p class="topnoz-subtext">Top Thoughts. Top Looks. Topnoz</p>
-            <a href="{% url 'CategoryListView' %}" class="btn btn-outline-white btn-lg custom-btn">
-  EXPLORE PRODUCTS <span class="divider">|</span> Find Your Fit
-</a>
+        <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+           <div class="carousel-caption">
+            <h1 class="topnoz-main-title">Topnoz</h1>
+            <p class="topnoz-tagline">EXPRESS YOUR TOP THOUGHTS</p>
+            <p class="topnoz-subtext">Top Thoughts. Top Looks. Topnoz</p>
+            <a href="{% url 'CategoryListView' %}" class="btn btn-lg custom-btn">Find Your Fit</a>
           </div>
         </div>
       </div>
@@ -826,68 +701,69 @@
   </div>
   <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
   </a>
   <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
   </a>
-  <!-- Scroll indicator -->
   <div class="scroll-indicator d-none d-md-block smooth-scroll" href="#products">
     <i class="fas fa-chevron-down"></i>
   </div>
-</div>
+</header>
 
 <!-- Products Section -->
 <main id="products">
-  <div class="container mt-5">
-    <section class="text-center mb-4">
+  <div class="container my-5">
+    <section class="text-center">
       {% if request.GET.q and object_list|length == 0 %}
-        <p class="text-danger">No products found for "{{ request.GET.q }}"</p>
+        <p class="text-danger lead">No products found for "{{ request.GET.q }}"</p>
       {% endif %}
       <div class="row wow fadeIn">
         {% for object in object_list %}
         <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+          <div class="card h-100">
             <div class="view overlay">
-              <img src="{{ object.image.url }}" class="card-img-top" alt="">
+              <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
               <a href="{% url 'ProductDetailView' object.slug %}">
                 <div class="mask rgba-white-slight"></div>
               </a>
             </div>
-            <div class="card-body text-center">
+            <div class="card-body text-center d-flex flex-column">
               <a href="{% url 'ProductDetailView' object.slug %}" class="grey-text">
-  <h5 class="product-type">{{ object.get_product_type_display }}</h5>
-</a>
-              <h5>
-  <strong>
-    <a href="{% url 'ProductDetailView' object.slug %}" class="dark-grey-text product-title">
-      {{ object.title }}
-      {% if object.label %}
-        <span class="badge badge-pill 
-          {% if object.label == 'P' %}badge-primary
-          {% elif object.label == 'S' %}badge-secondary
-          {% elif object.label == 'D' %}badge-danger
-          {% endif %}">
-          {% if object.label == 'P' %}NEW
-          {% elif object.label == 'S' %}HOT
-          {% elif object.label == 'D' %}SALE
-          {% endif %}
-        </span>
-      {% endif %}
-    </a>
-  </strong>
-</h5>
-             <h4 class="font-weight-bold blue-text">
-  <strong class="product-price">
-    {% if object.discount_price %}
-      {{ object.discount_price }}
-    {% else %}
-      {{ object.price }}
-    {% endif %}
-  </strong>
-</h4>
-           <a href="{% url 'ProductDetailView' object.slug %}" class="details-btn">
-  SEE THIS TOP
-</a>
+                <h5 class="product-type">{{ object.get_product_type_display }}</h5>
+              </a>
+              <h4 class="h5">
+                <strong>
+                  <a href="{% url 'ProductDetailView' object.slug %}" class="dark-grey-text product-title">
+                    {{ object.title }}
+                    {% if object.label %}
+                      <span class="badge badge-pill 
+                        {% if object.label == 'P' %}badge-primary
+                        {% elif object.label == 'S' %}badge-secondary
+                        {% elif object.label == 'D' %}badge-danger
+                        {% endif %} ml-1">
+                        {% if object.label == 'P' %}NEW
+                        {% elif object.label == 'S' %}HOT
+                        {% elif object.label == 'D' %}SALE
+                        {% endif %}
+                      </span>
+                    {% endif %}
+                  </a>
+                </strong>
+              </h4>
+              <h5 class="font-weight-bold blue-text mt-2 mb-3">
+                <strong class="product-price">
+                  {% if object.discount_price %}
+                    {{ object.discount_price }}
+                  {% else %}
+                    {{ object.price }}
+                  {% endif %}
+                </strong>
+              </h5>
+              <div class="mt-auto">
+                <a href="{% url 'ProductDetailView' object.slug %}" class="details-btn">See This Top</a>
+              </div>
             </div>
           </div>
         </div>
@@ -895,33 +771,35 @@
       </div>
     </section>
 
-    <nav class="d-flex justify-content-center wow fadeIn">
+    {% if page_obj.has_previous or page_obj.has_next %}
+    <nav class="d-flex justify-content-center wow fadeIn mt-4">
       <ul class="pagination pg-blue">
         {% if page_obj.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">&laquo;</a>
+          <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Previous">&laquo;</a>
         </li>
         {% else %}
         <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
         {% endif %}
 
         {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-        {% else %}
-        <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page={{ num }}">{{ num }}</a></li>
-        {% endif %}
+          {% if page_obj.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ num }}">{{ num }}</a></li>
+          {% endif %}
         {% endfor %}
 
         {% if page_obj.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">&raquo;</a>
+          <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Next">&raquo;</a>
         </li>
         {% else %}
         <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
         {% endif %}
       </ul>
     </nav>
+    {% endif %}
   </div>
 </main>
 
@@ -930,47 +808,15 @@
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/mdb.min.js' %}"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
   new WOW().init();
 
-  // Smooth scrolling for anchor links
-  document.querySelectorAll('a.smooth-scroll').forEach(link => {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      target.scrollIntoView({ behavior: 'smooth' });
-    });
+  // Initialize and configure the carousel to auto-slide every 4 seconds
+  $('#carousel-example').carousel({
+    interval: 4000 // Time in milliseconds
   });
 
-  // Also make scroll indicator clickable
-  document.querySelector('.scroll-indicator').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-  });
-
-  // AJAX search form handling
-  const searchForm = document.getElementById('searchForm');
-  searchForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const query = this.querySelector('input[name="q"]').value.trim();
-    if (query) {
-      const url = `{% url 'HomeView' %}?q=` + encodeURIComponent(query);
-      window.history.replaceState(null, '', url);
-      fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          document.open();
-          document.write(html);
-          document.close();
-          const products = document.getElementById('products');
-          if (products) {
-            products.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-    }
-  });
-
-  // Change navbar and logo on scroll
-  window.addEventListener('scroll', function() {
+  const handleScroll = () => {
     const navbar = document.querySelector('.navbar');
     const logoContainer = document.querySelector('.logo-container');
     const scrollY = window.scrollY;
@@ -983,54 +829,74 @@
       logoContainer.classList.remove('scrolled-logo');
     }
 
-    // Parallax effect for logo
-    logoContainer.style.transform = `translateY(${scrollY * 0.3}px)`;
-  });
+    logoContainer.style.transform = `translateY(${scrollY * 0.2}px)`;
+  };
 
-  // Close mobile menu when clicking on a link
-  document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      const navbarContent = document.getElementById('navbarContent');
-      if (navbarContent.classList.contains('show')) {
-        navbarContent.classList.remove('show');
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  document.querySelectorAll('a.smooth-scroll, .scroll-indicator').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
       }
     });
   });
 
-  // Animate navbar items on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach((item, index) => {
-      item.style.animationDelay = `${index * 0.1 + 0.5}s`;
-    });
+  const searchForm = document.getElementById('searchForm');
+  searchForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const query = this.querySelector('input[name="q"]').value.trim();
+    const url = `{% url 'HomeView' %}${query ? '?q=' + encodeURIComponent(query) : ''}`;
+    
+    // Using fetch to get the new page content
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(response => response.text())
+      .then(html => {
+        // Create a temporary element to parse the new HTML
+        const parser = new DOMParser();
+        const newDoc = parser.parseFromString(html, 'text/html');
+        
+        // Replace the product section and pagination
+        const newProducts = newDoc.getElementById('products');
+        const currentProducts = document.getElementById('products');
+        if (newProducts && currentProducts) {
+          currentProducts.innerHTML = newProducts.innerHTML;
+        }
+        
+        // Update URL without full reload
+        window.history.pushState({ path: url }, '', url);
+        
+        // Scroll to the products section smoothly
+        const productsSection = document.getElementById('products');
+        if (productsSection) {
+          productsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      })
+      .catch(error => console.error('Error fetching search results:', error));
   });
 
-  // Product hover effect
-  document.querySelectorAll('.view.overlay').forEach(item => {
-    item.addEventListener('mouseenter', function() {
-      this.style.transform = 'scale(1.05)';
-    });
-    item.addEventListener('mouseleave', function() {
-      this.style.transform = 'scale(1)';
+  // Mobile menu logic
+  const navbarToggler = document.querySelector('.navbar-toggler');
+  const navbarContent = document.getElementById('navbarContent');
+
+  navbarToggler.addEventListener('click', function() {
+    setTimeout(() => {
+        document.body.style.overflow = navbarContent.classList.contains('show') ? 'hidden' : '';
+    }, 300);
+  });
+  
+  document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (navbarContent.classList.contains('show')) {
+        navbarToggler.click(); // Simulate click to close and restore scroll
+      }
     });
   });
-
-  // Body scroll lock when menu open
-$('.navbar-toggler').on('click', function() {
-  setTimeout(function() {
-    if ($('#navbarContent').hasClass('show')) {
-      $('body').css('overflow', 'hidden');
-    } else {
-      $('body').css('overflow', 'auto');
-    }
-  }, 350);
 });
 
-// Menu item-এ click করলে menu close হবে এবং body scroll restore হবে
-$('.navbar-nav .nav-link').on('click', function() {
-  $('.navbar-collapse').collapse('hide');
-  $('body').css('overflow', 'auto');
-});
 function showLoginAlert() {
   const isAuthenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
   if (!isAuthenticated) {
@@ -1039,7 +905,6 @@ function showLoginAlert() {
     }
   }
 }
- 
 </script>
 </body>
 </html>

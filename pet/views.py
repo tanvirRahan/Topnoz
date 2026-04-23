@@ -1,3 +1,5 @@
+# views.py
+
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from django.core.mail import send_mail
@@ -5,14 +7,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from .models import Item, OrderItem, Order, CustomerOrder
+from django.db.models import Q, Exists, OuterRef
+from .models import Item, OrderItem, Order, CustomerOrder, Variation # Variation ইম্পোর্ট করুন
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.urls import reverse
-
+from django.shortcuts import render
 
 class HomeView(ListView):
+  
     model = Item
     template_name = "home.html"
     paginate_by = 20
@@ -29,6 +32,7 @@ class HomeView(ListView):
 
 
 class CategoryListView(TemplateView):
+   
     template_name = 'category_list.html'
 
     def get_context_data(self, **kwargs):
@@ -46,6 +50,7 @@ class CategoryListView(TemplateView):
 
 
 class CategoryProductListView(ListView):
+   
     model = Item
     template_name = 'category_products.html'
     context_object_name = 'object_list'
@@ -72,9 +77,34 @@ class CategoryProductListView(ListView):
         return context
 
 
+class NewArrivalsView(ListView):
+    
+    model = Item
+    template_name = 'new_arrivals.html'
+    context_object_name = 'object_list'
+    paginate_by = 20
+
+    def get_queryset(self):
+        return Item.objects.filter(label='P').order_by('-created_at')
+
+
 class ProductDetailView(DetailView):
     model = Item
     template_name = "product.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        
+        
+        has_sizes = Variation.objects.filter(
+            item=product, 
+            name__iexact="size",
+            itemvariation__isnull=False
+        ).exists()
+        
+        context['has_sizes'] = has_sizes
+        return context
 
 
 def userLogin(request):
@@ -168,39 +198,49 @@ def contact(request):
     })
 
 
-# ================== CART VIEWS (Fixed & Future-proof) ==================
+
+
 
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
+    
+  
     size = request.POST.get('size') or None
+    
 
-    # একজন user = একটাই active order (ordered=False)
+    has_size_variation = Variation.objects.filter(item=item, name__iexact="size", itemvariation__isnull=False).exists()
+    
+  
+    if has_size_variation and not size:
+        messages.error(request, "Please select a size before adding to cart.")
+        return redirect('ProductDetailView', slug=slug)
+
+  
     order, created_order = Order.objects.get_or_create(
         user=request.user,
         ordered=False,
         defaults={'ordered_date': timezone.now()}
     )
 
-    # একই item+size থাকলে শুধু quantity বাড়াও
     order_item, created_item = OrderItem.objects.get_or_create(
-        item=item,
         user=request.user,
-        ordered=False,
+        item=item,
         size=size,
+        ordered=False,
         defaults={'quantity': 1}
     )
 
     if created_item:
         order.items.add(order_item)
-        messages.success(request, f"{item.title} ({size or 'No Size'}) added to cart")
+        messages.success(request, f"'{item.title}' was added to your cart.")
     else:
         order_item.quantity += 1
         order_item.save()
-        messages.success(request, f"{item.title} ({size or 'No Size'}) quantity updated")
-
-    order.save()  # relation flush
+        messages.info(request, f"'{item.title}' quantity was updated in your cart.")
+    
     return redirect('ProductDetailView', slug=slug)
+
 
 
 @login_required
@@ -460,3 +500,6 @@ def order_complete(request):
 @login_required
 def thanks(request):
     return render(request, "thanks.html")
+
+def chatbot_view(request):
+    return render(request, 'chatbot.html')

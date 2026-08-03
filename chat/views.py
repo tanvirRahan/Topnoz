@@ -52,7 +52,7 @@ def chat(request):
     messages_for_ai.append({"role": "user", "content": user_message})
     
     try:
-        chat_completion = client.chat.completions.create(messages=messages_for_ai, model="openai/gpt-oss-20b")
+        chat_completion = client.chat.completions.create(messages=messages_for_ai, model="llama-3.1-8b-instant")
         ai_answer = chat_completion.choices[0].message.content
 
         chat_session.history.append({"role": "user", "content": user_message})

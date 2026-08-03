@@ -18,12 +18,3 @@ if settings.DEBUG:
     # When DEBUG=True, serve static and media files from development server
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-else:
-    # When DEBUG=False, serve manually
-    from django.views.static import serve
-    from django.urls import re_path
-
-    urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-        re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-    ]

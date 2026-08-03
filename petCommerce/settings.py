@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load .env if it exists
 load_dotenv()
@@ -11,18 +12,16 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key-use-only-locally')
 
-# Always True for local dev/testing
-DEBUG = True
+# Dynamic DEBUG (True locally, False in production if set in env)
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
-# For local csrf testing
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
-    'https://127.0.0.1:8000',
-    'https://localhost:8000',
-]
+# Dynamic CSRF testing for production and local
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    "CSRF_TRUSTED_ORIGINS",
+    "http://127.0.0.1:8000,http://localhost:8000,https://127.0.0.1:8000,https://localhost:8000"
+).split(",")
 
 # ---------------------------------------------------------------------------
 # Installed apps
@@ -63,6 +62,7 @@ INSTALLED_APPS = [
 # ---------------------------------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,13 +95,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'petCommerce.wsgi.application' # আপনার প্রজেক্টের নাম petCommerce হলে এটি ঠিক আছে
 
 # ---------------------------------------------------------------------------
-# Database (SQLite for local testing)
+# Database (PostgreSQL for Production, SQLite for Local)
 # ---------------------------------------------------------------------------
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600
+    )
 }
 
 # ---------------------------------------------------------------------------
@@ -131,7 +131,7 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 # ---------------------------------------------------------------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
-USE_I_18N = True # USE_I18N is deprecated, it should be USE_I18N
+USE_I18N = True
 USE_TZ = True
 
 # ---------------------------------------------------------------------------
@@ -145,16 +145,29 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
 # ---------------------------------------------------------------------------
+# Cloudinary Configuration (For Production Media Storage)
+# ---------------------------------------------------------------------------
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+
+# Use Cloudinary for media uploads only in production (when DEBUG is False)
+if os.environ.get('CLOUDINARY_CLOUD_NAME') and not DEBUG:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# ---------------------------------------------------------------------------
 # Email (local dev: print emails to console instead of sending)
 # ---------------------------------------------------------------------------
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 
 # ---------------------------------------------------------------------------
-# Local only: disable SSL requirements
+# Security and SSL Configuration (Enforced in Production)
 # ---------------------------------------------------------------------------
-SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

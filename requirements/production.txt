@@ -1,0 +1,4 @@
+-r base.txt
+gunicorn
+dj-database-url
+psycopg2-binary

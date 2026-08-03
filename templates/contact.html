@@ -347,7 +347,7 @@
                  {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <i class="fas fa-user-circle mr-1"></i> {{ request.user.username|upper }}
+                            <i class="fas fa-user-circle mr-1"></i> {{ request.user.first_name|upper|default:request.user.username|upper }} {{ request.user.last_name|upper }}
                         </a>
                     </li>
                      <li class="nav-item">

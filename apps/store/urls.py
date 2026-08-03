@@ -1,54 +1,31 @@
-
-
 from django.urls import path
-from .views import (
-    HomeView,
-    ProductDetailView,
-    checkout,
-    contact,
-    add_to_cart,
-    remove_from_cart,
-    register,
-    userLogin,
-    logout,
-    cart_view,
-    order_page,
-    order_complete,
-    thanks,
-    process_order,
-    add_quantity,
-    remove_quantity,
-    CategoryListView,
-    CategoryProductListView,
-    NewArrivalsView,
-    chatbot_view,  
-)
+from apps.store.views import products, cart, orders, pages
 
 urlpatterns = [
-    path('', HomeView.as_view(), name="HomeView"),
-    path('contact/', contact, name="contact"),
-    path('userLogin/', userLogin, name="userLogin"),
-    path('logout/', logout, name="logout"),
-    path('register/', register, name="register"),
-    path('product/<slug>/', ProductDetailView.as_view(), name="ProductDetailView"),
-    path('add-to-cart/<slug>/', add_to_cart, name="add-to-cart"),
-    path('remove-from-cart/<slug>/', remove_from_cart, name="remove-from-cart"),
-    path('cart/', cart_view, name="cart"),
-    path('cart/add/<slug:slug>/', add_quantity, name="add-quantity"),
-    path('cart/remove/<slug:slug>/', remove_quantity, name="remove-quantity"),
-    path('checkout/', checkout, name="checkout"),
-    path('order/', order_page, name="order"),
-    path('order-complete/', order_complete, name="order_complete"),
-    path('process_order/', process_order, name="process_order"),
-    path('thanks/', thanks, name="thanks"),
+    path('', products.HomeView.as_view(), name="HomeView"),
+    path('contact/', pages.contact, name="contact"),
+    
+    path('product/<slug>/', products.ProductDetailView.as_view(), name="ProductDetailView"),
+    
+    path('add-to-cart/<slug>/', cart.add_to_cart, name="add-to-cart"),
+    path('remove-from-cart/<slug>/', cart.remove_from_cart, name="remove-from-cart"),
+    path('cart/', cart.cart_view, name="cart"),
+    path('cart/add/<slug:slug>/', cart.add_quantity, name="add-quantity"),
+    path('cart/remove/<slug:slug>/', cart.remove_quantity, name="remove-quantity"),
+    
+    path('checkout/', orders.checkout, name="checkout"),
+    path('order/', orders.order_page, name="order"),
+    path('order-complete/', orders.order_complete, name="order_complete"),
+    path('process_order/', orders.process_order, name="process_order"),
+    path('thanks/', orders.thanks, name="thanks"),
 
     # --------- Category Browsing ---------
-    path('categories/', CategoryListView.as_view(), name="CategoryListView"),
-    path('categories/<str:product_type>/', CategoryProductListView.as_view(), name="CategoryProductListView"),
+    path('categories/', products.CategoryListView.as_view(), name="CategoryListView"),
+    path('categories/<str:product_type>/', products.CategoryProductListView.as_view(), name="CategoryProductListView"),
 
     # --------- New Arrivals ---------
-    path('new-arrivals/', NewArrivalsView.as_view(), name='new_arrivals'),
+    path('new-arrivals/', products.NewArrivalsView.as_view(), name='new_arrivals'),
 
     # --------- AI Chatbot Page ---------
-    path('chatbot/', chatbot_view, name='chatbot_view'), 
+    path('chatbot/', pages.chatbot_view, name='chatbot_view'), 
 ]

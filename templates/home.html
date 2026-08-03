@@ -627,7 +627,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             {% if user.is_authenticated %}
-              <h6 class="dropdown-header">Hey, {{ request.user.username }}</h6>
+              <h6 class="dropdown-header">Hey, {{ request.user.first_name|default:request.user.username }} {{ request.user.last_name }}</h6>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'cart' %}">
                 <span><i class="fas fa-shopping-cart"></i> My Cart</span>

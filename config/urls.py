@@ -6,10 +6,10 @@ from django.urls import path, include
 from django.contrib import admin
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('adminpanel/', admin.site.urls),
     path('', include('apps.store.urls')),              # This is main app Url
+    path('', include('apps.users.urls')),              # Users app (login/register)
     path('accounts/', include('allauth.urls')), # 🔗 This is main allauth.urls for (google login)
-
   
     path('api/', include('apps.chat.urls')),
 ]

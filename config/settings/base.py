@@ -18,6 +18,8 @@ CSRF_TRUSTED_ORIGINS = os.environ.get(
 ).split(",")
 
 INSTALLED_APPS = [
+    'unfold',
+    'import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     # Internal Apps
     'apps.store.apps.StoreConfig',
     'apps.chat.apps.ChatConfig',
+    'apps.users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -97,7 +100,7 @@ SITE_ID = 1
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 USE_I18N = True
 USE_TZ = True
 
@@ -109,3 +112,85 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email Setup for local testing (No Gmail/SMTP required)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Fix for allauth DoesNotExist error
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': 'dummy',
+            'secret': 'dummy',
+            'key': ''
+        }
+    }
+}
+
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+
+UNFOLD = {
+    'SITE_TITLE': 'Topnoz Admin',
+    'SITE_HEADER': 'Topnoz Dashboard',
+    'SIDEBAR': {
+        'show_search': True,
+        'show_all_applications': True,
+        'navigation': [
+            {
+                'title': _('E-Commerce Store'),
+                'separator': True,
+                'items': [
+                    {
+                        'title': _('Products & Items'),
+                        'icon': 'inventory_2',
+                        'link': reverse_lazy('admin:store_item_changelist'),
+                    },
+                ],
+            },
+            {
+                'title': _('Order Management'),
+                'separator': True,
+                'items': [
+                    {
+                        'title': _('Customer Orders'),
+                        'icon': 'shopping_cart',
+                        'link': reverse_lazy('admin:store_customerorder_changelist'),
+                    },
+                    {
+                        'title': _('Order Items'),
+                        'icon': 'receipt_long',
+                        'link': reverse_lazy('admin:store_orderitem_changelist'),
+                    },
+                ],
+            },
+            {
+                'title': _('Marketing & Users'),
+                'separator': True,
+                'items': [
+                    {
+                        'title': _('User Database'),
+                        'icon': 'group',
+                        'link': reverse_lazy('admin:auth_user_changelist'),
+                    },
+                    {
+                        'title': _('User Profiles (IP & Geo)'),
+                        'icon': 'badge',
+                        'link': reverse_lazy('admin:users_userprofile_changelist'),
+                    },
+                ],
+            },
+            {
+                'title': _('Global Settings'),
+                'separator': True,
+                'items': [
+                    {
+                        'title': _('Site Configuration'),
+                        'icon': 'settings',
+                        'link': reverse_lazy('admin:store_sitesettings_changelist'),
+                    },
+                ],
+            },
+        ],
+    },
+}

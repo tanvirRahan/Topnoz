@@ -127,7 +127,7 @@ export default function Cart() {
             <p style={{ fontSize: '14px', color: '#666', marginBottom: '32px' }}>Please login or register to securely process your order.</p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <Link href="http://127.0.0.1:8000/accounts/google/login/?next=/checkout" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', width: '100%', padding: '14px', backgroundColor: '#fff', color: '#111', border: '1px solid #EAEAEA', borderRadius: '4px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+              <Link href={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}/accounts/google/login/?next=/checkout`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', width: '100%', padding: '14px', backgroundColor: '#fff', color: '#111', border: '1px solid #EAEAEA', borderRadius: '4px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style={{ width: '20px', height: '20px' }} />
                 Continue with Google
               </Link>

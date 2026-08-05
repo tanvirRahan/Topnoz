@@ -50,7 +50,7 @@ export default async function SearchPage({
                 <article key={product.id} className="template-card">
                   <div className="card-media">
                     {product.image_url ? (
-                      <img src={`http://127.0.0.1:8000${product.image_url}`} alt={product.title} />
+                      <img src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}${product.image_url}`} alt={product.title} />
                     ) : (
                       <div className="d-flex h-100 align-items-center justify-content-center w-100" style={{ backgroundColor: '#F5F5F5', color: '#6B6B6B', fontSize: '14px' }}>No Image</div>
                     )}

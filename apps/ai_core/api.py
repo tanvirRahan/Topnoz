@@ -4,6 +4,19 @@ from .schema import ChatRequestSchema
 
 router = Router()
 
+@router.get("/debug-groq")
+def debug_groq(request):
+    import os, requests
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        return {"status": "error", "message": "GROQ_API_KEY is not set in os.environ"}
+    
+    try:
+        res = requests.get("https://api.groq.com/openai/v1/models", headers={"Authorization": f"Bearer {api_key}"}, timeout=5)
+        return {"status": "success", "status_code": res.status_code, "response": res.text[:200]}
+    except Exception as e:
+        return {"status": "error", "message": str(e), "repr": repr(e)}
+
 @router.post("/")
 def chat_endpoint(request, payload: ChatRequestSchema):
     if not payload.message or not payload.session_id:

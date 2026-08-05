@@ -6,8 +6,12 @@ from django.db.models import Q
 from apps.store.models import Item
 from .models import ChatSession
 
+_api_key = os.environ.get("GROQ_API_KEY")
+if _api_key:
+    _api_key = _api_key.strip()
+
 try:
-    client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    client = Groq(api_key=_api_key)
 except Exception as e:
     client = None
 

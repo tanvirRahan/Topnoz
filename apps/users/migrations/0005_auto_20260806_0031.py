@@ -4,7 +4,7 @@ from django.db import migrations
 from django.contrib.auth.hashers import make_password
 
 def create_superuser(apps, schema_editor):
-    User = apps.get_model('users', 'User')
+    User = apps.get_model('auth', 'User')
     if not User.objects.filter(username='admintopnoz').exists():
         User.objects.create(
             username='admintopnoz',

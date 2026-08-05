@@ -16,7 +16,7 @@ export default function ProductViewTracker({ slug }: { slug: string }) {
           headers['Authorization'] = `Bearer ${token}`;
         }
 
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/users/track-product-view`, {
+        await fetch(`https://topnoz-1.onrender.com/api/users/track-product-view`, {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({ slug })

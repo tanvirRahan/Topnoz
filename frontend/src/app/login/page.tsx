@@ -44,7 +44,7 @@ function LoginContent() {
         const addRequests = [];
         for (let i = 0; i < item.quantity; i++) {
           addRequests.push(
-            fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/cart/add`, {
+            fetch(`https://topnoz-1.onrender.com/api/store/cart/add`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ function LoginContent() {
     setError('');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/token/pair`, {
+      const res = await fetch(`https://topnoz-1.onrender.com/api/token/pair`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ function LoginContent() {
             <div style={{ flex: 1, height: '1px', backgroundColor: '#eee' }}></div>
           </div>
           <button 
-            onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}/accounts/google/login/?next=${encodeURIComponent(nextUrl)}`}
+            onClick={() => window.location.href = `https://topnoz-1.onrender.com/accounts/google/login/?next=${encodeURIComponent(nextUrl)}`}
             style={{ 
               width: '100%', 
               padding: '14px', 

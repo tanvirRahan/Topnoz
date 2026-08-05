@@ -43,7 +43,7 @@ export default function VisitorTracker() {
           utm_campaign: urlParams.get('utm_campaign') || null,
         };
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/users/track-visitor`, {
+        const res = await fetch(`https://topnoz-1.onrender.com/api/users/track-visitor`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

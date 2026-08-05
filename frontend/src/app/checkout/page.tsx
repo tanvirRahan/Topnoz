@@ -38,7 +38,7 @@ export default function Checkout() {
     const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/checkout`, {
+      const res = await fetch(`https://topnoz-1.onrender.com/api/store/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

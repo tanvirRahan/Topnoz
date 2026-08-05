@@ -91,7 +91,7 @@ export default function HomeProductGrid({ products }: { products: any[] }) {
                 <span className="template-tag">New</span>
                 <button className="wishlist-btn" aria-label="Add to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 21s-7-4.4-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 4.7 2.2.3.4.9.4 1.2 0C13 4.7 14.7 3.7 16.7 4c3.5.5 5 4 3.5 8-2.5 4.6-9.5 9-9.5 9z"/></svg></button>
                 {product.image_url ? (
-                  <img src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}${product.image_url}`} alt={product.title} />
+                  <img src={`https://topnoz-1.onrender.com${product.image_url}`} alt={product.title} />
                 ) : (
                   <div className="d-flex h-100 align-items-center justify-content-center w-100" style={{ backgroundColor: '#F5F5F5', color: '#6B6B6B', fontSize: '14px' }}>No Image</div>
                 )}

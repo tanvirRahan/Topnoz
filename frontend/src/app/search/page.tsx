@@ -3,7 +3,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 async function getSearchProducts(query: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/products?q=${encodeURIComponent(query)}`, {
+    const res = await fetch(`https://topnoz-1.onrender.com/api/store/products?q=${encodeURIComponent(query)}`, {
       cache: 'no-store' // Do not cache search results
     });
 
@@ -51,7 +51,7 @@ export default async function SearchPage({
                 <article key={product.id} className="template-card">
                   <div className="card-media">
                     {product.image_url ? (
-                      <img src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}${product.image_url}`} alt={product.title} />
+                      <img src={`https://topnoz-1.onrender.com${product.image_url}`} alt={product.title} />
                     ) : (
                       <div className="d-flex h-100 align-items-center justify-content-center w-100" style={{ backgroundColor: '#F5F5F5', color: '#6B6B6B', fontSize: '14px' }}>No Image</div>
                     )}

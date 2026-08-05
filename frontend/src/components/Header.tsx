@@ -18,7 +18,7 @@ export default function Header() {
       if (!token) return;
 
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/users/me`, {
+        const res = await fetch(`https://topnoz-1.onrender.com/api/users/me`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

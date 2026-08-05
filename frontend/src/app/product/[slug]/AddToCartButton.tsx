@@ -63,7 +63,7 @@ export default function AddToCartButton({ product }: { product: ProductSummary }
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/cart/add`, {
+      const res = await fetch(`https://topnoz-1.onrender.com/api/store/cart/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

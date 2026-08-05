@@ -38,7 +38,7 @@ function RegisterContent() {
     setError('');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/users/register`, {
+      const res = await fetch(`https://topnoz-1.onrender.com/api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ function RegisterContent() {
           </div>
           <button 
             type="button"
-            onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}/accounts/google/login/`}
+            onClick={() => window.location.href = `https://topnoz-1.onrender.com/accounts/google/login/`}
             style={{ 
               width: '100%', 
               padding: '14px', 

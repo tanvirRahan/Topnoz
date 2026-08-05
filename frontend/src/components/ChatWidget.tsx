@@ -54,6 +54,12 @@ export default function ChatWidget() {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    const handleOpenChat = () => setIsOpen(true);
+    window.addEventListener('open-ai-chat', handleOpenChat);
+    return () => window.removeEventListener('open-ai-chat', handleOpenChat);
+  }, []);
+
   const handleSend = async (messageText: string) => {
     if (!messageText.trim() || !sessionId) return;
 

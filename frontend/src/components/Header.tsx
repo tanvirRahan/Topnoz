@@ -83,7 +83,7 @@ export default function Header() {
             {pathname !== '/collection' && <li id="nav-collection-link"><Link href="/collection" onClick={closeMobileMenu}>Collection</Link></li>}
             {pathname !== '/new-arrivals' && <li><Link href="/new-arrivals" onClick={closeMobileMenu}>New Arrivals</Link></li>}
             {pathname !== '/#editorial' && <li><Link href="/#editorial" onClick={closeMobileMenu}>Journal</Link></li>}
-            {pathname !== '/chat' && <li><Link href="/chat" onClick={closeMobileMenu}>AI Assistant</Link></li>}
+            <li><Link href="#" onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-ai-chat')); closeMobileMenu(); }}>AI Assistant</Link></li>
 
             {/* Mobile Auth Links */}
             {isClient && user ? (

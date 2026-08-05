@@ -223,5 +223,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
+    "https://topnoz-lac.vercel.app",
 ]
+
+# Allow all origins if specified in env
+if os.environ.get("CORS_ALLOW_ALL_ORIGINS") == "True":
+    CORS_ALLOW_ALL_ORIGINS = True
 

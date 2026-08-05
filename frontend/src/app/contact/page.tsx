@@ -24,7 +24,7 @@ export default function ContactPage() {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('http://localhost:8000/api/store/contact', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

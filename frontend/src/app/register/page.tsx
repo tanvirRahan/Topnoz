@@ -173,7 +173,7 @@ function RegisterContent() {
           </div>
           <button 
             type="button"
-            onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/accounts/google/login/`}
+            onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}/accounts/google/login/`}
             style={{ 
               width: '100%', 
               padding: '14px', 

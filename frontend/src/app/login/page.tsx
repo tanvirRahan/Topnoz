@@ -171,7 +171,7 @@ function LoginContent() {
             <div style={{ flex: 1, height: '1px', backgroundColor: '#eee' }}></div>
           </div>
           <button 
-            onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/accounts/google/login/?next=${encodeURIComponent(nextUrl)}`}
+            onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com'}/accounts/google/login/?next=${encodeURIComponent(nextUrl)}`}
             style={{ 
               width: '100%', 
               padding: '14px', 

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 export default function AdminPanel() {
   useEffect(() => {
     // Redirect to the backend Django Admin Panel
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://topnoz-1.onrender.com';
     window.location.href = `${backendUrl}/admin`;
   }, []);
 

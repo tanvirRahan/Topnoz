@@ -226,7 +226,15 @@ CORS_ALLOWED_ORIGINS = [
     "https://topnoz-lac.vercel.app",
 ]
 
-# Allow all origins if specified in env
 if os.environ.get("CORS_ALLOW_ALL_ORIGINS") == "True":
     CORS_ALLOW_ALL_ORIGINS = True
 
+if os.environ.get('CLOUDINARY_CLOUD_NAME'):
+    STORAGES = {
+        "default": {
+            "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }

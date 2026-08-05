@@ -68,7 +68,7 @@ export default function ChatWidget() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat/`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/chat/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

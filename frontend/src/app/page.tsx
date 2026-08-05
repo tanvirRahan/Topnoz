@@ -4,7 +4,7 @@ import HomeProductGrid from '@/components/HomeProductGrid';
 
 async function getProducts() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/store/products`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/products`, {
       next: { revalidate: 60 } // Revalidate every 60 seconds (ISR)
     });
 

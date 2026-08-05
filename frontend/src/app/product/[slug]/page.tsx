@@ -7,7 +7,7 @@ import ProductViewTracker from './ProductViewTracker';
 
 async function getProduct(slug: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/store/products/${slug}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/products/${slug}`, {
       next: { revalidate: 60 }
     });
     

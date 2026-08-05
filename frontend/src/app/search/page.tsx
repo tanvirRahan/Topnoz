@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 async function getSearchProducts(query: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/store/products?q=${encodeURIComponent(query)}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/products?q=${encodeURIComponent(query)}`, {
       cache: 'no-store' // Do not cache search results
     });
 

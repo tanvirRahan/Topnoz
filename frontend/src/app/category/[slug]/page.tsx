@@ -5,7 +5,7 @@ import AddToCartButton from '@/app/product/[slug]/AddToCartButton';
 
 async function getCategoryProducts(category: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/store/products?category=${category}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/products?category=${category}`, {
       next: { revalidate: 60 } 
     });
 

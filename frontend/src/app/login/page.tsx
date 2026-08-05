@@ -44,7 +44,7 @@ function LoginContent() {
         const addRequests = [];
         for (let i = 0; i < item.quantity; i++) {
           addRequests.push(
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/store/cart/add`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/cart/add`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ function LoginContent() {
     setError('');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/pair`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/token/pair`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

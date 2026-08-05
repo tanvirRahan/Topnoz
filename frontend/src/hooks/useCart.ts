@@ -51,7 +51,7 @@ export function useCart() {
         return;
       }
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/store/cart`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/cart`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -127,7 +127,7 @@ export function useCart() {
 
       const endpoint = action === 'increase' ? '/store/cart/add' : '/store/cart/reduce';
       
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

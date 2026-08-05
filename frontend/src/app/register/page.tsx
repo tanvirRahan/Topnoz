@@ -38,7 +38,7 @@ function RegisterContent() {
     setError('');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

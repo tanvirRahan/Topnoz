@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
 async function getSearchProducts(query: string) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://topnoz-1.onrender.com/api'}/store/products?q=${encodeURIComponent(query)}`, {

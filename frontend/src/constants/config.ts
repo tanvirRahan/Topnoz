@@ -1,0 +1,4 @@
+export const DELIVERY_FEES = {
+  INSIDE_DHAKA: 120,
+  OUTSIDE_DHAKA: 180,
+};

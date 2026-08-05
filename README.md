@@ -1,132 +1,120 @@
 <div align="center">
+  <img src="https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django" />
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/REST_API-0052CC?style=for-the-badge&logo=openapi-initiative&logoColor=white" alt="REST API" />
+  <img src="https://img.shields.io/badge/Django_Ninja-059669?style=for-the-badge&logo=fastapi&logoColor=white" alt="Django Ninja" />
   <img src="https://img.shields.io/badge/Groq_AI-F55036?style=for-the-badge&logo=groq&logoColor=white" alt="Groq AI" />
+  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
   <img src="https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=Cloudinary&logoColor=white" alt="Cloudinary" />
   <img src="https://img.shields.io/badge/Google_OAuth-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google OAuth" />
-  <img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white" alt="Gunicorn" />
 </div>
 
 <h1 align="center">TOPNOZ</h1>
 
 <p align="center">
-  <strong>An Enterprise-Grade, AI-Powered E-Commerce & Lifestyle Platform</strong>
+  <strong>An Enterprise-Grade, AI-Powered Headless E-Commerce Platform</strong>
 </p>
 
 <p align="center">
-  Topnoz is a highly scalable, production-ready e-commerce solution architected for modern retail. It seamlessly integrates a robust transactional core with state-of-the-art conversational AI, delivering an unparalleled shopping experience through intelligent product discovery, multilingual support, and dynamic media management.
+  Topnoz is a highly scalable, production-ready headless e-commerce solution architected for modern retail. It seamlessly integrates a blazing-fast <strong>Next.js App Router</strong> frontend with a high-performance <strong>Django Ninja (API-first)</strong> backend. Enhanced with state-of-the-art conversational AI, Topnoz delivers an unparalleled shopping experience through intelligent product discovery, real-time analytics, and dynamic media management.
 </p>
 
----
+<hr />
 
-## 🚀 Architecture & Tech Stack
+## 🚀 Key Features
 
-Engineered for high availability and performance in real-world production environments, Topnoz utilizes a modern, robust technology stack.
-
-### Backend Core
-* **Framework:** Django 4.2 & Django REST Framework (DRF)
-* **Database:** PostgreSQL (Production) / SQLite (Development)
-* **Server & WSGI:** Gunicorn configured for highly concurrent production workloads
-* **Static File Management:** WhiteNoise for optimized, self-contained static asset serving
-* **Environment Management:** `python-dotenv` & `dj-database-url` for secure, 12-factor app configuration
-
-### Artificial Intelligence & Data
-* **AI Engine:** Groq API (High-performance LLM inference)
-* **Conversational Agent:** Custom-built **"TARS'BOT"** with context-aware memory and semantic understanding
-* **Multilingual NLP:** Native support for Bangla, Banglish, and English queries
-
-### Infrastructure & Integrations
-* **Media Storage:** Cloudinary (Edge-cached CDN for seamless image delivery)
-* **Authentication:** Google OAuth 2.0 via `django-allauth` (JWT backed)
-* **Security:** CSRF/XSS protection, rate limiting, and strict CORS policies
+* **Headless Architecture:** Complete separation of concerns. A modern, SEO-optimized **Next.js 16+** frontend consumes lightning-fast RESTful APIs powered by **Django Ninja**.
+* **AI-Powered Shopping Assistant:** Integrated **Groq LLM / AI Core** that acts as a virtual conversational assistant. It understands user intent, answers product queries, and recommends items in real-time.
+* **Frictionless Authentication:** Secure authentication leveraging **JWT (JSON Web Tokens)** alongside **Google OAuth2** for one-tap logins.
+* **Advanced Analytics & Tracking:** Built-in visitor tracking system that records IP, Device OS, Browser, UTM tags, and geographical location to drive marketing decisions.
+* **Robust Media Management:** Integrated with **Cloudinary** for dynamic, optimized product image delivery and CDN caching.
+* **Modern E-Commerce Core:** Fully functional cart, variable products (size/color), dynamic pricing, discounts, and order management.
 
 ---
 
-## 🧠 TARS'BOT: The AI Shopping Assistant
+## 🛠️ The Technology Stack
 
-At the heart of Topnoz lies **TARS'BOT**, a sophisticated AI assistant designed to bridge the gap between physical retail assistance and digital convenience.
+### Frontend (Client-Side)
+* **Framework:** Next.js 16+ (App Router)
+* **Language:** TypeScript & React 19
+* **Styling:** Vanilla CSS (Modern CSS variables, flex/grid layouts)
+* **State & Data Fetching:** React Server Components (RSC) + Native Fetch API with caching/revalidation
 
-* **Live Product Awareness:** Has real-time access to the store's inventory, pricing, and product attributes.
-* **Contextual Memory:** Retains conversation history to provide personalized recommendations and maintain conversational context.
-* **Multilingual Capability:** Flawlessly understands and responds to diverse linguistic inputs (Bangla, Banglish, English), catering specifically to the South Asian demographic.
+### Backend (Server-Side)
+* **Core Framework:** Django 5+
+* **API Layer:** Django Ninja (FastAPI-like, Pydantic schema validation, async support)
+* **Database:** SQLite (Dev) / PostgreSQL (Prod)
+* **Authentication:** Django Allauth + Ninja JWT
+
+### AI & Integrations
+* **LLM Engine:** Groq API for ultra-fast, low-latency AI responses
+* **Media Storage:** Cloudinary CDN
 
 ---
 
-## 🛒 Core Platform Features
+## 🏗️ System Architecture & Flow
 
-* **Comprehensive E-Commerce Flow:** End-to-end user journey from catalog browsing, category filtering, and product details to cart management and secure checkout.
-* **Intelligent Search:** Intent-aware search algorithms that understand user queries beyond exact keyword matches.
-* **Frictionless Onboarding:** One-click registration and login via Google OAuth.
-* **Cloud-Native Media:** Fully decoupled media storage ensuring fast page loads and zero server bloat.
-* **Responsive Frontend:** Clean, accessible, and performant HTML5/CSS3/JS UI designed for cross-device compatibility.
-* **Scalable REST API:** Headless-ready backend exposing secure endpoints for potential mobile app integrations.
+The system is designed with a strict **API-only backend** approach:
+
+1. **The Client Request:** A user interacts with the Next.js frontend (e.g., browsing new arrivals).
+2. **Next.js Data Fetching:** The Next.js server makes a high-speed HTTP GET request to `http://api.topnoz.com/api/store/products?sort=new`.
+3. **Django Ninja Routing:** The request hits `config/urls.py` in Django, routes to `config/api.py`, and is delegated to the specific module (`apps/store/api.py`).
+4. **Data Serialization:** Django queries the database, serializes the complex relational data using **Pydantic Schemas**, and returns a clean JSON response.
+5. **UI Rendering:** Next.js receives the JSON, renders the UI on the server (SSR), and streams the HTML to the user instantly.
 
 ---
 
-## ⚙️ Local Development Setup
+## 💻 Local Development Setup
 
-To run this enterprise application locally, follow these steps:
+To get Topnoz running on your local machine, you will need to start both the Django backend and the Next.js frontend servers.
 
-### 1. Clone the Repository
+### 1. Backend Setup (Django)
+
 ```bash
-git clone https://github.com/tanvirRahan/Topnoz.git
-cd Topnoz
-```
+# Clone the repository
+git clone https://github.com/your-username/topnoz.git
+cd topnoz
 
-### 2. Environment Configuration
-Create a virtual environment to isolate dependencies:
-```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate
-```
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-### 3. Install Dependencies
-Install the required packages, including development headers for C-extensions:
-```bash
-# Ubuntu/Debian users may need to install headers: sudo apt-get install zlib1g-dev libffi-dev libjpeg-dev python3-dev
+# Install backend dependencies
 pip install -r requirements.txt
-```
 
-### 4. Environment Variables
-Duplicate the example environment file and inject your secure credentials:
-```bash
+# Setup environment variables
 cp .env.example .env
-```
-Ensure the following variables are correctly configured in your `.env` file:
-* `DJANGO_SECRET_KEY`, `DEBUG`, `DATABASE_URL`
-* `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
-* `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
-* `GROQ_API_KEY`
+# Edit .env with your Database, Cloudinary, and Groq API credentials
 
-### 5. Database Migration & Execution
-Run the migrations and initialize the development server:
-```bash
+# Run database migrations
 python manage.py migrate
-python manage.py createsuperuser
+
+# Start the Django Ninja API server
 python manage.py runserver
 ```
+*(The API will be available at `http://localhost:8000/api/`)*
+
+### 2. Frontend Setup (Next.js)
+
+```bash
+# Open a new terminal tab
+cd topnoz/frontend
+
+# Install frontend dependencies
+npm install
+
+# Start the Next.js development server
+npm run dev
+```
+*(The Frontend will be available at `http://localhost:3000/`)*
 
 ---
 
-## 📈 Production Deployment
+## 🔒 Security & Best Practices
+* **Zero Django Templates:** We've stripped out all legacy Django HTML templates. The backend acts strictly as a data provider, drastically reducing the attack surface.
+* **Strict CORS & CSRF:** Configured to only accept requests from trusted frontend origins.
+* **Pydantic Validation:** All incoming payloads to the Django Ninja API are strictly validated and sanitized.
 
-Topnoz was built with production deployment in mind. The system utilizes **Gunicorn** to handle WSGI requests and **WhiteNoise** to serve static files directly from the application layer without requiring a separate Nginx/Apache configuration for static assets.
-
-Ensure `DEBUG=False` in your production environment and configure the `DATABASE_URL` to point to a managed PostgreSQL instance.
-
----
-
-## 🔮 Roadmap
-
-- [ ] **Payment Gateway Integration:** Direct integration with Stripe and SSLCommerz for regional processing.
-- [ ] **Advanced Analytics Dashboard:** Real-time metrics for inventory, user engagement, and sales.
-- [ ] **Vector Search:** Upgrading standard search to full semantic vector search using Pgvector.
-- [ ] **Logistics Integration:** Automated order tracking and notification pipelines.
-
----
-
-<div align="center">
-  <p>Built for performance, scalability, and an intelligent user experience.</p>
-</div>
+<p align="center">
+  <i>Engineered for Performance. Designed for Scale.</i>
+</p>

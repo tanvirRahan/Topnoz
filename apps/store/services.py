@@ -10,6 +10,8 @@ class OrderService:
             raise ValueError("No active order found")
             
         order_items = order.items.all()
+        if not order_items.exists():
+            raise ValueError("Your cart is empty. Please add products before checking out.")
         product_names = [item.item.title for item in order_items]
         quantities = [str(item.quantity) for item in order_items]
         sizes = [item.size or '' for item in order_items]
@@ -94,9 +96,14 @@ class CartService:
         )
         
         if created_item:
+            if item.stock < 1:
+                order_item.delete()
+                raise ValueError("This item is currently out of stock.")
             order.items.add(order_item)
             return True, f"'{item.title}' was added to your cart."
         else:
+            if order_item.quantity >= item.stock:
+                raise ValueError(f"Only {item.stock} items are available in stock.")
             order_item.quantity += 1
             order_item.save()
             return False, f"'{item.title}' quantity was updated in your cart."

@@ -65,10 +65,11 @@ class ItemAdmin(ModelAdmin, ImportExportActionModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ['image_preview', 'title', 'order', 'price', 'discount_price', 'stock', 'product_type']
+    list_display = ['image_preview', 'title', 'price', 'stock', 'product_type', 'available_sizes']
     list_filter = ['label', 'product_type']
     search_fields = ['title', 'description']
     readonly_fields = ['image_preview']
+    exclude = ['order']
     inlines = [ItemMediaInline]
     ordering = ['order', '-created_at']
 

@@ -25,7 +25,11 @@ class Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     product_type = models.CharField(max_length=20, choices=PRODUCT_TYPE_CHOICES, default='shirt')
-    order = models.IntegerField(default=0)
+    available_sizes = models.CharField(
+        max_length=255, blank=True, null=True, 
+        help_text="Enter sizes separated by comma (e.g., S, M, L, XL)"
+    )
+    order = models.IntegerField(default=0, help_text="Optional. Higher number = shows first. Default 0 uses newest first.")
 
     class Meta:
         db_table = 'web_item'

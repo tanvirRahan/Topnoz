@@ -6,12 +6,20 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_BACKEND_URL: "https://topnoz-1.onrender.com",
   },
   images: {
-    domains: ["topnoz-1.onrender.com", "127.0.0.1", "localhost"],
+    domains: ["topnoz-1.onrender.com", "127.0.0.1", "localhost", "res.cloudinary.com"],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "topnoz-1.onrender.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+      }
     ],
   },
 };

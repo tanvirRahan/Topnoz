@@ -15,7 +15,7 @@ export default function CartItemCard({ item, updateQuantity }: CartItemCardProps
     <div style={{ display: 'flex', gap: '24px', paddingBottom: '24px', borderBottom: '1px solid #EAEAEA' }}>
       <div style={{ width: '120px', height: '150px', position: 'relative', backgroundColor: '#F5F5F5', borderRadius: '4px', overflow: 'hidden', flexShrink: 0 }}>
         <Image 
-          src={item.image_url ? `${backendUrl}${item.image_url}` : 'https://placehold.co/150x200'} 
+          src={item.image_url ? (item.image_url.startsWith('http') ? item.image_url : `${backendUrl}${item.image_url}`) : 'https://placehold.co/150x200'} 
           alt={item.product_title}
           fill
           style={{ objectFit: 'cover' }}

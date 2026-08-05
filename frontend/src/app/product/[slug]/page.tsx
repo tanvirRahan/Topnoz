@@ -33,8 +33,8 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
   
   // Format all images with full URL
   const galleryImages = product.images && product.images.length > 0 
-    ? product.images.map((img: string) => `${backendUrl}${img}`)
-    : (product.image_url ? [`${backendUrl}${product.image_url}`] : []);
+    ? product.images.map((img: string) => img.startsWith('http') ? img : `${backendUrl}${img}`)
+    : (product.image_url ? [product.image_url.startsWith('http') ? product.image_url : `${backendUrl}${product.image_url}`] : []);
 
   return (
     <div className="template-container" style={{ paddingTop: '120px', paddingBottom: '80px' }}>

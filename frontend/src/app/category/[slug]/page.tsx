@@ -110,7 +110,7 @@ export default async function CategoryPage({ params, searchParams }: { params: P
             <article key={product.id} className="premium-product-card" style={{ animationDelay: `${index * 0.1}s` }}>
               <div className="premium-card-media">
                 {product.image_url ? (
-                  <img src={`https://topnoz-1.onrender.com${product.image_url}`} alt={product.title} loading="lazy" />
+                  <img src={product.image_url.startsWith('http') ? product.image_url : `https://topnoz-1.onrender.com${product.image_url}`} alt={product.title} loading="lazy" />
                 ) : (
                   <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F9F9F9', color: '#ccc', fontSize: '12px', textTransform: 'uppercase' }}>No Image</div>
                 )}
